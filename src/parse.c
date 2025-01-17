@@ -31,12 +31,13 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-	printf("err: %d\n", shell->err_code);
-
 	// print_tokens(shell->tokens);
 	if (!shell->err_code)
 	{
 		ft_structlize(shell);
+	}
+	if (!shell->err_code)
+	{
 		print_cmd_struct(shell->cmds);
 	}
 	else

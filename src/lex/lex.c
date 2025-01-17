@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 16:21:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:42:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,49 @@ void process_additional_input(t_shell *shell, char **input)
     }
 }
 
+static char *ft_start_with_specials_v2(char *str)
+{
+	int i;
+	int j;
+	size_t len;;
+	const char **special_chars;
+
+	special_chars = (const char *[]){">>", "<<", ">", "<", NULL};
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		i++;
+	j = 0;
+	while (special_chars[j] != NULL)
+	{
+		len = strlen(special_chars[j]);
+		if (strncmp(&str[i], special_chars[j], len) == 0)
+			return ((char *)special_chars[j]);
+        j++;
+    }
+
+    return NULL;
+}
+
+int empty_between_checker(t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	while (shell->tokens[i])
+	{
+		if (ft_start_with_specials_v2(shell->tokens[i]))
+		{
+			if (ft_start_with_specials(shell->tokens[i + 1]))
+			{
+        		printf("minishell: syntax error near unexpected token `%s`\n", ft_start_with_specials(shell->tokens[i + 1]));
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 void tokenize_input(char *input, t_shell *shell)
 {
 	shell->in_single_quote = 0;
@@ -125,6 +168,13 @@ void tokenize_input(char *input, t_shell *shell)
 	handle_unbalanced_quotes(&input);
 	parse_input_fragment(input, shell);
 	process_additional_input(shell, &input);
+	if (empty_between_checker(shell))
+	{
+		free(input);
+		shell->err_code = 258;
+		clear_tokens(shell);
+		return;
+	}
 	shell->last_token_type = 0;
 	free(input);
 }

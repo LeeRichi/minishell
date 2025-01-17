@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/15 16:32:41 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:19:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,40 @@ int empty_pipe_checker(char *input, t_shell *shell)
     }
     return (0);
 }
+
+char *contains_special_characters(const char *input)
+{
+	const char *special_chars[] = {">>", "<<", ">", "<", "|"};
+	for (int i = 0; i < 6; i++)
+    {
+        if (ft_strstr(input, special_chars[i]))
+            return (char *)special_chars[i];
+    }
+    return NULL;
+}
+
+// int empty_between_checker(char *input, t_shell *shell)
+// {
+//     char *first_nid;
+//     char *new_str;
+// 	char *err_nid;
+
+// 	if ((first_nid = contains_special_characters(input)))
+//     {
+//         new_str = ft_strstr(input, first_nid) + 1;
+
+// 		if (new_str)
+// 		{
+//             if((err_nid = ft_start_with_specials(new_str)))
+// 			{
+// 				printf("minishell: syntax error near unexpected token `%s'\n", err_nid);
+//         		clear_tokens(shell);
+// 				return (1);
+// 			}
+//         }
+//     }
+//     return 0;
+// }
 
 static void handle_token(t_shell *shell, char **current_token, int *token_count)
 {

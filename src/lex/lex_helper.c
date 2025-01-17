@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/15 16:11:41 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 18:20:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ int ft_arraylen(char **tokens)
 	if (!tokens)
         return (0);
     while (tokens[len] != NULL)
-    {
         len++;
-    }
 	return (len);
 }
 
@@ -67,16 +65,34 @@ int ft_start_with(char *str, char c)
             return (0);
 		else
 			return (1);
-		// Check for incomplete operators like '|'
-        // if (str[i] == '|' || str[i] == '&' || str[i] == '<' || str[i] == '>')
-        //     return (1);
-        // // Check for unclosed quotes
-        // if (str[i] == '\'' || str[i] == '\"')
-        //     return (1);
         i++;
     }
     return (0);
 }
+
+char *ft_start_with_specials(char *str)
+{
+	int i;
+	int j;
+	size_t len;;
+	const char **special_chars;
+
+	special_chars = (const char *[]){">>", "<<", ">", "<", "|", NULL};
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		i++;
+	j = 0;
+	while (special_chars[j] != NULL)
+	{
+		len = strlen(special_chars[j]);
+		if (strncmp(&str[i], special_chars[j], len) == 0)
+			return ((char *)special_chars[j]);
+        j++;
+    }
+
+    return NULL;
+}
+
 
 int ft_end_with(char *str, char c)
 {
@@ -93,12 +109,6 @@ int ft_end_with(char *str, char c)
 			return (1);
 		else
 			return (0);
-		// //>> or << //maybe no need
-        // if ((c == '<' && str[len - 1] == '<' ) || (c == '>' && str[len - 1] == '>'))
-        //     return (1);
-        // // Check for unclosed quotes //not sure
-        // if (str[i] == '\'' || str[i] == '\"')
-        //     return (1);
         len--;
     }
     return (0);

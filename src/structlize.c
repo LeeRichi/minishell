@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 11:16:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:27:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,16 @@ void ft_structlize(t_shell *shell)
     t_cmd *current_cmd = NULL;
     t_cmd *new_cmd = NULL;
 
-    while (shell->tokens[i])
-    {
+	while (shell->tokens[i])
+	{
         if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
         {
             handle_pipe(&current_cmd, &new_cmd, shell);
             if (strcmp(shell->tokens[i], "|") == 0)
                 i++;
         }
-        if (strcmp(shell->tokens[i], "<") == 0 || strcmp(shell->tokens[i], ">") == 0 ||
-            strcmp(shell->tokens[i], ">>") == 0 || strcmp(shell->tokens[i], "<<") == 0)
+        if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
+            strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
 			i++;
 			handle_redirection(current_cmd, shell->tokens[i - 1], shell->tokens[i]);
@@ -143,8 +143,8 @@ void ft_structlize(t_shell *shell)
                 current_cmd->cmd_name = strdup(shell->tokens[i]);
             else
                 current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
-        }
-        i++;
+		}
+		i++;
     }
 	current_cmd->redirection_index = 0;
 }

@@ -27,6 +27,8 @@ SRCS = ft_isalpha.c \
 		ft_strcmp.c \
 		ft_substr.c \
 		ft_bzero.c \
+		ft_strstr.c \
+		ft_strnstr.c \
 
 # BONUS = ft_lstmap_bonus.c ft_lstnew_bonus.c 			\
 # 		ft_lstlast_bonus.c ft_lstsize_bonus.c			\

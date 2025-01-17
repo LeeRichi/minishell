@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 10:58:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:26:06 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void handle_exit(t_shell *shell, char **tokens);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);
+int empty_between_checker(t_shell *shell);
 char *str_append(char *str, char c);
 //lex/wrong_pipe.c
 int empty_pipe_checker(char *input, t_shell *shell);
@@ -109,6 +110,7 @@ char *str_append(char *str, char c);
 char *get_env_value(const char *env_name);
 int ft_arraylen(char **tokens);
 int ft_start_with(char *str, char c);
+char *ft_start_with_specials(char *str);
 int ft_end_with(char *str, char c);
 
 //utils
@@ -116,7 +118,8 @@ int ft_end_with(char *str, char c);
 void free_tokens(char **tokens);
 void clear_tokens(t_shell *shell);
 void ft_free_all(t_shell *shell);
-//print.c
+void clear_cmds(t_shell *shell);
+// print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd);
 

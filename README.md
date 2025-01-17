@@ -18,6 +18,11 @@ some example text
 with a keyword
 EOF
 
+to discuss:
+bash: syntax error near unexpected token `|'
+minishell: syntax error near unexpected token `|`
+see the last char diff
+
 HANDLED PARSING:
 
 //valid checks
@@ -29,11 +34,13 @@ HANDLED PARSING:
 - [x] cat < input.txt | grep "data" | wc -w >> summary.txt
 - [x] grep "text" < input.txt | wc -c > count.txt | wc -l > lines.txt
 - [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
+- [x] yeah | > 3 (this should work)
 - [ ] ..more(replace this)
 
 //invalids checks
 - [x] only | or || or > or >> or < or <<
-- [ ] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt
+- [x] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt (implimented by checking after the tokens are formed)
+- [x] yeah > | 3 (this should print err)
 - [ ] 1 |  | 2
 
 - [ ] ..more(replace this)
