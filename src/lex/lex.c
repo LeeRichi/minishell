@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:42:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:49:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void process_additional_input(t_shell *shell, char **input)
     }
 }
 
+//removed "|" from the sets
 static char *ft_start_with_specials_v2(char *str)
 {
 	int i;
@@ -140,7 +141,8 @@ int empty_between_checker(t_shell *shell)
 	i = 0;
 	while (shell->tokens[i])
 	{
-		if (ft_start_with_specials_v2(shell->tokens[i]))
+		if (ft_start_with_specials_v2(shell->tokens[i]) ||
+    		(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
 		{
 			if (ft_start_with_specials(shell->tokens[i + 1]))
 			{
