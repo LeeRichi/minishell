@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/16 15:19:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/17 16:31:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_sig	g_sig;
 
-static void shell_init(char **envp, t_shell *shell)
+void shell_init(char **envp, t_shell *shell)
 {
     shell->envp = envp;
     shell->input = NULL;

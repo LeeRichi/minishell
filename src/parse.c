@@ -31,13 +31,18 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
+	printf("err: %d\n", shell->err_code);
+
 	// print_tokens(shell->tokens);
 	if (!shell->err_code)
+	{
 		ft_structlize(shell);
+		print_cmd_struct(shell->cmds);
+	}
+	else
+		shell->err_code = 0;
 
-	print_cmd_struct(shell->cmds);
-
-    if (shell->tokens && shell->tokens[0] != NULL)
+	if (shell->tokens && shell->tokens[0] != NULL)
     {
         if (strcmp(shell->tokens[0], "echo") == 0)
             handle_echo(shell->tokens);
@@ -58,5 +63,5 @@ void parse(t_shell *shell)
     }
     //might delete depends how I free_all?
     // if (shell->tokens)
-    //     free_shell->tokens(shell->tokens);
+    //     free_tokens(shell->tokens);
 }

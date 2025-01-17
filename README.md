@@ -34,6 +34,7 @@ HANDLED PARSING:
 //invalids checks
 - [x] only | or || or > or >> or < or <<
 - [ ] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt
+- [ ] 1 |  | 2
 
 - [ ] ..more(replace this)
 
