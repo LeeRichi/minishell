@@ -12,12 +12,30 @@ TODOs:
 ARG="ls -l"
 $ARG
 
+todo parsing:
+cat << EOF | grep "keyword" | sort > output.txt
+some example text
+with a keyword
+EOF
+
 HANDLED PARSING:
+
+//valid checks
 - [x] echo "hi"
 - [x] echo "output" > file.txt < file2.txt > file3.txt (basic redir handle checks, testing more every now and then)
-- [x] only | or || or > or >> or < or <<
 - [x] echo "hello" | echo "world" (one pipe or more)
-- [ ] multiple pipes with ridir
+- [x] echo "hello" | grep "h" | wc -l > output.txt
+- [x] cat < input.txt | grep "data" | wc -w >> summary.txt
+- [x] grep "text" < input.txt | wc -c > count.txt | wc -l > lines.txt
+- [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
+- [ ]
+
+//invalids checks
+- [x] only | or || or > or >> or < or <<
+- [ ] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt
+
+
+
 
 - [ ] ..more(replace this)
 
