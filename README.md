@@ -22,20 +22,18 @@ HANDLED PARSING:
 
 //valid checks
 - [x] echo "hi"
-- [x] echo "output" > file.txt < file2.txt > file3.txt (basic redir handle checks, testing more every now and then)
-- [x] echo "hello" | echo "world" (one pipe or more)
+- [x] echo "output" > file.txt < file2.txt > file3.txt
+- [x] echo "hello" | echo "world"
+//mixes
 - [x] echo "hello" | grep "h" | wc -l > output.txt
 - [x] cat < input.txt | grep "data" | wc -w >> summary.txt
 - [x] grep "text" < input.txt | wc -c > count.txt | wc -l > lines.txt
 - [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
-- [ ]
+- [ ] ..more(replace this)
 
 //invalids checks
 - [x] only | or || or > or >> or < or <<
 - [ ] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt
-
-
-
 
 - [ ] ..more(replace this)
 
