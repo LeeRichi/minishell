@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/27 21:32:32 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/27 22:05:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ typedef enum e_redirect_type {
 
 typedef struct s_cmd
 {
-	char		*cmd_name; //
+	char		*cmd_name; //programm name
 	char		**arg; //arguments of command
 	t_redirect_type	*type;
 	char		**infiles;
 	char		**outfiles;
 	int		pipe; //  pipe at the end
 	int		redirection_index; // parsing purposes
-	t_cmd		*next;
+	struct s_cmd		*next;
 } t_cmd;
 
 typedef struct s_shell
@@ -120,7 +120,7 @@ void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 // print.c
 void print_tokens(char **tokens);
-void print_cmd_struct(t_cmd *cmd);
+void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
 
 //lex/heredoc.c
 char *extract_delimiter(char *input, int *i);
