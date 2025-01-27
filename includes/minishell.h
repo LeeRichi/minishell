@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:26:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/27 21:32:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,29 @@ typedef enum e_redirect_type {
 
 typedef struct s_cmd
 {
-    char            *cmd_name;
-	char 			**arg;
-	t_redirect_type *type;
-	char		    **infiles;
-	char		    **outfiles;
-    struct s_cmd    *next;
-    int             pipe;
-		int redirection_index;
+	char		*cmd_name; //
+	char		**arg; //arguments of command
+	t_redirect_type	*type;
+	char		**infiles;
+	char		**outfiles;
+	int		pipe; //  pipe at the end
+	int		redirection_index; // parsing purposes
+	t_cmd		*next;
 } t_cmd;
 
 typedef struct s_shell
 {
-    char	**envp;
-    char    *input;
-	int 	current_index;
-	int 	exit_code;
-	char    **tokens;
+	char	**envp;
+	char	*input;
+	int		current_index;
+	int 		exit_code;
+	char	**tokens;
 	int		token_count;
 	int		in_single_quote;
-    int		in_double_quote;
-	int 	err_code;
-
-	t_token_type    last_token_type;
-    t_cmd   *cmds;
+	int		in_double_quote;
+	int		err_code;
+	t_token_type	last_token_type;
+	t_cmd		*cmds;
 } t_shell;
 
 
