@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:49:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 17:48:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,14 +160,14 @@ void tokenize_input(char *input, t_shell *shell)
 	shell->in_single_quote = 0;
 	shell->in_double_quote = 0;
 	clear_tokens(shell);
-  	if (empty_pipe_checker(input, shell))
+  	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
-        free(input);
+		free(input);
 		shell->err_code = 258;
 		return;
 		// exit(EXIT_FAILURE);
 	}
-	handle_unbalanced_quotes(&input);
+	handle_unbalanced_quotes(&input); //checking case like '''
 	parse_input_fragment(input, shell);
 	process_additional_input(shell, &input);
 	if (empty_between_checker(shell))

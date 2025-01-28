@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:19:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 17:43:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int is_exact_operator(char *input)
 
 int empty_pipe_checker(char *input, t_shell *shell)
 {
-    while (*input == ' ' || *input == '\t' || *input == '\n')
-        input++;
+	while (*input == ' ' || *input == '\t' || *input == '\n')
+		input++;
 
     if (ft_strncmp(input, "||", 2) == 0)
     {
