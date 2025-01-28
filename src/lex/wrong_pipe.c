@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 17:43:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 22:48:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,49 @@ static int is_exact_operator(char *input)
 	return result;
 }
 
+//handle different amount of >>>>> or <<<<<<<<< (weird) (hard code)
+void ft_tail_checker(char *str)
+{
+    int consecutive_in = 0;
+    int consecutive_out = 0;
+    int i = 0;
+    
+    while(str[i])
+    {
+        if (str[i] == '<') {
+            consecutive_in++;
+            consecutive_out = 0;
+        } else if (str[i] == '>') {
+            consecutive_out++;
+            consecutive_in = 0;
+        } else {
+            consecutive_in = 0;
+            consecutive_out = 0;
+        }
+        i++;
+    }
+    if (consecutive_in == 4) {
+        printf("minishell: syntax error near unexpected token `%s`\n", "<");
+        return;
+    }
+    else if (consecutive_in == 5) {
+        printf("minishell: syntax error near unexpected token `%s`\n", "<<");
+        return;
+    }
+    else if (consecutive_in > 5) {
+        printf("minishell: syntax error near unexpected token `%s`\n", "<<<");
+        return;
+    }
+    else if (consecutive_out == 3) {
+        printf("minishell: syntax error near unexpected token `%s`\n", ">");
+        return;
+    } else if (consecutive_out >= 4) {
+        printf("minishell: syntax error near unexpected token `%s`\n", ">>");
+        return;
+    }
+    printf("minishell: syntax error near unexpected token `%s`\n", "newline");
+}
+
 int empty_pipe_checker(char *input, t_shell *shell)
 {
 	while (*input == ' ' || *input == '\t' || *input == '\n')
@@ -49,7 +92,7 @@ int empty_pipe_checker(char *input, t_shell *shell)
     }
 	if (ft_end_with(input, '>') || ft_end_with(input, '<'))
 	{
-		printf("minishell: syntax error near unexpected token `%s`\n", "newline");
+        ft_tail_checker(input);
 		clear_tokens(shell);
 		return (1);
 	}
