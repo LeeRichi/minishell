@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:54:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/16 15:18:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 20:14:22 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void handle_heredoc(t_shell *shell, char *delimiter)
 
     while (1)
     {
-        printf("> ");
-        line = readline(NULL);
+		printf("> ");
+		line = readline(NULL);
 
         if (!line) // EOF reached //?
         {

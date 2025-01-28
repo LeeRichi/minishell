@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 19:36:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char **ft_add_to_array(char **array, const char *new_element)
 {
 	int i;
 	int len;
+	char **new_array;
 
 	len = 0;
 	if (array)
@@ -23,7 +24,7 @@ char **ft_add_to_array(char **array, const char *new_element)
         while (array[len])
             len++;
     }
-    char **new_array = malloc(sizeof(char *) * (len + 2));
+    new_array = malloc(sizeof(char *) * (len + 2));
     if (!new_array)
     {
         perror("malloc failed");
@@ -32,19 +33,23 @@ char **ft_add_to_array(char **array, const char *new_element)
 	i = 0;
 	while (i < len)
 	{
-        new_array[i] = array[i];
-		i++;
+		new_array[i] = ft_strdup(array[i]); // Duplicate each string
+      	if (!new_array[i]) {
+            perror("strdup failed while copying array element");
+			free_matrix(new_array);
+			return NULL;
+		}
 	}
 	new_array[i] = ft_strdup(new_element);
     if (!new_array[i])
     {
         perror("strdup failed while adding to new_array");
-        free(new_array);
+        free_matrix(new_array);
         return NULL;
     }
     new_array[i + 1] = NULL;
     if (array)
-        free(array);
+        free_matrix(array);
     return new_array;
 }
 

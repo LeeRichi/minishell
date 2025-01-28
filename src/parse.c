@@ -37,13 +37,13 @@ void parse(t_shell *shell)
 		ft_structlize(shell);
 	}
 
-	//printing purpose
-	if (!shell->err_code)
-	{
-		print_cmd_struct(shell->cmds);
-	}
-	else
-		shell->err_code = 0;
+	// //printing purpose
+	// if (!shell->err_code)
+	// {
+	// 	print_cmd_struct(shell->cmds);
+	// }
+	// else
+	// 	shell->err_code = 0;
 
 	if (shell->tokens && shell->tokens[0] != NULL)
     {

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:26:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 19:37:35 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct s_cmd
 	char		    **infiles;
 	char		    **outfiles;
     struct s_cmd    *next;
-    int             pipe;
-		int redirection_index;
+    int             pipe; //flag, 1 means there's a pipe following up
+		int redirection_index; //example, echo hello > out.txt >> out2.txt < in.txt, > has redirection_index of 0, >> has 1, so on.
 } t_cmd;
 
 typedef struct s_shell
@@ -119,6 +119,7 @@ void free_tokens(char **tokens);
 void clear_tokens(t_shell *shell);
 void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
+void free_matrix(char **matrix);
 // print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd);
