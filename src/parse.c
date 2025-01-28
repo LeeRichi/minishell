@@ -36,6 +36,8 @@ void parse(t_shell *shell)
 	{
 		ft_structlize(shell);
 	}
+
+	//printing purpose
 	if (!shell->err_code)
 	{
 		print_cmd_struct(shell->cmds);

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:27:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 18:03:45 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 
 	i = current_cmd->redirection_index;
 	if (current_cmd->type == NULL) {
-        current_cmd->type = malloc(sizeof(t_redirect_type) * 10);
+        current_cmd->type = malloc(sizeof(t_redirect_type) * 10); //thinking if using 10 is a good idea
         if (!current_cmd->type) {
             perror("malloc failed for type");
             exit(EXIT_FAILURE);

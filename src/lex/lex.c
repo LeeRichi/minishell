@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 17:48:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/28 17:54:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,9 @@ void tokenize_input(char *input, t_shell *shell)
 		// exit(EXIT_FAILURE);
 	}
 	handle_unbalanced_quotes(&input); //checking case like '''
-	parse_input_fragment(input, shell);
-	process_additional_input(shell, &input);
-	if (empty_between_checker(shell))
+	parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed 
 	{
 		free(input);
 		shell->err_code = 258;
