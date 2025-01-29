@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 22:48:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/29 00:24:07 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void ft_tail_checker(char *str)
     int consecutive_in = 0;
     int consecutive_out = 0;
     int i = 0;
-    
+
     while(str[i])
     {
         if (str[i] == '<') {
@@ -51,6 +51,7 @@ void ft_tail_checker(char *str)
         }
         i++;
     }
+	printf("out: %d\n", consecutive_out);
     if (consecutive_in == 4) {
         printf("minishell: syntax error near unexpected token `%s`\n", "<");
         return;
@@ -63,9 +64,13 @@ void ft_tail_checker(char *str)
         printf("minishell: syntax error near unexpected token `%s`\n", "<<<");
         return;
     }
-    else if (consecutive_out == 3) {
-        printf("minishell: syntax error near unexpected token `%s`\n", ">");
-        return;
+    else if (consecutive_out >= 3) {
+		printf("old_str: %s\n", str);
+		char *new_str = ft_strstr(str, ">>");
+		printf("new_str: %s\n", *new_str += 2);
+
+		// printf("minishell: syntax error near unexpected token `%s`\n", str[]);
+		return;
     } else if (consecutive_out >= 4) {
         printf("minishell: syntax error near unexpected token `%s`\n", ">>");
         return;
@@ -93,12 +98,13 @@ int empty_pipe_checker(char *input, t_shell *shell)
 	if (ft_end_with(input, '>') || ft_end_with(input, '<'))
 	{
         ft_tail_checker(input);
+		// printf("minishell: syntax error near unexpected token `%s`\n", "newline");
 		clear_tokens(shell);
 		return (1);
 	}
 	if(is_exact_operator(input))
 	{
-        printf("minishell: syntax error near unexpected token `%s`\n", "newline");
+		printf("minishell: syntax error near unexpected token `%s`\n", "newline");
 		clear_tokens(shell);
 		return (1);
     }

@@ -31,11 +31,11 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-	// print_tokens(shell->tokens);
-	if (!shell->err_code)
-	{
-		ft_structlize(shell);
-	}
+	print_tokens(shell->tokens);
+	// if (!shell->err_code)
+	// {
+	// 	ft_structlize(shell);
+	// }
 
 	// //printing purpose
 	// if (!shell->err_code)
