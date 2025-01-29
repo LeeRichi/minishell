@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/14 19:40:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:34:23 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ bool check_balanced_quotes(const char *input)
 	int double_quotes = 0;
 	int i = 0;
 
+    if (!input)
+        return false;
+        
     while (input[i] != '\0')
     {
         if (input[i] == '\\')

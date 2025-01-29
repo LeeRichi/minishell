@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 16:31:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:42:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		shell.input = readline("$ ");
-		if (shell.input)
+		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
+        {
+            printf("exit\n");
+            break;
+        }
+		if (*shell.input)
 			add_history(shell.input);
 		parse(&shell);
 		// execute(&shell);

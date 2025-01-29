@@ -41,7 +41,7 @@ HANDLED PARSING:
 - [x] only | or || or > or >> or < or <<
 - [x] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt (implimented by checking after the tokens are formed)
 - [x] yeah > | 3 (this should print err)
-- [ ] 1 |  | 2
+- [x] 1 |  | 2
 
 - [ ] ..more(replace this)
 

@@ -31,11 +31,13 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-	print_tokens(shell->tokens);
-	// if (!shell->err_code)
-	// {
-	// 	ft_structlize(shell);
-	// }
+    if (shell->tokens)
+        print_tokens(shell->tokens);
+
+    if (!shell->err_code)
+	{
+        ft_structlize(shell);
+	}
 
 	// //printing purpose
 	// if (!shell->err_code)
@@ -45,7 +47,8 @@ void parse(t_shell *shell)
 	// else
 	// 	shell->err_code = 0;
 
-	if (shell->tokens && shell->tokens[0] != NULL)
+
+    if (shell->tokens && shell->tokens[0] != NULL)
     {
         if (strcmp(shell->tokens[0], "echo") == 0)
             handle_echo(shell->tokens);
@@ -63,8 +66,8 @@ void parse(t_shell *shell)
         //     handle_export(shell->tokens);
         // else
         //     execute_external_command(shell->tokens);
+        //might delete depends how I free_all?
     }
-    //might delete depends how I free_all?
     // if (shell->tokens)
     //     free_tokens(shell->tokens);
 }

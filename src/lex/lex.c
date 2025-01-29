@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 17:54:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:06:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void finalize_token(t_shell *shell, char **current_token, int *token_count)
     if (*current_token)
     {
         shell->tokens = ft_realloc(shell->tokens, sizeof(char *) * (*token_count + 2));
+        if (!shell->tokens)
+            return;
+
         shell->tokens[(*token_count)++] = *current_token;
         shell->tokens[*token_count] = NULL;
         *current_token = NULL;
@@ -45,7 +48,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 	{
         if (input[*i] == '<' && input[*i + 1] == '<')
         {
-            handle_heredoc(shell, extract_delimiter(input, i));
+            // handle_heredoc(shell, extract_delimiter(input, i));
             //do i need a break here??
             return ;
         }
@@ -138,6 +141,11 @@ int empty_between_checker(t_shell *shell)
 {
 	int i;
 
+    // if(!shell->tokens)
+    // {
+    //     return (1);
+    // }
+    
 	i = 0;
 	while (shell->tokens[i])
 	{
@@ -160,6 +168,11 @@ void tokenize_input(char *input, t_shell *shell)
 	shell->in_single_quote = 0;
 	shell->in_double_quote = 0;
 	clear_tokens(shell);
+    // if (!input)
+    // {
+    //     printf("There is no input!!!!\n");
+    //     return;
+    // }
   	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
 		free(input);
