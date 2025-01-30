@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/29 15:12:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/30 11:57:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,11 @@ void clear_cmds(t_shell *shell)
         }
 
         // Free redirection type array (if needed)
-        if (current->type)
-        {
-            free(current->type);
-            current->type = NULL;
-        }
+        // if (current->type)
+        // {
+            // free(current->type);
+            // current->type = NULL;
+        // }
 
         // Free the current command structure
         free(current);

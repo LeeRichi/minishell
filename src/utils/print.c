@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 16:03:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/30 12:48:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ void print_cmd_struct(t_cmd *cmd)
 
 
         //cat < 1 > 2 >> 3
-        if (cmd->type)
-        {
+        // if (cmd->type)
+        // {
             printf("Types: \n");
             for (int i = 0; i < file_counter; i++)
-				printf("%s \n", get_redirection_type_string(cmd->type[i]));
-        }
+				printf("%s \n", get_redirection_type_string(cmd->redirect_type[i]));
+        // }
 
         // Print pipe flag
         printf("Pipe: %d\n", cmd->pipe);

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 19:37:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/30 12:47:24 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_cmd
 {
     char            *cmd_name;
 	char 			**arg;
-	t_redirect_type *type;
+	t_redirect_type redirect_type[10];
 	char		    **infiles;
 	char		    **outfiles;
     struct s_cmd    *next;
