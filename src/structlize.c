@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/30 12:50:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/30 20:53:54 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ char **ft_add_to_array(char **array, const char *new_element)
 	while (i < len)
 	{
 		new_array[i] = ft_strdup(array[i]); // Duplicate each string
-      	if (!new_array[i]) {
-            perror("strdup failed while copying array element");
-			free_matrix(new_array);
-			return NULL;
-		}
+      	// if (!new_array[i]) {
+        //     perror("strdup failed while copying array element");
+		// 	free_matrix(new_array);
+		// 	return NULL;
+		// }
+        i++;
 	}
 	new_array[i] = ft_strdup(new_element);
     if (!new_array[i])
@@ -65,9 +66,27 @@ void ft_nullize_struct(t_cmd *new_cmd)
 	new_cmd->next = NULL;
 }
 
+//temp
+void ft_print_array(char **array)
+{
+    if (!array)
+    {
+        printf("Array is NULL\n");
+        return;
+    }
+
+    printf("Array contents:\n");
+    for (int i = 0; array[i] != NULL; i++)  // Iterate through strings
+    {
+        printf("[%d]: %s\n", i, array[i]);
+    }
+}
+
 void ft_add_redirection(char ***array, char *file)
 {
     *array = ft_add_to_array(*array, file);
+    ft_print_array(*array);
+
 }
 
 void handle_pipe(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
@@ -101,11 +120,12 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 	}
 	else if (strcmp(operator, ">") == 0 || strcmp(operator, ">>") == 0)
     {
-        printf("file: %s\n", file);
-        printf("i: %d\n", i);
-        // ft_add_redirection(&current_cmd->outfiles, file);
+        ft_add_redirection(&current_cmd->outfiles, file);
         if (strcmp(operator, ">") == 0)
+        {
+            printf("hello\n");
             current_cmd->redirect_type[i] = OUTPUT_REDIRECT;
+        }
         else
             current_cmd->redirect_type[i] = APPEND_REDIRECT;
     }
@@ -116,6 +136,7 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
     }
 	current_cmd->redirection_index = i + 1;
 }
+
 
 void ft_structlize(t_shell *shell)
 {
@@ -134,6 +155,11 @@ void ft_structlize(t_shell *shell)
         if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
             strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
+            if (shell->tokens[i + 1] == NULL)
+            {
+                fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
+                return; // Avoid accessing out-of-bounds memory
+            }
             if (current_cmd != NULL)
             {
 			    handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
