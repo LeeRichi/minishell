@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/30 20:53:54 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/03 19:23:56 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,25 @@ void ft_nullize_struct(t_cmd *new_cmd)
 }
 
 //temp
-void ft_print_array(char **array)
-{
-    if (!array)
-    {
-        printf("Array is NULL\n");
-        return;
-    }
+// void ft_print_array(char **array)
+// {
+//     if (!array)
+//     {
+//         printf("Array is NULL\n");
+//         return;
+//     }
 
-    printf("Array contents:\n");
-    for (int i = 0; array[i] != NULL; i++)  // Iterate through strings
-    {
-        printf("[%d]: %s\n", i, array[i]);
-    }
-}
+//     printf("Array contents:\n");
+//     for (int i = 0; array[i] != NULL; i++)  // Iterate through strings
+//     {
+//         printf("[%d]: %s\n", i, array[i]);
+//     }
+// }
 
 void ft_add_redirection(char ***array, char *file)
 {
     *array = ft_add_to_array(*array, file);
-    ft_print_array(*array);
-
+    // ft_print_array(*array);
 }
 
 void handle_pipe(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
