@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/29 19:06:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:02:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 {
     char *env_value;
     int j;
+    char current_c;
 
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
@@ -46,6 +47,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	{
+        // current_c = input[*i];
+        // if (current_c != input[*i + 1])
+        // {
+        //     if (input[*i + 1] == ' ')
+        //         *i += 1;             
+        //     else
+        //         printf("*i + 1 is not the same value to i which makes all this invalid operator.\n");
+        // }
         if (input[*i] == '<' && input[*i + 1] == '<')
         {
             // handle_heredoc(shell, extract_delimiter(input, i));

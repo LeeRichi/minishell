@@ -35,7 +35,15 @@ HANDLED PARSING:
 - [x] grep "text" < input.txt | wc -c > count.txt | wc -l > lines.txt
 - [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
 - [x] yeah | > 3 (this should work)
-- [ ] ..more(replace this)
+
+
+- [x] ls | ls >outfile < infile
+
+
+//Feb 3
+- [] ls |>infile ls > outfile // |> should be a token and infile should be another
+
+- [] ..more(replace this)
 
 //invalids checks
 - [x] only | or || or > or >> or < or <<
