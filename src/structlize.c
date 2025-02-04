@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 19:27:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/04 20:02:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char **ft_add_to_array(char **array, const char *new_element)
 
 void ft_nullize_struct(t_cmd *new_cmd)
 {
+	ft_bzero(new_cmd, sizeof(new_cmd));
+/*
     new_cmd->cmd_name = NULL;
     new_cmd->arg = NULL;
     new_cmd->infiles = NULL;
@@ -58,6 +60,7 @@ void ft_nullize_struct(t_cmd *new_cmd)
     new_cmd->pipe = 0;
 	new_cmd->redirection_index = 0;
 	new_cmd->next = NULL;
+*/
 }
 
 void ft_add_redirection(char ***array, char *file)

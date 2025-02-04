@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 19:12:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:59:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,41 @@ char	**get_path_split(char **envp, size_t ind)
 	return (ft_split(envp[ind], ':'));
 }
 
-t_pipex_command cmd_to_pipex_command(t_cmd cmd)
+t_pipex_command cmd_to_pipex_command(t_cmd cmd, char **envp)
 {
 	t_pipex_command	command;
 // happens in child
-	command.path = 0;
-	command.argv = 0;
-	command.env = 0;
+	command.env = envp;
 	command.infiles = cmd.infiles;
 	command.outfiles = cmd.outfiles;
 	command.type = cmd.type;
+//fill in child?
+	command.path = 0;
+	command.argv = 0;
 // TODO: ??
 	command.input_arg = 0;
 	return (command);
 }
 
-t_pipex_command *cmd_to_pipex_command_arr(t_cmd *cmds, size_t command_count)
+/* TODO: keep in mind order of freeing */
+
+t_cmd *cmd_list_to_arr(t_cmd *cmds, size_t command_count)
 {
-	t_pipex_command	*arr;
+	t_cmd	*arr;
 	size_t i;
 
 	i = 0;
-	arr = malloc((command_count + 1) * sizeof(t_pipex_command));
+	arr = malloc((command_count + 1) * sizeof(t_cmd));
 	if (!arr)
 		return (0);
-	ft_bzero(&arr[command_count], sizeof(t_pipex_command));
+	ft_bzero(&arr[command_count], sizeof(t_cmd));
 	while(i < command_count)
 	{
-		arr[i] = cmd_to_pipex_command(*cmds);
+		arr[i] = *cmds;
+		cmds = cmds.next;
 		i++;
 	}
+	return (arr);
 }
 
 t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp)
@@ -74,7 +79,8 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp)
 	pipex.pipe[0] = -1;
 	pipex.pipe[1] = -1;
 //TODO: null check
-	pipex.command = cmd_to_pipex_command_arr(commands);
+	pipex.command = cmd_list_to_arr(commands, char **envp);
+//TODO: free list
 	pipex.path_split = 0;
 	return (pipex);
 }
