@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:32:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 15:47:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:51:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ typedef struct s_command {
 	char	*path;
 	char	**argv;
 	char	**env;
+	char		**infiles;			//remove
+	char		**outfiles;			//remove
+	t_redirect_type	*type;
 	char	*input_arg;
 }	t_command;
 
@@ -38,7 +41,7 @@ typedef struct s_pipex {
 	int			pipe[2];
 	int			reserve_fd;
 	char		**env;				//is it ever adjusted through child process
-	char		**first_command;		//rethink
+	char		**first_command;		//rethink, unnecessary?
 	t_command	*command;			//change type and adjust
 	char		**path_split;			//rethink
 }	t_pipex;

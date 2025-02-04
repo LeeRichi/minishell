@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 16:49:07 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:41:20 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,31 @@ int	main(int argc, char **argv, char **env)
 	return (wait_all_return);
 }
 */
-int	pipex_launch(int command_count, char **argv, char **env)
+
+// TODO: replace argv with t_cmd * list
+
+int	t_cmd_list_count(t_cmd *head)
+{
+	int	counter;
+
+	counter = 0;
+	while(head)
+	{
+		counter++;
+		head = head->next;
+	}
+	return (counter);
+}
+
+//int	pipex_launch(int command_count, char **argv, char **env)
+int	pipex_launch(t_cmd *argv, char **env)
 {
 	t_pipex	pipex;
 	pid_t	pid;
 	int		wait_all_return;
+	int command_count;
+
+	command_count = t_cmd_list_count(argv);
 	if (command_count < 1)
 	{
 // TODO: rethink this logic, find out about return logic and general exit code logic

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/09 19:49:24 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:51:42 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ static void	resolve_command_path(t_pipex *pipex)
 
 void	get_command(char **argv, t_pipex *pipex)
 {
+// TODO: handled outside, remove input_arg logic from here
 	pipex->command->input_arg = argv[pipex->current_command];
+// handled outside
+// TODO: combine arg array with first param
 	pipex->command->argv = get_command_argv(argv[pipex->current_command]);
 	if (!pipex->command->argv)
 		error_and_exit(pipex, MALLOC_FAIL);

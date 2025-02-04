@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/09 15:04:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:12:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,58 @@ char	**get_path_split(char **envp, size_t ind)
 	return (ft_split(envp[ind], ':'));
 }
 
-t_pipex	get_pipex(int argc, char **argv, char **envp)
+t_pipex_command cmd_to_pipex_command(t_cmd cmd)
+{
+	t_pipex_command	command;
+// happens in child
+	command.path = 0;
+	command.argv = 0;
+	command.env = 0;
+	command.infiles = cmd.infiles;
+	command.outfiles = cmd.outfiles;
+	command.type = cmd.type;
+// TODO: ??
+	command.input_arg = 0;
+	return (command);
+}
+
+t_pipex_command *cmd_to_pipex_command_arr(t_cmd *cmds, size_t command_count)
+{
+	t_pipex_command	*arr;
+	size_t i;
+
+	i = 0;
+	arr = malloc((command_count + 1) * sizeof(t_pipex_command));
+	if (!arr)
+		return (0);
+	ft_bzero(&arr[command_count], sizeof(t_pipex_command));
+	while(i < command_count)
+	{
+		arr[i] = cmd_to_pipex_command(*cmds);
+		i++;
+	}
+}
+
+t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp)
 {
 	t_pipex	pipex;
 
-	pipex.command_count = ((size_t)argc - 3);
+	pipex.command_count = command_count;
 	pipex.current_command = 0;
+// TODO : rethink where to do this
+/*
 	pipex.infile = *(argv + 1);
 	pipex.outfile = *(argv + (argc - 1));
-	pipex.first_command = (argv + 2);
+*/
+//	pipex.first_command = (argv + 2);
+	//pipex.first_command = commands;
 	pipex.env = envp;
 	pipex.last_pid = -1;
 	pipex.reserve_fd = -1;
 	pipex.pipe[0] = -1;
 	pipex.pipe[1] = -1;
-	pipex.command = 0;
+//TODO: null check
+	pipex.command = cmd_to_pipex_command_arr(commands);
 	pipex.path_split = 0;
 	return (pipex);
 }
