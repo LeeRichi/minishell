@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/10 13:18:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:46:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	wait_all(t_pipex pipex)
 
 	wstatus = 0;
 	exit_status = EXIT_FAILURE;
+//TODO: consider using waitpid,	double check the intended behaviour
+//TODO: check wait return -1
 	while (pipex.current_command--)
 	{
 		if (wait(&wstatus) == pipex.last_pid)

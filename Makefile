@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/01/16 13:44:38 by chlee2           ###   ########.fr        #
+#    Updated: 2025/02/04 15:12:42 by mbutuzov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,14 @@ SRCS = src/main.c \
 		src/lex/lex_helper.c \
 		src/lex/heredoc.c \
 		src/structlize.c \
+		src/pipex/command_ops.c \
+		src/pipex/error_ops.c \
+		src/pipex/fd_ops.c \
+		src/pipex/fork_ops.c \
+		src/pipex/parsing_utils.c \
+		src/pipex/pipex.c \
+		src/pipex/pipex_utils.c \
+		src/pipex/utils.c \
 
 OBJS = $(SRCS:.c=.o)
 

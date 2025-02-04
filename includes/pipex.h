@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:32:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/09 19:45:15 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:47:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ typedef struct s_pipex {
 	pid_t		last_pid;
 	size_t		command_count;
 	size_t		current_command;
-	char		*infile;
-	char		*outfile;
+	char		*infile;			//remove
+	char		*outfile;			//remove
 	int			pipe[2];
 	int			reserve_fd;
-	char		**env;
-	char		**first_command;
-	t_command	*command;
-	char		**path_split;
+	char		**env;				//is it ever adjusted through child process
+	char		**first_command;		//rethink
+	t_command	*command;			//change type and adjust
+	char		**path_split;			//rethink
 }	t_pipex;
 
 typedef enum e_perrtypes {

@@ -6,12 +6,15 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/09 15:04:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:46:36 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
+/*
+	TODO: rewrite to account for multiple redirections and no pipes
+	TODO: think through the usage with builtins
+*/
 int	process_rfile_name_arg(t_pipex *pipex)
 {
 	int	fd;
