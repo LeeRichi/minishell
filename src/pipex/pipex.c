@@ -6,11 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 17:41:20 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:29:34 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 TODO: set
@@ -85,6 +87,12 @@ int	pipex_launch(t_cmd *argv, char **env)
 		return (0)
 	}
 	pipex = get_pipex(command_count, argv, env);
+	if (!pipex.command)
+	{
+		//TODO: handle malloc fail error
+		perror("pipex alloc fail");
+		return ; ///asdassdas
+	}
 // different logic if command count == 1 and builtin is used (no fork)
 	while (pipex.current_command < pipex.command_count)
 	{

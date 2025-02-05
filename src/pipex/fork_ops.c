@@ -6,20 +6,25 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 16:46:49 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:29:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	in_child(t_pipex pipex)
 {
-	t_command	command;
+//	t_command	command;
 
-	ft_bzero((void *)&command, sizeof(t_command));
-	pipex.command = &command;
+//	ft_bzero((void *)&command, sizeof(t_command));
+//	pipex.command = &command;
+// TODO: handle per command redirections in redirect fds
+// move 
 	redirect_fds(&pipex);
-	get_command(pipex.first_command, &pipex);
+	get_command(&pipex);
+// pipex.env? to execve
 	execve(command.path, command.argv, command.env);
 	if (errno == ENOENT)
 		error_and_exit(&pipex, CMD_FILE_NOT_FOUND);

@@ -6,11 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:46:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/09 19:31:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:29:25 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_exists_and_not_dir(char *path)
 {

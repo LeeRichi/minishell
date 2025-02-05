@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:45:13 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 17:12:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/05 21:33:15 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	*ft_memchr(const void *s, int c, size_t n);
 void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *str);
 int		ft_atoll(char *str);
+char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_strcmp(const char *s1, const char *s2);

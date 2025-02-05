@@ -6,11 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 18:51:42 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:35:36 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static ssize_t	get_path_index(char **envp)
 {
@@ -27,7 +29,7 @@ static ssize_t	get_path_index(char **envp)
 	}
 	return (-1);
 }
-
+/*
 static char	**get_alt_argv(char *input_arg)
 {
 	char	**new_argv;
@@ -44,6 +46,7 @@ static char	**get_alt_argv(char *input_arg)
 	}
 	return (new_argv);
 }
+*/
 
 static void	handle_command(char **path_split, t_pipex *pipex)
 {
@@ -85,22 +88,26 @@ static void	resolve_command_path(t_pipex *pipex)
 	}
 }
 
-void	get_command(char **argv, t_pipex *pipex)
+void	get_command(t_pipex *pipex)
 {
 // TODO: handled outside, remove input_arg logic from here
-	pipex->command->input_arg = argv[pipex->current_command];
+	//pipex->command->input_arg = argv[pipex->current_command];
 // handled outside
 // TODO: combine arg array with first param
-	pipex->command->argv = get_command_argv(argv[pipex->current_command]);
+// free internals somewhere
+	pipex->command->argv = get_command_argv(pipex->command[pipex->current_command]);
 	if (!pipex->command->argv)
 		error_and_exit(pipex, MALLOC_FAIL);
-	if (*(pipex->command->argv) == 0)
+//  TODO: special case, needs handling?
+/*	if (*(pipex->command->argv) == 0)
 	{
 		free_split(pipex->command->argv);
 		pipex->command->argv = get_alt_argv(argv[pipex->current_command]);
 		if (pipex->command->argv == NULL)
 			error_and_exit(pipex, MALLOC_FAIL);
 	}
+*/
+// TODO: OK????
 	resolve_command_path(pipex);
 	pipex->command->env = pipex->env;
 }

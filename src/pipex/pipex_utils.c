@@ -6,15 +6,58 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 19:59:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:29:40 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
-char	**get_command_argv(char *arg)
+int	count_split(char **texts)
 {
-	return (ft_split(arg, ' '));
+	int	i;
+
+	i = 0;
+	while (texts[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+char	**ft_shallow_split_join(char **tab1, char **tab2)
+{
+	char	**new_tab;
+	int		tab1_length;
+	int		tab2_length;
+	int		i;
+
+	i = 0;
+	tab1_length = count_split(tab1);
+	tab2_length = count_split(tab2);
+	new_tab = ft_calloc(tab1_length + tab2_length + 1, sizeof(char *));
+	if (!new_tab)
+		return (0);
+	while (i < (tab1_length + tab2_length))
+	{
+		if (i < tab1_length)
+			new_tab[i] = tab1[i];
+		else
+			new_tab[i] = tab2[i - tab1_length];
+		i++;
+	}
+	return (new_tab);
+}
+
+char	**get_command_argv(t_cmd cmd)
+{
+	char	**tab_cmd_name;
+
+	tab_cmd_name = {
+		cmd.cmd_name,
+		0
+	};
+	return (ft_shallow_split_join(tab_cmd_name, cmd.arg));
 }
 
 char	**get_path_split(char **envp, size_t ind)
@@ -23,7 +66,7 @@ char	**get_path_split(char **envp, size_t ind)
 	return (ft_split(envp[ind], ':'));
 }
 
-t_pipex_command cmd_to_pipex_command(t_cmd cmd, char **envp)
+t_pipex_command	cmd_to_pipex_command(t_cmd cmd, char **envp)
 {
 	t_pipex_command	command;
 // happens in child
@@ -41,17 +84,17 @@ t_pipex_command cmd_to_pipex_command(t_cmd cmd, char **envp)
 
 /* TODO: keep in mind order of freeing */
 
-t_cmd *cmd_list_to_arr(t_cmd *cmds, size_t command_count)
+t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count)
 {
 	t_cmd	*arr;
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	arr = malloc((command_count + 1) * sizeof(t_cmd));
 	if (!arr)
 		return (0);
 	ft_bzero(&arr[command_count], sizeof(t_cmd));
-	while(i < command_count)
+	while (i < command_count)
 	{
 		arr[i] = *cmds;
 		cmds = cmds.next;

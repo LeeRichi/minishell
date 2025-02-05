@@ -6,11 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/12/10 13:18:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:37:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static void	resolve_exit_code(t_perrtypes errtype)
 {
@@ -20,6 +22,7 @@ static void	resolve_exit_code(t_perrtypes errtype)
 		exit(126);
 	exit(EXIT_FAILURE);
 }
+/*
 
 static void	write_smth_with_colon_fd(char *smth, int fd)
 {
@@ -50,10 +53,13 @@ static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 	else
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 }
-
+*/
 void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 {
+//TODO: rethink, rewrite
+/*
 	print_error_message(*pipex, errtype);
+*/
 	if (pipex)
 		free_all(*pipex);
 	resolve_exit_code(errtype);

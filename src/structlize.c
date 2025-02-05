@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/04 20:02:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:46:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,26 +128,26 @@ void ft_structlize(t_shell *shell)
 
 	while (shell->tokens[i])
 	{
-        if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
-        {
-            handle_pipe(&current_cmd, &new_cmd, shell);
-            if (strcmp(shell->tokens[i], "|") == 0)
-                i++;
-        }
-        if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
-            strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
-        {
+		if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
+		{
+			handle_pipe(&current_cmd, &new_cmd, shell);
+			if (strcmp(shell->tokens[i], "|") == 0)
+        	        	i++;
+		}
+		if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
+			strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
+		{
 			i++;
 			handle_redirection(current_cmd, shell->tokens[i - 1], shell->tokens[i]);
 		}
 		else
-        {
-            if (current_cmd->cmd_name == NULL)
-                current_cmd->cmd_name = strdup(shell->tokens[i]);
-            else
-                current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
+        	{
+			if (current_cmd->cmd_name == NULL)
+				current_cmd->cmd_name = strdup(shell->tokens[i]);
+			else
+				current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
 		}
 		i++;
-    }
+	}
 	current_cmd->redirection_index = 0;
 }

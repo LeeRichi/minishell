@@ -6,11 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/04 15:46:36 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/05 23:12:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+//#include "pipex.h"
+//#include "minishell.h"
+#include "../../includes/minishell.h"
 /*
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
@@ -71,7 +73,7 @@ void	before_fork(t_pipex *pipex)
 			error_and_exit(pipex, PIPE_FAIL);
 	}
 }
-
+/*
 void	redirect_fds(t_pipex *pipex)
 {
 	if (pipex->current_command == 0)
@@ -86,4 +88,32 @@ void	redirect_fds(t_pipex *pipex)
 	}
 	else if (process_normal_pipe(pipex) == -1)
 		error_and_exit(pipex, DUP_FAIL);
+}
+*/
+
+/*
+RULES:
+TODO: figure out perimissions for output redirections
+	output redirections:
+		each:
+			dup2 to pipe, if pipe?
+			> open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			>> open(arg, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+			check not dir
+			check access rights
+		if more redirections
+			close
+			and open
+		if multiple, last one wins, if no problems in other redirections 
+		if exist, nothing to pipe
+	input redirections:
+		command uses last redir
+		if second last is dir, its ok
+		if heredoc - do heredoc, but use or no use depends on position
+		if permssion faile SOMEWHERE, error
+*/
+
+void 	redirect_fds(t_pipex *pipex)
+{
+	
 }
