@@ -36,12 +36,10 @@ HANDLED PARSING:
 - [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
 - [x] yeah | > 3 (this should work)
 
-
 - [x] ls | ls >outfile < infile
 
-
-//Feb 3
-- [] ls |>infile ls > outfile // |> should be a token and infile should be another
+//Feb 3 //Feb 5 found out this is actually handled
+- [x] ls |>infile ls > outfile
 
 - [] ..more(replace this)
 

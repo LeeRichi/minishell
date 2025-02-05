@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/03 19:23:56 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:22:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
         ft_add_redirection(&current_cmd->outfiles, file);
         if (strcmp(operator, ">") == 0)
         {
-            printf("hello\n");
             current_cmd->redirect_type[i] = OUTPUT_REDIRECT;
         }
         else

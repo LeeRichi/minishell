@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/03 21:02:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:42:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 {
     char *env_value;
     int j;
-    char current_c;
+    // char current_c;
 
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
@@ -39,28 +39,44 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         shell->in_double_quote = !(shell->in_double_quote);
     else if (!(shell->in_single_quote) && input[*i] == '$')
     {
-        env_value = handle_dollar_sign(input, i);
-        j = 0;
-        while (env_value[j])
-            *current_token = str_append(*current_token, env_value[j++]);
-        free(env_value);
+        if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
+        {
+            printf("ignore dollar sign.\n"); //throw to the water
+			return ;
+        }
+		else
+		{
+			env_value = handle_dollar_sign(input, i);
+			if (!env_value) //if the env_value is not found, let's simply return the input str itself
+			{
+				printf("fuck\n");
+				*current_token = str_append(*current_token, '$');
+			}
+			else
+			{
+				printf("env_value: %s\n", env_value);
+				j = 0;
+				while (env_value[j])
+					*current_token = str_append(*current_token, env_value[j++]);
+				// free(env_value); //fuck
+			}
+		}
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	{
         // current_c = input[*i];
-        // if (current_c != input[*i + 1])
-        // {
-        //     if (input[*i + 1] == ' ')
-        //         *i += 1;             
-        //     else
-        //         printf("*i + 1 is not the same value to i which makes all this invalid operator.\n");
-        // }
-        if (input[*i] == '<' && input[*i + 1] == '<')
+        // printf("current_c: %c\n", current_c);
+        if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
         {
             // handle_heredoc(shell, extract_delimiter(input, i));
             //do i need a break here??
             return ;
         }
+        // else if (strchr("|<>", input[*i + 1])) //invalid
+        // {
+        //     printf("invalid consecutive\n");
+        //     //put this current token + (*i + 1)char to one token, how to do it?
+        // }
 		shell->current_index = *i;
 		handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
 		*i = shell->current_index;

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/29 15:34:23 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:53:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char *handle_dollar_sign(char *s, int *index)
 	*index += len;
 	env_name[len] = '\0';
 	result = get_env_value(env_name);
+    printf("result: %s\n", result);
 	if (!result)
 		return (NULL);
 	free(env_name);

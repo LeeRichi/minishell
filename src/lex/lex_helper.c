@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/28 21:45:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:53:48 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ char *get_env_value(const char *env_name)
 
 	env_value = getenv(env_name);
 	if (!env_value)
-		return ("");
+		return (NULL);
+		// return ("");
 	return (ft_strdup(env_value));
 }
 
