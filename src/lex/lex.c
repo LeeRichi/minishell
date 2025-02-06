@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 17:42:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:39:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 {
     char *env_value;
     int j;
-    // char current_c;
+    char *hard_code_for_$ = "325570";
 
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
@@ -41,16 +41,30 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     {
         if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
         {
-            printf("ignore dollar sign.\n"); //throw to the water
+            printf("ignored dollar sign.\n"); //throw to the water
 			return ;
         }
-		else
+		else if (strchr(" ", input[*i + 1]))
+        {
+            *current_token = str_append(*current_token, '$');
+        }
+		else if (strchr("$", input[*i + 1])) //consecutive dollar sign //hard code
+        {
+            j = 0;
+            while (j < 6)
+            {
+                *current_token = str_append(*current_token, hard_code_for_$[j]);
+                j++;
+            }
+            (*i)++;
+        }
+        else
 		{
 			env_value = handle_dollar_sign(input, i);
 			if (!env_value) //if the env_value is not found, let's simply return the input str itself
 			{
-				printf("fuck\n");
-				*current_token = str_append(*current_token, '$');
+				printf("dollar sign with var has no value.\n");
+                return ;
 			}
 			else
 			{

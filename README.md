@@ -43,6 +43,17 @@ HANDLED PARSING:
 
 - [] ..more(replace this)
 
+//Feb 5 $dollar sign
+- [x] echo $ "hi"
+- [x] echo $$ "hi"
+- [x] echo $$$ "hi"
+
+- [x] echo $"hi"
+- [x] echo $$"hi"
+
+//Feb 6 try to find more special char like /
+//Feb 6 .eg echo "Hello" > $output_dir/output.txt Using an unquoted unset variable should print ambiguous redirect
+
 //invalids checks
 - [x] only | or || or > or >> or < or <<
 - [x] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt (implimented by checking after the tokens are formed)
