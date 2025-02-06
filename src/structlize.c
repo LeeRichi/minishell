@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 19:46:18 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:46:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char **ft_add_to_array(char **array, const char *new_element)
 
 void ft_nullize_struct(t_cmd *new_cmd)
 {
-	ft_bzero(new_cmd, sizeof(new_cmd));
+	ft_bzero(new_cmd, sizeof(t_cmd));
 /*
     new_cmd->cmd_name = NULL;
     new_cmd->arg = NULL;
