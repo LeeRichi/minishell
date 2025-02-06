@@ -52,7 +52,7 @@ HANDLED PARSING:
 - [x] echo $$"hi"
 
 //Feb 6 try to find more special char like /
-//Feb 6 .eg echo "Hello" > $output_dir/output.txt Using an unquoted unset variable should print ambiguous redirect
+//Feb 6 .eg echo "Hello" > $output_dir Using an unquoted unset variable should print ambiguous redirect, but echo "Hello" > $output_dir/output.txt is permission
 
 //invalids checks
 - [x] only | or || or > or >> or < or <<
