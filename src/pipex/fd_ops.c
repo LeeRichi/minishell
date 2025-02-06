@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/06 18:18:21 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 23:20:58 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,45 @@ TODO: figure out perimissions for output redirections
 	input redirections:
 		command uses last redir
 		if second last is dir, its ok
+		no need to special rulre for folder
 		if heredoc - do heredoc, but use or no use depends on position
+		fd = open(pipex->infile, O_RDONLY);
 		if permssion faile SOMEWHERE, error
 */
+/*
+
+base the logic on the ordered types
+
+add_input redir
+direction: infile | oufile
+
+*/
+t_redirect_type get_redirect_type(int direction, int index, t_redirect_type *ordered_types)
+{
+	int irrelevant_count;
+
+	irrelevant_count = 0;
+	if (direction == 0)
+	{
+		if (ordered_types[index] == )
+	}
+	else
+	
+}
+
+void handle_file_redirections(t_pipex *pipex)
+{
+	int infile_count;
+	int outfile_count;
+	char **infiles;
+	char **outfiles;
+
+	infiles = pipex->command[pipex->current_command].infiles;
+	outfiles = pipex->command[pipex->current_command].outfiles;
+	infile_count = count_split(infiles);
+	outfile_count = count_split(outfiles);
+	pipex->command[pipex->current_command].type;
+}
 
 void 	redirect_fds(t_pipex *pipex)
 {
