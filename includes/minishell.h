@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 21:35:06 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:48:09 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
+int	pipex_launch(t_cmd *argv, char **env);
 t_cmd	*free_command_content(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 void		ft_close(int *fd);
@@ -126,7 +127,8 @@ void		redirect_fds(t_pipex *pipex);
 void		before_fork(t_pipex *pipex);
 //void		get_command(char **argv, t_pipex *pipex);
 void		get_command(t_pipex *pipex);
-t_pipex		get_pipex(int argc, char **argv, char **envp);
+//t_pipex		get_pipex(int argc, char **argv, char **envp);
+t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp);
 void		print_current_error(void);
 void		free_all(t_pipex pipex);
 int			after_fork(pid_t fork_result, t_pipex *pipex);

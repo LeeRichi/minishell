@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/05 21:29:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:21:25 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ int	pipex_launch(t_cmd *argv, char **env)
 // TODO: rethink this logic, find out about return logic and general exit code logic
 		ft_putendl_fd("Provide 4 arguments", 2);
 //		return (EXIT_FAILURE);
-		return (0)
+		return (0);
 	}
 	pipex = get_pipex(command_count, argv, env);
 	if (!pipex.command)
 	{
 		//TODO: handle malloc fail error
 		perror("pipex alloc fail");
-		return ; ///asdassdas
+		return 0; ///asdassdas
 	}
 // different logic if command count == 1 and builtin is used (no fork)
 	while (pipex.current_command < pipex.command_count)

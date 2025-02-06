@@ -6,13 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/05 21:29:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:00:46 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-
+/*
 int	count_split(char **texts)
 {
 	int	i;
@@ -24,7 +24,7 @@ int	count_split(char **texts)
 	}
 	return (i);
 }
-
+*/
 char	**ft_shallow_split_join(char **tab1, char **tab2)
 {
 	char	**new_tab;
@@ -51,13 +51,16 @@ char	**ft_shallow_split_join(char **tab1, char **tab2)
 
 char	**get_command_argv(t_cmd cmd)
 {
-	char	**tab_cmd_name;
+	char	*tab_cmd_name[2];
+	char	*empty_args[1];
 
-	tab_cmd_name = {
-		cmd.cmd_name,
-		0
-	};
-	return (ft_shallow_split_join(tab_cmd_name, cmd.arg));
+	tab_cmd_name[0] = cmd.cmd_name;
+	tab_cmd_name[1] = 0;
+	empty_args[0] = 0;
+	if (cmd.arg)
+		return (ft_shallow_split_join(tab_cmd_name, cmd.arg));
+	else
+		return (ft_shallow_split_join(tab_cmd_name, empty_args));
 }
 
 char	**get_path_split(char **envp, size_t ind)
@@ -65,7 +68,7 @@ char	**get_path_split(char **envp, size_t ind)
 	envp[ind] += 5;
 	return (ft_split(envp[ind], ':'));
 }
-
+/*
 t_pipex_command	cmd_to_pipex_command(t_cmd cmd, char **envp)
 {
 	t_pipex_command	command;
@@ -81,7 +84,7 @@ t_pipex_command	cmd_to_pipex_command(t_cmd cmd, char **envp)
 	command.input_arg = 0;
 	return (command);
 }
-
+*/
 /* TODO: keep in mind order of freeing */
 
 t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count)
@@ -97,7 +100,7 @@ t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count)
 	while (i < command_count)
 	{
 		arr[i] = *cmds;
-		cmds = cmds.next;
+		cmds = cmds->next;
 		i++;
 	}
 	return (arr);
@@ -122,13 +125,14 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp)
 	pipex.pipe[0] = -1;
 	pipex.pipe[1] = -1;
 //TODO: null check
-	pipex.command = cmd_list_to_arr(commands, char **envp);
+	pipex.command = cmd_list_to_arr(commands, command_count);
 //TODO: free list
 	pipex.path_split = 0;
 	return (pipex);
 }
 
-t_command	*free_command_content(t_command *command)
+//t_command	*free_command_content(t_command *command)
+t_cmd	*free_command_content(t_cmd *command)
 {
 	if (command)
 	{

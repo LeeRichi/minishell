@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/05 23:12:44 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:18:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
 */
+/*
 int	process_rfile_name_arg(t_pipex *pipex)
 {
 	int	fd;
@@ -51,7 +52,7 @@ int	process_wfile_name_arg(t_pipex *pipex)
 		error_and_exit(pipex, WFILE_FAIL);
 	return (dup2_and_close(&fd, STDOUT_FILENO));
 }
-
+*/
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
@@ -115,5 +116,24 @@ TODO: figure out perimissions for output redirections
 
 void 	redirect_fds(t_pipex *pipex)
 {
-	
+	if (pipex->current_command == 0)
+	{
+		ft_close(&pipex->pipe[0]);
+		dup2_and_close(&pipex->pipe[1], STDOUT_FILENO);
+		//if (process_rfile_name_arg(pipex) == -1)
+		//	error_and_exit(pipex, DUP_FAIL);
+	}
+	else if (pipex->current_command == (pipex->command_count - 1))
+	{
+		ft_close(&pipex->pipe[1]);
+		if (pipex->current_command)
+		{
+			if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO))
+				error_and_exit(pipex, DUP_FAIL);
+		}
+		//if (process_wfile_name_arg(pipex) == -1)
+		//	error_and_exit(pipex, DUP_FAIL);
+	}
+	else if (process_normal_pipe(pipex) == -1)
+		error_and_exit(pipex, DUP_FAIL);
 }
