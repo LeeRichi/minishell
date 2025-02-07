@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/07 18:13:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:25:55 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ t_redirect_type get_redirect_type(int direction, int index, t_redirect_type *ord
 	else
 	
 }
+
 //WIP
 int attempt_redirect(t_redirection redir)
 {
