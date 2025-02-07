@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/06 23:20:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:13:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,19 +135,79 @@ t_redirect_type get_redirect_type(int direction, int index, t_redirect_type *ord
 	else
 	
 }
+//WIP
+int attempt_redirect(t_redirection redir)
+{
+	int fd[2];
+	int fork_return;
+//TODO: dup2 checks
+	if (redir.type == INPUT_REDIRECT)
+	{
+		fd[0] = open(pipex->infile, O_RDONLY);
+		if (fd[0] == -1)
+		{
+//error and exit
+		}
+		dup2(fd[0], 0);
+		close(fd[0]);
+		
+	} else if (redir.type == OUTPUT_REDIRECT)
+	{
+		fd[0] = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd[0] == -1)
+		{
+//error and exit
+		}
+		dup2(fd[0], 1);
+		close(fd[0]);
+		
+	} else if (redir.type == APPEND_REDIRECT)
+	{
+		fd[0] = open(arg, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+		if (fd[0] == -1)
+		{
+//error and exit
+		}
+		dup2(fd[0], 1);
+		close(fd[0]);
+		
+	} else if (redir.type == HERE_DOC)
+	{
+		if (pipe(fd) == -1)
+		{
+// TODO: error and exit?
+		}
+		fork_return = fork();
+		if (fork_return == 0)
+		{
+// heredoc
+		}
+		else
+		{
+// parent
+		}
+	}
+}
 
 void handle_file_redirections(t_pipex *pipex)
 {
-	int infile_count;
-	int outfile_count;
+	size_t infile_count;
+	size_t outfile_count;
 	char **infiles;
 	char **outfiles;
+	size_t i;
 
+	i = 0;
 	infiles = pipex->command[pipex->current_command].infiles;
 	outfiles = pipex->command[pipex->current_command].outfiles;
-	infile_count = count_split(infiles);
-	outfile_count = count_split(outfiles);
+	infile_count = (size_t)count_split(infiles);
+	outfile_count = (size_t)count_split(outfiles);
 	pipex->command[pipex->current_command].type;
+	while (i < infile_count + outfile_count)
+	{
+		pipex->type[i]
+		i++;
+	}
 }
 
 void 	redirect_fds(t_pipex *pipex)

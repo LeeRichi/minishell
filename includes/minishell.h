@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/06 18:48:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:54:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ typedef enum e_redirect_type {
     APPEND_REDIRECT,
     HERE_DOC
 } t_redirect_type;
+
+typedef struct s_redirection {
+	t_redirect_type type;
+	char	*file;
+} t_redirection;
 
 typedef struct s_cmd
 {
