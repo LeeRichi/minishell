@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/30 12:48:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:20:33 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static const char *get_redirection_type_string(int type)
 }
 
 void print_cmd_struct(t_cmd *cmd)
-{
+{    
     int command_index = 1;  // To track the command index in the linked list
     while (cmd)
     {

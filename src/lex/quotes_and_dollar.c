@@ -6,20 +6,26 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 17:53:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:30:28 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *handle_dollar_sign(char *s, int *index)
+char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 {
 	char *env_name;
 	char *result;
 	int len;
 
+    // printf("(in quotes_and_dollar) input: %s\n", s);
+
 	len = 0;
-	(*index)++;
+	(*index)++; //skip $
+
+    // printf("String from index %d: %s\n", *index, s + *index); //after $
+
+
 	while (ft_isalnum(s[*index]) || s[*index] == '_')
 	{
 		len++;
@@ -31,11 +37,14 @@ char *handle_dollar_sign(char *s, int *index)
 	(*index) -= len;
 	memcpy(env_name, s + *index, len);
 	*index += len;
+    (*index)--;
 	env_name[len] = '\0';
 	result = get_env_value(env_name);
-    printf("result: %s\n", result);
 	if (!result)
+    {
+        shell->ambiguous_flag = 1;
 		return (NULL);
+    }
 	free(env_name);
 	return (result);
 }

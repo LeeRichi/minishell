@@ -33,19 +33,21 @@ void parse(t_shell *shell)
 
     if (shell->tokens)
         print_tokens(shell->tokens);
+    printf("ambi: %d\n", shell->ambiguous_flag);
 
-    // if (!shell->err_code)
-	// {
-    //     ft_structlize(shell);
-	// }
+    if (!shell->err_code)
+	{
+        ft_structlize(shell);
+	}
 
-	// // printing purpose
-	// if (!shell->err_code)
-	// {
-	// 	print_cmd_struct(shell->cmds);
-	// }
-	// else
-	// 	shell->err_code = 0;
+	// printing purpose
+	if (!shell->err_code)
+	{
+		print_cmd_struct(shell->cmds);
+	}
+	else
+		shell->err_code = 0;
+
 
     // if (shell->tokens && shell->tokens[0] != NULL)
     // {

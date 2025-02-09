@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/30 12:47:24 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:11:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_cmd
 	char		    **outfiles;
     struct s_cmd    *next;
     int             pipe; //flag, 1 means there's a pipe following up
-		int redirection_index; //example, echo hello > out.txt >> out2.txt < in.txt, > has redirection_index of 0, >> has 1, so on.
+    int redirection_index; //example, echo hello > out.txt >> out2.txt < in.txt, > has redirection_index of 0, >> has 1, so on.
 } t_cmd;
 
 typedef struct s_shell
@@ -73,6 +73,7 @@ typedef struct s_shell
 	int		in_single_quote;
     int		in_double_quote;
 	int 	err_code;
+    int     ambiguous_flag;
 
 	t_token_type    last_token_type;
     t_cmd   *cmds;
@@ -101,7 +102,7 @@ char *str_append(char *str, char c);
 int empty_pipe_checker(char *input, t_shell *shell);
 void handle_wrong_pipes(t_shell *shell, char **current_token, int *token_count, char c);
 //lex/wrong_quotes.c
-char *handle_dollar_sign(char *s, int *index);
+char *handle_dollar_sign(t_shell *shell, char *s, int *index);
 bool check_balanced_quotes(const char *input);
 void handle_unbalanced_quotes(char **input);
 

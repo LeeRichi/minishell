@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/06 19:39:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/09 18:13:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,27 @@ void finalize_token(t_shell *shell, char **current_token, int *token_count)
 
         shell->tokens[(*token_count)++] = *current_token;
         shell->tokens[*token_count] = NULL;
+        // int i = 0;
+        // while(current_token[i])
+        // {
+        //     printf("current token: %s\n", current_token[i]);
+        //     i++;
+        // }
         *current_token = NULL;
-        shell->last_token_type = 1;
+        printf("finalized and value is: %d\n", shell->last_token_type);
+        // shell->last_token_type = 1;
+        // if (input[*i] == '|')
+        // {
+        //     shell->last_token_type = 1;
+        // }
+        // else if (input[*i] == '>' || input[*i] == '<')
+        // {
+        //     shell->last_token_type = 2;
+        // }
+        // else
+        // {
+        //     shell->last_token_type = 0;
+        // }
     }
 }
 
@@ -60,15 +79,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         }
         else
 		{
-			env_value = handle_dollar_sign(input, i);
+			env_value = handle_dollar_sign(shell, input, i);
 			if (!env_value) //if the env_value is not found, let's simply return the input str itself
 			{
-				printf("dollar sign with var has no value.\n");
-                return ;
+				printf("dollar sign with var has no value.\n"); //If no value, strjoin the rest until encounter spcae
+                // return ;
 			}
 			else
 			{
-				printf("env_value: %s\n", env_value);
 				j = 0;
 				while (env_value[j])
 					*current_token = str_append(*current_token, env_value[j++]);
@@ -78,6 +96,12 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	{
+        // if (input[*i] == '|')
+        //     shell->last_token_type = 1;
+        // else if (input[*i] == '>' || input[*i] == '<')
+        //     shell->last_token_type = 2;
+        // else
+        //     shell->last_token_type = 0;
         // current_c = input[*i];
         // printf("current_c: %c\n", current_c);
         if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
@@ -96,9 +120,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 		*i = shell->current_index;
 	}
     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
+    {
         finalize_token(shell, current_token, &shell->token_count);
+    }
     else
+    {
+        printf("input[*i]: %c\n", input[*i]);
         *current_token = str_append(*current_token, input[*i]);
+    }
 }
 
 void parse_input_fragment(char *input, t_shell *shell)
@@ -140,8 +169,13 @@ void process_additional_input(t_shell *shell, char **input)
 {
     char *additional_input;
 
-	while (shell->last_token_type == 2 || shell->last_token_type == 3)
+    // printf("WTF last token ty: %d\n", shell->last_token_type);
+
+	// while (shell->last_token_type == 1 || shell->last_token_type == 2)
+    while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
     {
+    //     printf("what is the **input: %c\n", **input);
+    //     printf("last token ty: %d\n", shell->last_token_type);
         printf("> ");
         additional_input = readline(NULL);
         if (!additional_input || ft_start_with(additional_input, '|'))
@@ -180,10 +214,10 @@ int empty_between_checker(t_shell *shell)
 {
 	int i;
 
-    // if(!shell->tokens)
-    // {
-    //     return (1);
-    // }
+    if(!shell->tokens)
+    {
+        return (1);
+    }
     
 	i = 0;
 	while (shell->tokens[i])
@@ -221,14 +255,19 @@ void tokenize_input(char *input, t_shell *shell)
 	}
 	handle_unbalanced_quotes(&input); //checking case like '''
 	parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
-	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+    printf("00\n");
+
+	//process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+    printf("1\n");
 	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed 
 	{
+        printf("2\n");
 		free(input);
 		shell->err_code = 258;
 		clear_tokens(shell);
 		return;
 	}
+    printf("3\n");
 	shell->last_token_type = 0;
 	free(input);
 }
