@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:54:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/16 15:18:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:29:45 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,47 +33,47 @@ char *extract_delimiter(char *input, int *i)
     return delimiter;
 }
 
-void handle_heredoc(t_shell *shell, char *delimiter)
-{
-    char *line;
-    int pipe_fd[2];
+// void handle_heredoc(t_shell *shell, char *delimiter)
+// {
+//     char *line;
+//     int pipe_fd[2];
 
-		(void)shell;
+// 		(void)shell;
 
-		// Create a pipe to store the heredoc input
-    if (pipe(pipe_fd) == -1)
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
+// 		// Create a pipe to store the heredoc input
+//     if (pipe(pipe_fd) == -1)
+//     {
+//         perror("pipe");
+//         exit(EXIT_FAILURE);
+//     }
 
-    while (1)
-    {
-        printf("> ");
-        line = readline(NULL);
+//     while (1)
+//     {
+// 		printf("> ");
+// 		line = readline(NULL);
 
-        if (!line) // EOF reached //?
-        {
-            printf("minishell: warning: here-document delimited by end-of-file\n");
-            break;
-        }
+//         if (!line) // EOF reached //?
+//         {
+//             printf("minishell: warning: here-document delimited by end-of-file\n");
+//             break;
+//         }
 
-        // Check if the delimiter is reached
-        if (ft_strcmp(line, delimiter) == 0)
-        {
-            free(line);
-            break;
-        }
+//         // Check if the delimiter is reached
+//         if (ft_strcmp(line, delimiter) == 0)
+//         {
+//             free(line);
+//             break;
+//         }
 
-        // Write the input line to the pipe
-        write(pipe_fd[1], line, strlen(line));
-        write(pipe_fd[1], "\n", 1); // Add a newline for each line
-        free(line);
-    }
+//         // Write the input line to the pipe
+//         write(pipe_fd[1], line, strlen(line));
+//         write(pipe_fd[1], "\n", 1); // Add a newline for each line
+//         free(line);
+//     }
 
-    close(pipe_fd[1]); // Close the write end of the pipe
+//     close(pipe_fd[1]); // Close the write end of the pipe
 
-    // Redirect pipe read end to stdin
-    dup2(pipe_fd[0], STDIN_FILENO);
-    close(pipe_fd[0]); // Close the read end after redirection
-}
+//     // Redirect pipe read end to stdin
+//     dup2(pipe_fd[0], STDIN_FILENO);
+//     close(pipe_fd[0]); // Close the read end after redirection
+// }

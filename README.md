@@ -35,13 +35,34 @@ HANDLED PARSING:
 - [x] grep "text" < input.txt | wc -c > count.txt | wc -l > lines.txt
 - [x] sort < file1.txt | uniq | tee intermediate.txt | wc -l > result.txt
 - [x] yeah | > 3 (this should work)
-- [ ] ..more(replace this)
+
+- [x] ls | ls >outfile < infile
+
+//Feb 3 //Feb 5 found out this is actually handled
+- [x] ls |>infile ls > outfile
+
+//this one should print ambiguous redirect, however, the exectution should have been done
+- [x] echo "hello" > afile | echo hi > $random > random 
+
+
+- [] ..more(replace this)
+
+//Feb 5 $dollar sign
+- [x] echo $ "hi"
+- [x] echo $$ "hi"
+- [x] echo $$$ "hi"
+
+- [x] echo $"hi"
+- [x] echo $$"hi"
+
+//Feb 6 try to find more special char like / //Feb 7 confirm no need to handle slash
+//Feb 6 .eg echo "Hello" > $output_dir Using an unquoted unset variable should print ambiguous redirect, but echo "Hello" > $output_dir/output.txt is permission
 
 //invalids checks
 - [x] only | or || or > or >> or < or <<
 - [x] ls | grep ".c" > file1.txt | echo "invalid" > > file2.txt (implimented by checking after the tokens are formed)
 - [x] yeah > | 3 (this should print err)
-- [ ] 1 |  | 2
+- [x] 1 |  | 2
 
 - [ ] ..more(replace this)
 

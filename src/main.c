@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/17 16:31:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:10:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void shell_init(char **envp, t_shell *shell)
     shell->err_code = 0;
     shell->last_token_type = 0;
     shell->cmds = NULL;
+	shell->ambiguous_flag = 0;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -46,7 +47,12 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		shell.input = readline("$ ");
-		if (shell.input)
+		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
+        {
+            printf("exit\n");
+            break;
+        }
+		if (*shell.input)
 			add_history(shell.input);
 		parse(&shell);
 		// execute(&shell);
