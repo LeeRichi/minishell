@@ -41,6 +41,10 @@ HANDLED PARSING:
 //Feb 3 //Feb 5 found out this is actually handled
 - [x] ls |>infile ls > outfile
 
+//this one should print ambiguous redirect, however, the exectution should have been done
+- [x] echo "hello" > afile | echo hi > $random > random 
+
+
 - [] ..more(replace this)
 
 //Feb 5 $dollar sign

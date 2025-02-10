@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/09 15:11:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:36:07 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
+
+//printing purpose
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
+#define GREEN "\033[32m"
 
 typedef struct s_sig
 {
@@ -60,6 +66,7 @@ typedef struct s_cmd
     struct s_cmd    *next;
     int             pipe; //flag, 1 means there's a pipe following up
     int redirection_index; //example, echo hello > out.txt >> out2.txt < in.txt, > has redirection_index of 0, >> has 1, so on.
+    int ambiguous_flag_node;
 } t_cmd;
 
 typedef struct s_shell
@@ -97,6 +104,7 @@ void handle_exit(t_shell *shell, char **tokens);
 //lex
 void tokenize_input(char *input, t_shell *shell);
 int empty_between_checker(t_shell *shell);
+char *ft_start_with_specials_v2(char *str);
 char *str_append(char *str, char c);
 //lex/wrong_pipe.c
 int empty_pipe_checker(char *input, t_shell *shell);

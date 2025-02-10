@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 16:22:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:38:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,6 @@ void ft_nullize_struct(t_cmd *new_cmd)
 	new_cmd->redirection_index = 0;
 	new_cmd->next = NULL;
 }
-
-//temp
-// void ft_print_array(char **array)
-// {
-//     if (!array)
-//     {
-//         printf("Array is NULL\n");
-//         return;
-//     }
-
-//     printf("Array contents:\n");
-//     for (int i = 0; array[i] != NULL; i++)  // Iterate through strings
-//     {
-//         printf("[%d]: %s\n", i, array[i]);
-//     }
-// }
 
 void ft_add_redirection(char ***array, char *file)
 {
@@ -153,9 +137,15 @@ void ft_structlize(t_shell *shell)
         if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
             strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
+            if (shell->tokens[i + 1] && ft_start_with_specials_v2(shell->tokens[i + 1]))
+            {
+                // printf("found consecutive redir, plz put a flag to this node, which tell the executor - dont exe it.\n");
+                current_cmd->ambiguous_flag_node = 1;
+            }
             if (shell->tokens[i + 1] == NULL)
             {
-                fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
+                // fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
+                fprintf(stderr, "Syntax error.\n");
                 return; // Avoid accessing out-of-bounds memory
             }
             if (current_cmd != NULL)

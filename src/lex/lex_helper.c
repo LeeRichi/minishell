@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/05 17:53:48 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:46:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int ft_start_with(char *str, char c)
     return (0);
 }
 
-char *ft_start_with_specials(char *str)
+char *ft_start_with_specials(char *str) //includes pipe
 {
 	int i;
 	int j;

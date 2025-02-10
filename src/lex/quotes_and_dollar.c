@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/09 15:30:28 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:29:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,8 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 	char *result;
 	int len;
 
-    // printf("(in quotes_and_dollar) input: %s\n", s);
-
 	len = 0;
-	(*index)++; //skip $
-
-    // printf("String from index %d: %s\n", *index, s + *index); //after $
-
+	(*index)++; //to skip $
 
 	while (ft_isalnum(s[*index]) || s[*index] == '_')
 	{
