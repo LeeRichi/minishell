@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/10 18:53:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/10 23:14:30 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ void	close_pipe_safe(int fds[2])
 	close_fd_safe(fds);
 	close_fd_safe(fds + 1);
 }
+/*
+int is_eof_with_nl(char *line, char *eof)
+{
+	size_t eof_length;
+
+	eof_length = ft_strlen(eof)
+	if (ft_strncmp(eof, line, eof_length))
+		return (1);
+	line += eof_length;
+	if (*line == '\n')
+}
+*/
+
+
 
 int get_here_doc_fd(char *eof)
 {
