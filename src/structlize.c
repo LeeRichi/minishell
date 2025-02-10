@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 16:38:11 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/10 18:19:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 	int i;
 
 	i = current_cmd->redirection_index;
-	
     if (strcmp(operator, "<") == 0)
     {
         ft_add_redirection(&current_cmd->infiles, file);
