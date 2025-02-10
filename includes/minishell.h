@@ -56,36 +56,99 @@ typedef enum e_redirect_type {
     HERE_DOC
 } t_redirect_type;
 
+typedef struct s_redirection {
+	t_redirect_type type;
+	char	*file;
+} t_redirection;
+
 typedef struct s_cmd
 {
-    char            *cmd_name;
-	char 			**arg;
-	t_redirect_type redirect_type[10]; //fix later 
-    // t_redirect_type *redirect_type;
-	char		    **infiles;
-	char		    **outfiles;
-    struct s_cmd    *next;
-    int             pipe; //flag, 1 means there's a pipe following up
-    int redirection_index; //example, echo hello > out.txt >> out2.txt < in.txt, > has redirection_index of 0, >> has 1, so on.
-    int ambiguous_flag_node;
+	char		*cmd_name; //programm name
+	char		**arg; //arguments of command
+	t_redirect_type	redirect_type[10];                          //DELETE
+	char		**infiles;                            
+	char		**outfiles;
+	int		pipe; //  pipe at the end
+	int		redirection_index; // parsing purposes
+	char	*path;		// execve
+	char	**argv;		// execve
+	char	**env;		// execve
+  int ambiguous_flag_node; //USE THIS
+	struct s_cmd		*next;
 } t_cmd;
+
+typedef struct s_pipex {
+	pid_t		last_pid;
+	size_t		command_count;
+	size_t		current_command;
+	int			pipe[2];
+	int			reserve_fd;
+	char		**env;				//is it ever adjusted through child process
+	char		**first_command;		//rethink, unnecessary?
+//	t_cmd		*parsed_cmds;
+	t_cmd		*command;			//change type and adjust
+	char		**path_split;			//rethink, should it happen in child?
+}	t_pipex;
 
 typedef struct s_shell
 {
-    char	**envp;
-    char    *input;
-	int 	current_index;
-	int 	exit_code;
-	char    **tokens;
+	char	**envp;
+	char	*input;
+	int		current_index;
+	int 		exit_code;
+	char	**tokens;
 	int		token_count;
 	int		in_single_quote;
-    int		in_double_quote;
-	int 	err_code;
-    int     ambiguous_flag;
-
-	t_token_type    last_token_type;
-    t_cmd   *cmds;
+	int		in_double_quote;
+	int		err_code;
+	t_token_type	last_token_type;
+	t_cmd		*cmds;
+  int     ambiguous_flag;   //DEPRECATED
 } t_shell;
+
+
+/* PIPEX */
+typedef enum e_perrtypes {
+	MALLOC_FAIL,
+	CMD_NOT_FOUND,
+	CMD_FILE_NOT_FOUND,
+	PROG_FILE_IS_DIR,
+	FILE_NOT_FOUND,
+	DUP_FAIL,
+	RFILE_FAIL,
+	WFILE_FAIL,
+	OPEN_FAIL,
+	PERMISSION_FAIL,
+	EXECVE_FAIL,
+	PIPE_FAIL,
+	FORK_FAIL
+}	t_perrtypes;
+
+int	pipex_launch(t_cmd *argv, char **env);
+t_cmd	*free_command_content(t_cmd *command);
+void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
+void		ft_close(int *fd);
+int			dup2_and_close(int *fd_from, int fd_to);
+void		free_split(char **args);
+int			check_exists_and_not_dir(char *path);
+int			count_split(char **texts);
+int			process_rfile_name_arg(t_pipex *pipex);
+int			process_wfile_name_arg(t_pipex *pipex);
+void		redirect_fds(t_pipex *pipex);
+void		before_fork(t_pipex *pipex);
+//void		get_command(char **argv, t_pipex *pipex);
+void		get_command(t_pipex *pipex);
+//t_pipex		get_pipex(int argc, char **argv, char **envp);
+t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp);
+void		print_current_error(void);
+void		free_all(t_pipex pipex);
+int			after_fork(pid_t fork_result, t_pipex *pipex);
+int			wait_all(t_pipex pipex);
+char		*get_command_path(char *filename, char **paths);
+char		**get_path_split(char **envp, size_t ind);
+//char		**get_command_argv(char *arg);
+char		**get_command_argv(t_cmd cmd);
+/* PIPEX END */
 
 
 //global functions
@@ -132,7 +195,7 @@ void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
 // print.c
 void print_tokens(char **tokens);
-void print_cmd_struct(t_cmd *cmd);
+void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
 
 //lex/heredoc.c
 char *extract_delimiter(char *input, int *i);

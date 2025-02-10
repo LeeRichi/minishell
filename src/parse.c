@@ -47,7 +47,8 @@ void parse(t_shell *shell)
 	// printing purpose
 	if (!shell->err_code)
 	{
-		print_cmd_struct(shell->cmds);
+//		print_cmd_struct(shell->cmds);
+		pipex_launch(shell->cmds, shell->envp);
 	}
 	else
 		shell->err_code = 0;

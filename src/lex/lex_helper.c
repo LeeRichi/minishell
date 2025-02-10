@@ -48,9 +48,9 @@ int ft_arraylen(char **tokens)
 
 	len = 0;
 	if (!tokens)
-        return (0);
-    while (tokens[len] != NULL)
-		len++;
+		return (0);
+	while (tokens[len] != NULL)
+        	len++;
 	return (len);
 }
 

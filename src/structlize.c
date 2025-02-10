@@ -56,6 +56,8 @@ char **ft_add_to_array(char **array, const char *new_element)
 
 void ft_nullize_struct(t_cmd *new_cmd)
 {
+	ft_bzero(new_cmd, sizeof(t_cmd));
+/*
     new_cmd->cmd_name = NULL;
     new_cmd->arg = NULL;
     new_cmd->infiles = NULL;
@@ -64,6 +66,7 @@ void ft_nullize_struct(t_cmd *new_cmd)
     new_cmd->pipe = 0;
 	new_cmd->redirection_index = 0;
 	new_cmd->next = NULL;
+*/
 }
 
 void ft_add_redirection(char ***array, char *file)
@@ -156,11 +159,11 @@ void ft_structlize(t_shell *shell)
 			i++;
 		}
 		else
-        {
-            if (current_cmd->cmd_name == NULL)
-                current_cmd->cmd_name = strdup(shell->tokens[i]);
-            else
-                current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
+        	{
+			if (current_cmd->cmd_name == NULL)
+				current_cmd->cmd_name = strdup(shell->tokens[i]);
+			else
+				current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
 		}
 		i++;
     }
