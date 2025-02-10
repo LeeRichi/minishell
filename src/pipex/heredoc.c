@@ -1,4 +1,17 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
+/*   Updated: 2025/02/10 18:53:02 by mbutuzov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+//#include "libft.h"
+#include "../../includes/minishell.h"
 #include "sys/wait.h"
 #include "stdio.h"
 //wip
@@ -15,7 +28,21 @@ int ft_strcmp(const char *s1, const char *s2)
 	return (ft_strncmp(s1, s2, s2_length));
 }
 
-int here_doc(char *eof)
+void	close_fd_safe(int *fd)
+{
+	if (*fd != -1)
+	{
+		close(*fd);
+		*fd = -1;
+	}
+}
+void	close_pipe_safe(int fds[2])
+{
+	close_fd_safe(fds);
+	close_fd_safe(fds + 1);
+}
+
+int get_here_doc_fd(char *eof)
 {
 	//int fork_res;
 	int fds[2];
@@ -30,8 +57,9 @@ int here_doc(char *eof)
 	{
 		dup_res = dup2(fds[1], 1);
 		fineof = ft_strjoin(eof, "\n");
-		close(fds[1]);
-		close(fds[0]);
+		close_pipe_safe(fds);
+//		close(fds[1]);
+//		close(fds[0]);
 		if (!fineof)
 			exit(1);
 		if (dup_res == -1)
@@ -58,6 +86,9 @@ int here_doc(char *eof)
 		}
 		free(fineof);
 		get_next_line(-1);
+/*
+		TODO: cleanup everything
+*/
 		exit(0);
 	}
 	close(fds[1]);
@@ -71,10 +102,10 @@ int here_doc(char *eof)
 	close(fds[0]);
 	return (-1);
 }
-
+/*
 int main()
 {
-	int somefd = here_doc("some");
+	int somefd = get_here_doc_fd("some");
 	if (somefd == -1)
 		return (1);
 	close(somefd);
@@ -89,3 +120,4 @@ int main()
 	close(somefd);
 	return (0);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/07 18:13:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:32:33 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ static void	resolve_exit_code(t_perrtypes errtype)
 		exit(126);
 	exit(EXIT_FAILURE);
 }
-
+/*
 
 static void	write_smth_with_colon_fd(char *smth, int fd)
 {
 	ft_putstr_fd(smth, fd);
 	ft_putstr_fd(": ", fd);
 }
-
+*/
+/*
 static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 {
 	ft_putstr_fd("pipex: ", STDERR_FILENO);
@@ -53,7 +54,7 @@ static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 	else
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 }
-
+*/
 void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 {
 //TODO: rethink, rewrite
