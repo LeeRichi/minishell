@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/07 17:54:52 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:58:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
+
+//printing purpose
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
+#define GREEN "\033[32m"
 
 typedef struct s_sig
 {
@@ -59,16 +65,15 @@ typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
 	char		**arg; //arguments of command
-	t_redirect_type	*type;
-	char		**infiles;
+	t_redirect_type	redirect_type[10];                          //DELETE
+	char		**infiles;                            
 	char		**outfiles;
 	int		pipe; //  pipe at the end
 	int		redirection_index; // parsing purposes
 	char	*path;		// execve
 	char	**argv;		// execve
 	char	**env;		// execve
-// used for handling of "     " case
- 	char	*input_arg;
+  int ambiguous_flag_node; //USE THIS
 	struct s_cmd		*next;
 } t_cmd;
 
@@ -98,6 +103,7 @@ typedef struct s_shell
 	int		err_code;
 	t_token_type	last_token_type;
 	t_cmd		*cmds;
+  int     ambiguous_flag;   //DEPRECATED
 } t_shell;
 
 
@@ -162,12 +168,13 @@ void handle_exit(t_shell *shell, char **tokens);
 //lex
 void tokenize_input(char *input, t_shell *shell);
 int empty_between_checker(t_shell *shell);
+char *ft_start_with_specials_v2(char *str);
 char *str_append(char *str, char c);
 //lex/wrong_pipe.c
 int empty_pipe_checker(char *input, t_shell *shell);
 void handle_wrong_pipes(t_shell *shell, char **current_token, int *token_count, char c);
 //lex/wrong_quotes.c
-char *handle_dollar_sign(char *s, int *index);
+char *handle_dollar_sign(t_shell *shell, char *s, int *index);
 bool check_balanced_quotes(const char *input);
 void handle_unbalanced_quotes(char **input);
 
@@ -185,6 +192,7 @@ void free_tokens(char **tokens);
 void clear_tokens(t_shell *shell);
 void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
+void free_matrix(char **matrix);
 // print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
@@ -195,6 +203,9 @@ void handle_heredoc(t_shell *shell, char *delimiter);
 
 //structlize.c
 void ft_structlize(t_shell *shell);
+
+//exit.c
+int ft_isNum(char *s);
 
 extern t_sig g_sig;
 #endif

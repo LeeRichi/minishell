@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/27 21:15:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:46:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ char *get_env_value(const char *env_name)
 
 	env_value = getenv(env_name);
 	if (!env_value)
-		return ("");
+		return (NULL);
+		// return ("");
 	return (ft_strdup(env_value));
 }
 
@@ -70,7 +71,7 @@ int ft_start_with(char *str, char c)
     return (0);
 }
 
-char *ft_start_with_specials(char *str)
+char *ft_start_with_specials(char *str) //includes pipe
 {
 	int i;
 	int j;
