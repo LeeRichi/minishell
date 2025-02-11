@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/10 23:14:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:05:33 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,29 @@ int is_eof_with_nl(char *line, char *eof)
 }
 */
 
+int get_cmd_heredoc(t_cmd cmd)
+{
+	int fd;
+	size_t infile_count;
+	size_t outfile_count;
+	int count;
 
+	fd = -1;
+	count = 0;
+	infile_count = (size_t)count_split(cmd.infiles);
+	outfile_count = (size_t)count_split(cmd.outfiles);
+	while (count < infile_count + outfile_count)
+	{
+		if (cmd.redirect_type[count] == HERE_DOC)
+		{
+			if (fd != -1)
+			{
+				close(fd);
+				get_here_doc_fd(cmd)
+			}
+		}
+	}
+}
 
 int get_here_doc_fd(char *eof)
 {

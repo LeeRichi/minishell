@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/10 17:33:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:51:10 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,31 @@ void handle_file_redirections(t_pipex *pipex)
 	}
 }
 */
+
+char *get_redir_str(int index, char **infiles, char **outfiles, t_redirect_type *type)
+{
+	int fd;
+	size_t infile_count;
+	size_t outfile_count;
+	int count;
+
+	fd = -1;
+	count = 0;
+	infile_count = (size_t)count_split(cmd.infiles);
+	outfile_count = (size_t)count_split(cmd.outfiles);
+	while (count < index)
+	{
+		if (type[count] == INPUT_REDIRECT || type[count] == HERE_DOC)
+			infiles++;
+		else
+			outfiles++;
+		count++;
+	}
+	if (type[count] == INPUT_REDIRECT || type[count] == HERE_DOC)
+		return (*infiles);
+	return (*outfiles);
+}
+
 void 	redirect_fds(t_pipex *pipex)
 {
 	if (pipex->current_command == 0)
