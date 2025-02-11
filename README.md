@@ -42,12 +42,13 @@ HANDLED PARSING:
 - [x] ls |>infile ls > outfile
 
 //this one should print ambiguous redirect, however, the exectution should have been done
-- [x] echo "hello" > afile | echo hi > $random > random 
-
+- [x] echo "hello" > afile | echo hi > $random > random
+- [x] echo "hello" | echo "bye" > $FUCK | ls -l
+- [x] >$LASD$PATH | ls
 
 - [] ..more(replace this)
 
-//Feb 5 $dollar sign
+//Feb 11 $dollar sign
 - [x] echo $ "hi"
 - [x] echo $$ "hi"
 - [x] echo $$$ "hi"
@@ -67,4 +68,3 @@ HANDLED PARSING:
 - [ ] ..more(replace this)
 
 HANDLED EXECUTION:
-

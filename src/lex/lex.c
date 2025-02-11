@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 16:42:09 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:09:18 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 {
     char *env_value;
     int j;
-    char *hard_code_for_$ = "325570";
+    char *id_as_str;
+    int str_len;
 
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
@@ -51,7 +52,24 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         shell->in_double_quote = !(shell->in_double_quote);
     else if (!(shell->in_single_quote) && input[*i] == '$')
     {
-        if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
+	    if (strchr("$", input[*i + 1])) //consecutive dollar sign //todo
+        {
+            id_as_str = ft_itoa(shell->shell_id);
+            str_len = ft_strlen(id_as_str);
+            j = 0;
+            while(j < str_len)
+            {
+                *current_token = str_append(*current_token, id_as_str[j]);
+                j++;
+            }
+            (*i) += 2;
+            while(input[*i] == '$')
+            {
+                *current_token = str_append(*current_token, '$');
+                (*i)++;
+            }
+        }
+        else if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
         {
             printf("ignored dollar sign.\n"); //throw to the water
 			return ;
@@ -60,22 +78,15 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         {
             *current_token = str_append(*current_token, '$');
         }
-		else if (strchr("$", input[*i + 1])) //consecutive dollar sign //hard code
-        {
-            j = 0;
-            while (j < 6)
-            {
-                *current_token = str_append(*current_token, hard_code_for_$[j]);
-                j++;
-            }
-            (*i)++;
-        }
         else
 		{
-			env_value = handle_dollar_sign(shell, input, i);
-			if (!env_value) //if the env_value is not found, let's simply return the input str itself
+			env_value = handle_dollar_sign(shell, input, i);			
+            // printf("env_value: %s\n", env_value);
+			if (!env_value) //if the env_value is not found, let's simply return the input str itself //wait what?
 			{
-				// printf("dollar sign with var has no value.\n"); //If no value, strjoin the rest until encounter spcae
+				printf("one of the dollar sign with var has no value.\n"); //If no value, strjoin the rest until encounter spcae
+				*current_token = str_append(*current_token, '\0');
+                // printf("*current_token: %s\n", *current_token);
                 // return ;
 			}
 			else
@@ -115,9 +126,9 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
     {
         finalize_token(shell, current_token, &shell->token_count);
-        if (input[*i] == '|')
+        if (input[*i - 1] == '|')
             shell->last_token_type = 1;
-        else if (input[*i] == '>' || input[*i] == '<')
+        else if (input[*i - 1] == '>' || input[*i - 1] == '<')
             shell->last_token_type = 2;
         else
             shell->last_token_type = 0;
