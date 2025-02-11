@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 13:09:18 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:44:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,8 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 		{
 			env_value = handle_dollar_sign(shell, input, i);			
             // printf("env_value: %s\n", env_value);
-			if (!env_value) //if the env_value is not found, let's simply return the input str itself //wait what?
-			{
-				printf("one of the dollar sign with var has no value.\n"); //If no value, strjoin the rest until encounter spcae
+			if (!env_value) //asign '\0' for the tokens who does have value
 				*current_token = str_append(*current_token, '\0');
-                // printf("*current_token: %s\n", *current_token);
-                // return ;
-			}
 			else
 			{
 				j = 0;
@@ -106,8 +101,6 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         //     shell->last_token_type = 2;
         // else
         //     shell->last_token_type = 0;
-        // current_c = input[*i];
-        // printf("current_c: %c\n", current_c);
         if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
         {
             // handle_heredoc(shell, extract_delimiter(input, i));
@@ -151,6 +144,9 @@ void parse_input_fragment(char *input, t_shell *shell)
         i++;
     }
     finalize_token(shell, &current_token, &shell->token_count);
+    //if the last parsed char is one of the below
+	while(strchr(WHITESPACE, input[i]))
+		i--;
 	if (input[i] == '|')
 		shell->last_token_type = 1;
 	else if (input[i] == '>' || input[i] == '<')
@@ -187,7 +183,8 @@ void process_additional_input(t_shell *shell, char **input)
     // printf("WTF last token ty: %d\n", shell->last_token_type);
 
 	// while (shell->last_token_type == 1 || shell->last_token_type == 2)
-    while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
+    // while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
+    while (shell->last_token_type == 1 && **input)
     {
     //     printf("what is the **input: %c\n", **input);
     //     printf("last token ty: %d\n", shell->last_token_type);
@@ -270,7 +267,10 @@ void tokenize_input(char *input, t_shell *shell)
 	handle_unbalanced_quotes(&input); //checking case like '''
 	parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
 
-	//process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+
+    //debug
+    printf("shell->last_token_type = %d\n", shell->last_token_type);
+	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed 
 	{
 		free(input);
