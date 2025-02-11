@@ -42,7 +42,6 @@ void parse(t_shell *shell)
     // else
     //     printf(GREEN "global shell ambiguous flag: %d\n\n" RESET, shell->ambiguous_flag);
 
-
     if (!shell->err_code)
 	{
         ft_structlize(shell);
