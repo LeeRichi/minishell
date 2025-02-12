@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 13:46:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 16:51:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         }
         else
 		{
-			env_value = handle_dollar_sign(shell, input, i);			
+			env_value = handle_dollar_sign(shell, input, i);
             // printf("env_value: %s\n", env_value);
 			if (!env_value) //asign '\0' for the tokens who does have value
 				*current_token = str_append(*current_token, '\0');
@@ -95,12 +95,12 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	{
-        // if (input[*i] == '|')
-        //     shell->last_token_type = 1;
-        // else if (input[*i] == '>' || input[*i] == '<')
-        //     shell->last_token_type = 2;
-        // else
-        //     shell->last_token_type = 0;
+        if (input[*i] == '|')
+            shell->last_token_type = 1;
+        else if (input[*i] == '>' || input[*i] == '<')
+            shell->last_token_type = 2;
+        else
+            shell->last_token_type = 0;
         if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
         {
             // handle_heredoc(shell, extract_delimiter(input, i));
@@ -225,7 +225,7 @@ char *ft_start_with_specials_v2(char *str) //pipe is excluded
 int empty_between_checker(t_shell *shell)
 {
 	int i;
-	
+
     if(!shell->tokens)
     {
         return (1);
@@ -271,13 +271,13 @@ void tokenize_input(char *input, t_shell *shell)
     //debug
     printf("shell->last_token_type = %d\n", shell->last_token_type);
 	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
-	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed 
+	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
 	{
 		free(input);
 		shell->err_code = 258;
 		clear_tokens(shell);
 		return;
 	}
-	shell->last_token_type = 0;
+	// shell->last_token_type = 0;
 	free(input);
 }

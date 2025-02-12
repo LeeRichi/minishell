@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 13:18:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:38:37 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ static const char *get_redirection_type_string(int type)
 
 void print_cmd_struct(t_cmd *cmd)
 {
-    t_cmd *head = cmd;
-    
+    // t_cmd *head = cmd;
+
     printf("---------Start---------\n");
-    
-    while (cmd)
-    {
-        if (cmd->ambiguous_flag_node)
-            printf(RED "Warning, this link-list contains ambiguous node(s)!!\n" RESET);
-        cmd = cmd->next;
-    }
-    cmd = head;
+
+    // while (cmd)
+    // {
+    //     if (cmd->ambiguous_flag_node)
+    //         printf(RED "Warning, this link-list contains ambiguous node(s)!!\n" RESET);
+    //     cmd = cmd->next;
+    // }
+    // cmd = head;
 
     int command_index = 1;  // To track the command index in the linked list
     while (cmd)
