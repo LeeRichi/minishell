@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/02/12 21:43:15 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/02/12 22:26:51 by mbutuzov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS = src/main.c \
 		src/pipex/pipex.c \
 		src/pipex/pipex_utils.c \
 		src/pipex/utils.c \
-		src/pipex/heredoc.c
+		src/pipex/heredoc.c \
 
 
 
