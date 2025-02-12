@@ -68,3 +68,7 @@ HANDLED PARSING:
 - [ ] ..more(replace this)
 
 HANDLED EXECUTION:
+
+todo: 
+//last one should overwrite the prev ones
+echo $PATH | echo hi
