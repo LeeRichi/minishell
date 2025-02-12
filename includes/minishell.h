@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 18:58:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/12 22:09:14 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_cmd
 	t_redirect_type	redirect_type[10];                          //DELETE
 	char		**infiles;                            
 	char		**outfiles;
+	int		heredoc_fd;
 	int		pipe; //  pipe at the end
 	int		redirection_index; // parsing purposes
 	char	*path;		// execve
@@ -114,9 +115,11 @@ typedef enum e_perrtypes {
 	CMD_FILE_NOT_FOUND,
 	PROG_FILE_IS_DIR,
 	FILE_NOT_FOUND,
+	HEREDOC_FAIL,
 	DUP_FAIL,
 	RFILE_FAIL,
 	WFILE_FAIL,
+	APPEND_FAIL,
 	OPEN_FAIL,
 	PERMISSION_FAIL,
 	EXECVE_FAIL,
@@ -124,7 +127,11 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
+char *get_redir_str(int index, t_cmd cmd);
 int	pipex_launch(t_cmd *argv, char **env);
+int check_heredoc(t_cmd cmd);
+int get_cmd_heredoc(t_cmd cmd);
+int get_here_doc_fd(char *eof);
 t_cmd	*free_command_content(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 void		ft_close(int *fd);

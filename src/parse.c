@@ -33,11 +33,12 @@ void parse(t_shell *shell)
 
     // if (shell->tokens)
     //     print_tokens(shell->tokens);
+/*
     if (shell->ambiguous_flag)
         printf(YELLOW "global shell ambiguous flag: %d, meaning to print the Error message will be needed.\n\n" RESET, shell->ambiguous_flag);
     else
         printf(GREEN "global shell ambiguous flag: %d\n\n" RESET, shell->ambiguous_flag);
-
+*/
 
     if (!shell->err_code)
 	{
@@ -47,8 +48,8 @@ void parse(t_shell *shell)
 	// printing purpose
 	if (!shell->err_code)
 	{
-		print_cmd_struct(shell->cmds);
-//		pipex_launch(shell->cmds, shell->envp);
+//		print_cmd_struct(shell->cmds);
+		pipex_launch(shell->cmds, shell->envp);
 	}
 	else
 		shell->err_code = 0;

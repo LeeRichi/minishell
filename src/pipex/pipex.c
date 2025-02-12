@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/06 19:21:25 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/12 22:03:01 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	t_cmd_list_count(t_cmd *head)
 }
 
 //int	pipex_launch(int command_count, char **argv, char **env)
+//TODO: add ambigous redir message here???!!!
 int	pipex_launch(t_cmd *argv, char **env)
 {
 	t_pipex	pipex;
