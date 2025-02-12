@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/12 22:01:07 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/12 22:46:05 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,14 @@ int get_cmd_heredoc(t_cmd cmd)
 
 	fd = -1;
 	count = 0;
-	infile_count = (size_t)count_split(cmd.infiles);
-	outfile_count = (size_t)count_split(cmd.outfiles);
+	if (cmd.infiles)
+		infile_count = (size_t)count_split(cmd.infiles);
+	else
+		infile_count = 0;
+	if (cmd.outfiles)
+		outfile_count = (size_t)count_split(cmd.outfiles);
+	else
+		outfile_count = 0;
 	while (count < infile_count + outfile_count)
 	{
 		if (cmd.redirect_type[count] == HERE_DOC)
