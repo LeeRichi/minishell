@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/12 17:04:20 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/13 14:51:20 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         shell->in_double_quote = !(shell->in_double_quote);
     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
     {
-		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ')
+		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
 		{
 			const char *home_dir = getenv("HOME");
 			if (home_dir != NULL)
@@ -72,6 +72,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 					*current_token = str_append(*current_token, home_dir[j-1]);
 			}
 			(*i)++;
+            if (input[*i] == '/')
+            {
+                while (input[*i] != ' ' && input[*i])
+                {
+                    *current_token = str_append(*current_token, input[*i]);
+                    (*i)++;
+                }
+            }
 			return ;
 		}
 		while (input[*i] == '~') 

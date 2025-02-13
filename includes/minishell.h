@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 10:58:27 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/13 15:11:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # include <stdlib.h>
 
 //defines
-# define STDERR 2
+#define STDIN  0   // Standard input
+#define STDOUT 1   // Standard output
+#define STDERR 2   // Standard error
 
 # define SUCCESS 0
 # define ERROR 1

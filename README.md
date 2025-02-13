@@ -56,6 +56,8 @@ HANDLED PARSING:
 - [x] echo $"hi"
 - [x] echo $$"hi"
 
+- [x] echo ~/hi
+
 //Feb 6 try to find more special char like / //Feb 7 confirm no need to handle slash
 //Feb 6 .eg echo "Hello" > $output_dir Using an unquoted unset variable should print ambiguous redirect, but echo "Hello" > $output_dir/output.txt is permission
 

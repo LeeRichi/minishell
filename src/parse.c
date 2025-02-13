@@ -56,17 +56,16 @@ void parse(t_shell *shell)
 	else
 		shell->err_code = 0;
 
-
     if (shell->tokens && shell->tokens[0] != NULL)
     {
         if (strcmp(shell->tokens[0], "echo") == 0)
             handle_echo(shell->tokens);
-        // else if (strcmp(shell->tokens[0], "cd") == 0)
-        //     handle_cd(shell->tokens);
-        // else if (strcmp(shell->tokens[0], "pwd") == 0)
-        //     handle_pwd();
-        // else if (strcmp(shell->tokens[0], "exit") == 0)
-        //     handle_exit(shell, shell->tokens);
+        else if (strcmp(shell->tokens[0], "cd") == 0)
+            handle_cd(shell->tokens);
+        else if (strcmp(shell->tokens[0], "pwd") == 0)
+            handle_pwd();
+        else if (strcmp(shell->tokens[0], "exit") == 0)
+            handle_exit(shell, shell->tokens);
         // else if (strcmp(shell->tokens[0], "env") == 0)
         //     handle_env(shell->envp); // Pass environment variables
         // else if (strcmp(shell->tokens[0], "unset") == 0)
