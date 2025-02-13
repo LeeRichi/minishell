@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/12 22:09:14 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:20:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
 	char		**arg; //arguments of command
-	t_redirect_type	redirect_type[10];                          //DELETE
+	t_redirect_type	redirect_type[10];	//rewrite to dynamically alloc spaces for different types or increase buffer sufficiently
 	char		**infiles;                            
 	char		**outfiles;
-	int		heredoc_fd;
+	int		heredoc_fd;			//when close == -1, when open - legal fd, opening error handled in pipex
 	int		pipe; //  pipe at the end
 	int		redirection_index; // parsing purposes
 	char	*path;		// execve
@@ -85,7 +85,7 @@ typedef struct s_pipex {
 	int			pipe[2];
 	int			reserve_fd;
 	char		**env;				//is it ever adjusted through child process
-	char		**first_command;		//rethink, unnecessary?
+	//char		**first_command;		//rethink, unnecessary?
 //	t_cmd		*parsed_cmds;
 	t_cmd		*command;			//change type and adjust
 	char		**path_split;			//rethink, should it happen in child?

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/12 22:17:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:02:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,82 +245,96 @@ char *get_redir_str(int index, t_cmd cmd)
 int handle_infile(char *name)
 {
 	int	fd;
+	int	dup_res;
 
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	return (dup2(fd, STDIN_FILENO));
+	dup_res = dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (dup_res);
 }
 
 int handle_outfile(char *name)
 {
 	int	fd;
+	int	dup_res;
 
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (-1);
-	return (dup2(fd, STDOUT_FILENO));
+	dup_res = dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (dup_res);
 }
 
 int handle_append(char *name)
 {
 	int	fd;
+	int	dup_res;
 
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
 	if (fd == -1)
 		return (-1);
-	return (dup2(fd, STDOUT_FILENO));
+	dup_res = dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (dup_res);
 }
 
-int handle_heredoc_child(int heredoc_fd)
+int handle_heredoc_child(int *heredoc_fd)
 {
-	return (dup2(heredoc_fd, STDIN_FILENO));
+	int	dup_res;
+
+	dup_res = dup2(*heredoc_fd, STDOUT_FILENO);
+	close(*heredoc_fd);
+	*heredoc_fd = -1;
+	return (dup_res);
 }
 
 //TODO: handle error and exit here, to give correct file name in error
 //give correctt pointers to cmd forease
-void process_file_redirections(t_cmd cmd, t_pipex pipex)
+void process_file_redirections(t_cmd *cmd, t_pipex pipex)
 {
 	size_t infile_count;
 	size_t outfile_count;
 	size_t count;
 
 	count = 0;
-	if (cmd.infiles)
-		infile_count = (size_t)count_split(cmd.infiles);
+	if (cmd->infiles)
+		infile_count = (size_t)count_split(cmd->infiles);
 	else
 		infile_count = 0;
-	if (cmd.outfiles)
-		outfile_count = (size_t)count_split(cmd.outfiles);
+	if (cmd->outfiles)
+		outfile_count = (size_t)count_split(cmd->outfiles);
 	else
 		outfile_count = 0;
 	while (count < infile_count + outfile_count)
 	{
-		if (cmd.redirect_type[count] == INPUT_REDIRECT)
+		if (cmd->redirect_type[count] == INPUT_REDIRECT)
 		{
 			ft_putstr_fd("IR", 2);
-			if (handle_infile(get_redir_str(count, cmd)) == -1)
+			if (handle_infile(get_redir_str(count, *cmd)) == -1)
 				//TODO: ERROR and EXIT
 				error_and_exit(&pipex, RFILE_FAIL);
 		}
-		else if (cmd.redirect_type[count] == OUTPUT_REDIRECT)
+		else if (cmd->redirect_type[count] == OUTPUT_REDIRECT)
 		{
 			ft_putstr_fd("OR", 2);
-			if (handle_outfile(get_redir_str(count, cmd)) == -1)
+			if (handle_outfile(get_redir_str(count, *cmd)) == -1)
 				//TODO: ERROR and EXIT
 				error_and_exit(&pipex, WFILE_FAIL);
 		}
-		else if (cmd.redirect_type[count] == HERE_DOC)
+		else if (cmd->redirect_type[count] == HERE_DOC)
 		{
 			ft_putstr_fd("HD", 2);
-			if (handle_heredoc_child(cmd.heredoc_fd) == -1)
+			if (handle_heredoc_child(&cmd->heredoc_fd) == -1)
 				//TODO: ERROR and EXIT
 				error_and_exit(&pipex, HEREDOC_FAIL);
 		}
-		else if (cmd.redirect_type[count] == APPEND_REDIRECT)
+		else if (cmd->redirect_type[count] == APPEND_REDIRECT)
 		{
 			ft_putstr_fd("AR", 2);
-			if (handle_append(get_redir_str(count, cmd)) == -1)
+			if (handle_append(get_redir_str(count, *cmd)) == -1)
 				//TODO: ERROR and EXIT
 				error_and_exit(&pipex, APPEND_FAIL);
 		}
@@ -350,5 +364,5 @@ void 	redirect_fds(t_pipex *pipex)
 	}
 	else if (process_normal_pipe(pipex) == -1)
 		error_and_exit(pipex, DUP_FAIL);
-	process_file_redirections(pipex->command[pipex->current_command], *pipex);
+	process_file_redirections(pipex->command + pipex->current_command, *pipex);
 }
