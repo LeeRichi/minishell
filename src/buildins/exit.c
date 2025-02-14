@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/13 15:15:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:06:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ void handle_exit(t_shell *shell, char **args)
     }
     else //default //valid //only exit
     {
-        shell->exit_code = 0;
-        exit(0);
+        exit(shell->exit_code);
+        // shell->exit_code = 0;
+        // exit(0);
     }
 
 	// printf("%d\n", shell->exit_code);

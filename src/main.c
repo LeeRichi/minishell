@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 16:51:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/14 20:01:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **envp)
 		parse(&shell);
 		// execute(&shell);
 	}
-	ft_free_all(&shell);
+	// ft_free_all(&shell);
+
 	return (shell.exit_code);
 }

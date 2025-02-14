@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/13 15:11:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/14 18:06:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
+# define PATH_MAX 4096
 
 //printing purpose
 #define RED "\033[31m"
@@ -163,10 +164,12 @@ void handle_sigquit(int code);
 void init_sig(void);
 
 //builtins
-void handle_echo(char **tokens);
-void handle_cd(char **tokens);
-int handle_pwd(void);
+void handle_echo(char **tokens, t_shell *shell);
+void handle_cd(char **tokens, t_shell *shell);
+int handle_pwd(t_shell *shell);
 void handle_exit(t_shell *shell, char **tokens);
+void handle_env(char **envp);
+void handle_unset(t_shell *shell, char *input);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);

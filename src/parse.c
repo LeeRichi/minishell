@@ -59,17 +59,17 @@ void parse(t_shell *shell)
     if (shell->tokens && shell->tokens[0] != NULL)
     {
         if (strcmp(shell->tokens[0], "echo") == 0)
-            handle_echo(shell->tokens);
+            handle_echo(shell->tokens, shell);
         else if (strcmp(shell->tokens[0], "cd") == 0)
-            handle_cd(shell->tokens);
+            handle_cd(shell->tokens, shell);
         else if (strcmp(shell->tokens[0], "pwd") == 0)
-            handle_pwd();
+            handle_pwd(shell);
         else if (strcmp(shell->tokens[0], "exit") == 0)
             handle_exit(shell, shell->tokens);
-        // else if (strcmp(shell->tokens[0], "env") == 0)
-        //     handle_env(shell->envp); // Pass environment variables
-        // else if (strcmp(shell->tokens[0], "unset") == 0)
-        //     handle_unset(shell->tokens);
+        else if (strcmp(shell->tokens[0], "env") == 0)
+            handle_env(shell->envp); // Pass environment variables
+        else if (strcmp(shell->tokens[0], "unset") == 0)
+            handle_unset(shell, shell->tokens[1]);
         // else if (strcmp(shell->tokens[0], "export") == 0)
         //     handle_export(shell->tokens);
         // else
