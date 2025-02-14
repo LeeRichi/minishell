@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/13 17:20:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:25:38 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct s_shell
 	int		err_code;
 	t_token_type	last_token_type;
 	t_cmd		*cmds;
+	int		stdin_fd;
+	int		stdout_fd;
   int     ambiguous_flag;   //DEPRECATED
 } t_shell;
 
