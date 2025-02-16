@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/14 12:25:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/16 22:21:37 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ typedef enum e_redirect_type {
     APPEND_REDIRECT,
     HERE_DOC
 } t_redirect_type;
+
+typedef enum e_builtin_type {
+	NOT_BUILTIN = 0,
+	IS_CD,
+	IS_ECHO,
+	IS_ENV,
+	IS_EXIT,
+	IS_EXPORT,
+	IS_PWD,
+	IS_UNSET
+} t_builtin_type;
 
 typedef struct s_redirection {
 	t_redirect_type type;
@@ -159,6 +170,12 @@ char		**get_path_split(char **envp, size_t ind);
 char		**get_command_argv(t_cmd cmd);
 /* PIPEX END */
 
+/*	processing	*/
+int	process_file_redirections(t_cmd *cmd);
+int	handle_builtin(t_cmd command);
+t_builtin_type get_builtin_type(t_cmd cmd);
+
+
 
 //global functions
 void parse(t_shell *shell);
@@ -169,10 +186,10 @@ void handle_sigquit(int code);
 void init_sig(void);
 
 //builtins
-void handle_echo(char **tokens);
-void handle_cd(char **tokens);
+int handle_echo(char **tokens);
+int handle_cd(char **tokens);
 int handle_pwd(void);
-void handle_exit(t_shell *shell, char **tokens);
+int handle_exit(t_shell *shell, char **tokens);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);

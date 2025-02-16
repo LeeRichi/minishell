@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/14 19:31:43 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/16 22:23:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,65 @@ void shell_init(char **envp, t_shell *shell)
 	if builtin, exec as builtin, always clean up resources
 	call it in child or in parent
 */
+// TODO: add clenup for preserved fds to shell struct
+int preserve_fds(t_shell *shell)
+{
+	if (shell->stdin_fd == -1)
+		shell->stdin_fd = dup(STDIN_FILENO);
+	if (shell->stdout_fd == -1)
+		shell->stdout_fd = dup(STDOUT_FILENO);
+	if (shell->stdin_fd == -1 || shell->stdout_fd == -1)
+	{
+		ft_close(&shell->stdin_fd);
+		ft_close(&shell->stdout_fd);
+		return (-1);
+	}
+	return (0);
+}
+
+// TODO: sufficient returns?
+int restore_fds(t_shell *shell)
+{
+	if (dup2(shell->stdin_fd, STDIN_FILENO) == -1)
+		return (-1);
+	if (dup2(shell->stdout_fd, STDOUT_FILENO) == -1)
+		return (-1);
+	return (0);
+}
 
 // builtin error handing 
 void execute(t_shell *shell)
 {
+	int	redirection_result;
+	int	builtin_result;
 	ft_printf("%p\n", shell->cmds);
 	if (!shell->cmds)
 		return ;
-	if (shell->cmds->next || !is_builtin(shell->cmds))
+	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
 		pipex_launch(shell->cmds, shell->envp);
 	else
 	{
-		preserve_fds(shell);
-		
+		redirection_result = preserve_fds(shell);
+		if (redirection_result == -1)
+		{
+			//TODO: error cleanup and exit?
+		}
+		redirection_result = process_file_redirections(shell->cmds);
+		if (redirection_result == -1)
+		{
+			//TODO: error cleanup and exit?
+		}
+//TODO: pass shell as a parameter, return to exit status
+		builtin_result = handle_builtin(*(shell->cmds));
+		if (builtin_result == -1)
+		{
+			//TODO: error cleanup and exit?
+		}
+		redirection_result = restore_fds(shell);
+		if (redirection_result == -1)
+		{
+			//TODO: error cleanup and exit?
+		}
 
 	}
 }

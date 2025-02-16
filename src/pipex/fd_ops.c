@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/13 17:02:32 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:08:46 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ int handle_heredoc_child(int *heredoc_fd)
 
 //TODO: handle error and exit here, to give correct file name in error
 //give correctt pointers to cmd forease
-void process_file_redirections(t_cmd *cmd, t_pipex pipex)
+int process_file_redirections(t_cmd *cmd)
 {
 	size_t infile_count;
 	size_t outfile_count;
@@ -312,38 +312,48 @@ void process_file_redirections(t_cmd *cmd, t_pipex pipex)
 	{
 		if (cmd->redirect_type[count] == INPUT_REDIRECT)
 		{
-			ft_putstr_fd("IR", 2);
+//			ft_putstr_fd("IR", 2);
 			if (handle_infile(get_redir_str(count, *cmd)) == -1)
-				//TODO: ERROR and EXIT
-				error_and_exit(&pipex, RFILE_FAIL);
+			{
+				//TODO: print error
+				return (1);
+			}
 		}
 		else if (cmd->redirect_type[count] == OUTPUT_REDIRECT)
 		{
-			ft_putstr_fd("OR", 2);
+//			ft_putstr_fd("OR", 2);
 			if (handle_outfile(get_redir_str(count, *cmd)) == -1)
-				//TODO: ERROR and EXIT
-				error_and_exit(&pipex, WFILE_FAIL);
+			{
+				//TODO: print error
+				return (1);
+			}
 		}
 		else if (cmd->redirect_type[count] == HERE_DOC)
 		{
-			ft_putstr_fd("HD", 2);
+//			ft_putstr_fd("HD", 2);
 			if (handle_heredoc_child(&cmd->heredoc_fd) == -1)
-				//TODO: ERROR and EXIT
-				error_and_exit(&pipex, HEREDOC_FAIL);
+			{
+				//TODO: print error
+				return (1);
+			}
 		}
 		else if (cmd->redirect_type[count] == APPEND_REDIRECT)
 		{
-			ft_putstr_fd("AR", 2);
+//			ft_putstr_fd("AR", 2);
 			if (handle_append(get_redir_str(count, *cmd)) == -1)
-				//TODO: ERROR and EXIT
-				error_and_exit(&pipex, APPEND_FAIL);
+			{
+				//TODO: print error
+				return (1);
+			}
 		}
 		count++;
 	}
+	return (0);
 }
 
 void 	redirect_fds(t_pipex *pipex)
 {
+	int	file_red_result;
 	if (pipex->current_command == 0)
 	{
 		ft_close(&pipex->pipe[0]);
@@ -364,5 +374,10 @@ void 	redirect_fds(t_pipex *pipex)
 	}
 	else if (process_normal_pipe(pipex) == -1)
 		error_and_exit(pipex, DUP_FAIL);
-	process_file_redirections(pipex->command + pipex->current_command, *pipex);
+	file_red_result = process_file_redirections(pipex->command + pipex->current_command, *pipex);
+	if (file_red_result)
+	{
+	// clean up
+		exit(1);
+	}
 }

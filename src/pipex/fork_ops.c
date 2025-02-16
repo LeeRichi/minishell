@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/14 20:33:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:03:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,70 @@
 //#include "minishell.h"
 #include "../../includes/minishell.h"
 
-int is_builtin(t_cmd cmd)
+//int is_builtin(t_cmd cmd)
+t_builtin_type get_builtin_type(t_cmd cmd)
 {
 	
-	if (ft_strcmp(cmd->cmd_name, "cd"))
-		return (1);
- ft_strcmp(cmd->cmd_name, "echo");
- ft_strcmp(cmd->cmd_name, "env");
- ft_strcmp(cmd->cmd_name, "exit");
- ft_strcmp(cmd->cmd_name, "export");
- ft_strcmp(cmd->cmd_name, "pwd");
- ft_strcmp(cmd->cmd_name, "unset");
+	if (!ft_strcmp(cmd->cmd_name, "cd"))
+		return (IS_CD);
+	if (!ft_strcmp(cmd->cmd_name, "echo"))
+		return (IS_ECHO);
+	if (!ft_strcmp(cmd->cmd_name, "env"))
+		return (IS_ENV);
+	if (!ft_strcmp(cmd->cmd_name, "exit"))
+		return (IS_EXIT);
+	if (!ft_strcmp(cmd->cmd_name, "export"))
+		return (IS_EXPORT);
+	if (!ft_strcmp(cmd->cmd_name, "pwd"))
+		return (IS_PWD);
+	if (!ft_strcmp(cmd->cmd_name, "unset"))
+		return (IS_UNSET);
+	return (NOT_BUILTIN);
+}
+
+
+// TODO: add shell as parameter, for some builtins
+int handle_builtin(t_cmd command)
+{
+	t_builtin_type type;
+
+	type = get_builtin_type(command);
+	if (type == IS_CD)
+	{
+		ft_printf("cd builtin\n");
+		return (0);
+	}
+	if (type == IS_ECHO)
+	{
+		ft_printf("echo builtin\n");
+		return (0);
+	}
+	if (type == IS_PWD)
+	{
+		ft_printf("pwd builtin\n");
+		return (0);
+	}
+	if (type == IS_EXIT)
+	{
+		ft_printf("exit builtin\n");
+		return (0);
+	}
+	if (type == IS_EXPORT)
+	{
+		ft_printf("export builtin\n");
+		return (0);
+	}
+	if (type == IS_UNSET)
+	{
+		ft_printf("unset builtin\n");
+		return (0);
+	}
+	if (type == IS_ENV)
+	{
+		ft_printf("env builtin\n");
+		return (0);
+	}
+	return (1);
 }
 
 void	in_child(t_pipex pipex)
@@ -34,7 +87,7 @@ void	in_child(t_pipex pipex)
 	redirect_fds(&pipex);
 	get_command(&pipex);
 	command = pipex.command[pipex.current_command];
-	if (is_builtin(command))
+	if (get_builtin_type(command))
 		handle_builtin(command);
 	else
 	{

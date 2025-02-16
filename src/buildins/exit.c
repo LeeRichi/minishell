@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 18:43:07 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/16 18:11:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int ft_isNum(char *s)
 }
 
 //whenever this function is called, store the exit code in t_mini struct(maybe), and exit the program(how?)
-void handle_exit(t_shell *shell, char **args)
+int handle_exit(t_shell *shell, char **args)
 {
     ft_putstr_fd("exit: ", STDERR);
     if (args[1] && args[2])
@@ -50,5 +50,6 @@ void handle_exit(t_shell *shell, char **args)
     else //default //valid //only exit
         shell->exit_code = 0;
 
+	return (shell->exit_code);
 	// printf("%d\n", shell->exit_code);
 }
