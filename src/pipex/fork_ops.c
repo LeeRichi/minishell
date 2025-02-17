@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/16 21:03:18 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:29:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 t_builtin_type get_builtin_type(t_cmd cmd)
 {
 	
-	if (!ft_strcmp(cmd->cmd_name, "cd"))
+	if (!ft_strcmp(cmd.cmd_name, "cd"))
 		return (IS_CD);
-	if (!ft_strcmp(cmd->cmd_name, "echo"))
+	if (!ft_strcmp(cmd.cmd_name, "echo"))
 		return (IS_ECHO);
-	if (!ft_strcmp(cmd->cmd_name, "env"))
+	if (!ft_strcmp(cmd.cmd_name, "env"))
 		return (IS_ENV);
-	if (!ft_strcmp(cmd->cmd_name, "exit"))
+	if (!ft_strcmp(cmd.cmd_name, "exit"))
 		return (IS_EXIT);
-	if (!ft_strcmp(cmd->cmd_name, "export"))
+	if (!ft_strcmp(cmd.cmd_name, "export"))
 		return (IS_EXPORT);
-	if (!ft_strcmp(cmd->cmd_name, "pwd"))
+	if (!ft_strcmp(cmd.cmd_name, "pwd"))
 		return (IS_PWD);
-	if (!ft_strcmp(cmd->cmd_name, "unset"))
+	if (!ft_strcmp(cmd.cmd_name, "unset"))
 		return (IS_UNSET);
 	return (NOT_BUILTIN);
 }

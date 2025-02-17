@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/16 21:08:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:28:25 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,7 +374,7 @@ void 	redirect_fds(t_pipex *pipex)
 	}
 	else if (process_normal_pipe(pipex) == -1)
 		error_and_exit(pipex, DUP_FAIL);
-	file_red_result = process_file_redirections(pipex->command + pipex->current_command, *pipex);
+	file_red_result = process_file_redirections(pipex->command + pipex->current_command);
 	if (file_red_result)
 	{
 	// clean up

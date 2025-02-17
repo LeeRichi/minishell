@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/16 22:21:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/17 23:03:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_shell
 	int		in_double_quote;
 	int		err_code;
 	t_token_type	last_token_type;
-	t_cmd		*cmds;
+	t_cmd		*cmds;			// TODO: add pipex here for error handling, free up cmds linked list, use arr from pipex
 	int		stdin_fd;
 	int		stdout_fd;
   int     ambiguous_flag;   //DEPRECATED

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/16 22:23:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:32:14 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void execute(t_shell *shell)
 {
 	int	redirection_result;
 	int	builtin_result;
-	ft_printf("%p\n", shell->cmds);
+	//ft_printf("%p\n", shell->cmds);
 	if (!shell->cmds)
 		return ;
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
