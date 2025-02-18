@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/14 17:41:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:35:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void handle_echo(char **tokens, t_shell *shell)
 {
     (void)shell;
-    int i = 1;
+    int i = 0;
     int newline = 1;
 
-    if (tokens[1] && strcmp(tokens[1], "-n") == 0)
+    if (tokens[0] && strcmp(tokens[0], "-n") == 0)
     {
         newline = 0;
         i++;

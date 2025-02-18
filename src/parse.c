@@ -29,8 +29,8 @@ void execute_external_command(char **tokens)
 
 void parse(t_shell *shell)
 {
-    printf("\nYour gorgeous input: \n");
-    printf(GREEN "%s\n\n" RESET, shell->input);
+//    printf("\nYour gorgeous input: \n");
+  //  printf(GREEN "%s\n\n" RESET, shell->input);
 
 	tokenize_input(shell->input, shell);
 

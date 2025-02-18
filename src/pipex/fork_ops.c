@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 21:10:28 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:38:46 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,26 @@ int handle_builtin(t_cmd command)
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
-		ft_printf("cd builtin\n");
+            	handle_cd(command.arg, shell);
+//		ft_printf("cd builtin\n");
 		return (0);
 	}
 	if (type == IS_ECHO)
 	{
-		ft_printf("echo builtin\n");
+		handle_echo(command.arg, shell);
+	//	ft_printf("echo builtin\n");
 		return (0);
 	}
 	if (type == IS_PWD)
 	{
-		ft_printf("pwd builtin\n");
+            	handle_pwd(shell);
+		//ft_printf("pwd builtin\n");
 		return (0);
 	}
 	if (type == IS_EXIT)
 	{
-		ft_printf("exit builtin\n");
+            	handle_exit(shell, shell->tokens);
+//		ft_printf("exit builtin\n");
 		return (0);
 	}
 	if (type == IS_EXPORT)
@@ -72,12 +76,14 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_UNSET)
 	{
-		ft_printf("unset builtin\n");
+            	handle_unset(shell, shell->tokens[1]);
+		//ft_printf("unset builtin\n");
 		return (0);
 	}
 	if (type == IS_ENV)
 	{
-		ft_printf("env builtin\n");
+           	handle_env(shell->envp); // Pass environment variables
+		//ft_printf("env builtin\n");
 		return (0);
 	}
 	return (1);
