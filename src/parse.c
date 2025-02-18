@@ -34,18 +34,23 @@ void parse(t_shell *shell)
 
 	tokenize_input(shell->input, shell);
 
-	// if (shell->tokens)
-	// 		print_tokens(shell->tokens);
-
     // if (shell->ambiguous_flag)
     //     printf(YELLOW "global shell ambiguous flag: %d, you need to print ambiguous message after execution.\n\n" RESET, shell->ambiguous_flag);
     // else
     //     printf(GREEN "global shell ambiguous flag: %d\n\n" RESET, shell->ambiguous_flag);
 
+    
+
     if (!shell->err_code)
 	{
         ft_structlize(shell);
 	}
+
+    // if (shell->tokens)
+    // {
+    //     printf("test2: %p\n", shell->tokens);
+    //     print_tokens(shell->tokens);
+    // }
 
 	// printing purpose
 	if (!shell->err_code)
@@ -55,7 +60,7 @@ void parse(t_shell *shell)
 	}
 	else
 		shell->err_code = 0;
-
+/*
     if (shell->tokens && shell->tokens[0] != NULL)
     {
         if (strcmp(shell->tokens[0], "echo") == 0)
@@ -67,17 +72,29 @@ void parse(t_shell *shell)
         else if (strcmp(shell->tokens[0], "exit") == 0)
             handle_exit(shell, shell->tokens);
         else if (strcmp(shell->tokens[0], "env") == 0)
-            handle_env(shell->envp); // Pass environment variables
+           handle_env(shell->envp); // Pass environment variables
         else if (strcmp(shell->tokens[0], "unset") == 0)
             handle_unset(shell, shell->tokens[1]);
+*/
         // else if (strcmp(shell->tokens[0], "export") == 0)
         //     handle_export(shell->tokens);
         // else
         //     execute_external_command(shell->tokens);
         // might delete depends how I free_all?
     }
+    
+
     // if (shell->tokens)
-    //     free_tokens(shell->tokens);
+    // {
+    //     printf("test3: %p\n", shell->tokens);
+    //     print_tokens(shell->tokens);
+    // }
+
+    if (shell->tokens)
+    {
+        free_tokens(shell->tokens);
+        shell->tokens = 0;
+    }
 
     shell->ambiguous_flag = 0;
 }

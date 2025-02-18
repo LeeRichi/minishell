@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/13 14:51:20 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:59:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,19 +137,15 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             shell->last_token_type = 1;
         else if (input[*i] == '>' || input[*i] == '<')
             shell->last_token_type = 2;
-        else
-            shell->last_token_type = 0;
-        if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
+        else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
         {
+            shell->last_token_type = 3;
             // handle_heredoc(shell, extract_delimiter(input, i));
             //do i need a break here??
             return ;
         }
-        // else if (strchr("|<>", input[*i + 1])) //invalid
-        // {
-        //     printf("invalid consecutive\n");
-        //     //put this current token + (*i + 1)char to one token, how to do it?
-        // }
+        else
+            shell->last_token_type = 0;
 		shell->current_index = *i;
 		handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
 		*i = shell->current_index;

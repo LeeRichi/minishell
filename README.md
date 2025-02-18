@@ -67,6 +67,8 @@ HANDLED PARSING:
 - [x] yeah > | 3 (this should print err)
 - [x] 1 |  | 2
 
+//feb18
+echo ~ Documents
 - [ ] ..more(replace this)
 
 HANDLED EXECUTION:

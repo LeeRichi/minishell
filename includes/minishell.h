@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/14 18:06:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:46:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ typedef struct s_sig
 typedef enum e_token_type {
     TOKEN_WORD,
     TOKEN_PIPE,
-    TOKEN_REDIRECT
+    TOKEN_REDIRECT,
+	TOKEN_HEREDOC
 } t_token_type;
 
 typedef enum e_redirect_type {

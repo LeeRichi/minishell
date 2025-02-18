@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/14 20:18:28 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:30:18 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *ft_strncpy(char *str, size_t n)
+char *ft_strncpy(char *str, size_t n) //"PATH=FUCK", 4
 {
     size_t len;
 	char *res = NULL;
@@ -47,7 +47,8 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 	printf("total: %zu\n", total);
 	printf("found_index: %zu\n", found_index);
 
-	new_envp = malloc((total - 1) * sizeof(char *));
+	// new_envp = malloc((total - 1) * sizeof(char *));
+	new_envp = malloc((total) * sizeof(char *));
 	if (!new_envp)
 	{
 		perror("malloc failed on new_envp");
@@ -61,13 +62,18 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 	}
 	printf("og: %zu\n", found_index);
 
-	
-	while (found_index < total)
+
+//	while (found_index < total)
+	while (found_index < total - 1)
 	{
 		printf("fi: %zu\n", found_index);
-		new_envp[found_index] = shell->envp[found_index + 1];
+		new_envp[i] = shell->envp[found_index + 1];
 		found_index++;
+		i++;
 	}
+	new_envp[i] = NULL; // Null-terminate the new array
+
+    // free(shell->envp); // Free old envp
 	// printf("new_enp[%zu]: %s\n", i, new_envp[i]);
 	shell->envp = new_envp;
 }
@@ -78,7 +84,7 @@ void handle_unset(t_shell *shell, char *input)
     size_t i;
     size_t j;
     size_t len = 0;
-	char **updated_v_names = NULL;
+	// char **updated_v_names = NULL;
 
 	len = 0;
 	while(shell->envp[len])
@@ -99,27 +105,45 @@ void handle_unset(t_shell *shell, char *input)
         i++;
     }
 	i = 0;
-	j = len;
-	while(v_names[i])
-	{
-    	if (ft_strcmp(v_names[i], input) == 0)
-		{
-			updated_v_names = malloc((len - 1) * sizeof(char *));
-			if (!updated_v_names)
-			{
-				perror("malloc failed on v_names");
-				return ;
-			}
-			len = i; //the matchcing index
-		}
-		i++;
-	}
+	// j = len;
+	while (i < len)
+    {
+        if (ft_strcmp(v_names[i], input) == 0)
+        {
+            // Remove the matching var_name from the environment
+            ft_cpy2envp(i, len, shell);
+            break;
+        }
+        i++;
+    }
+	// while(v_names[i])
+	// {
+    // 	if (ft_strcmp(v_names[i], input) == 0)
+	// 	{
+	// 		updated_v_names = malloc((len - 1) * sizeof(char *));
+	// 		if (!updated_v_names)
+	// 		{
+	// 			perror("malloc failed on v_names");
+	// 			return ;
+	// 		}
+	// 		len = i; //the matchcing index
+	// 	}
+	// 	i++;
+	// }
 	
-	ft_cpy2envp(len, j, shell);
+	for (i = 0; i < len; i++)
+        free(v_names[i]);
+    free(v_names);
+
+	
+	// ft_cpy2envp(len, j, shell);
+	/*
 	i = 0;
+	
 	while (shell->envp[i])
 	{
 		printf("%zu: %s\n", i, shell->envp[i]);
 		i++;
 	}
+	*/
 }
