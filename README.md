@@ -42,18 +42,21 @@ HANDLED PARSING:
 - [x] ls |>infile ls > outfile
 
 //this one should print ambiguous redirect, however, the exectution should have been done
-- [x] echo "hello" > afile | echo hi > $random > random 
-
+- [x] echo "hello" > afile | echo hi > $random > random
+- [x] echo "hello" | echo "bye" > $FUCK | ls -l
+- [x] >$LASD$PATH | ls
 
 - [] ..more(replace this)
 
-//Feb 5 $dollar sign
+//Feb 11 $dollar sign
 - [x] echo $ "hi"
 - [x] echo $$ "hi"
 - [x] echo $$$ "hi"
 
 - [x] echo $"hi"
 - [x] echo $$"hi"
+
+- [x] echo ~/hi
 
 //Feb 6 try to find more special char like / //Feb 7 confirm no need to handle slash
 //Feb 6 .eg echo "Hello" > $output_dir Using an unquoted unset variable should print ambiguous redirect, but echo "Hello" > $output_dir/output.txt is permission
@@ -64,7 +67,12 @@ HANDLED PARSING:
 - [x] yeah > | 3 (this should print err)
 - [x] 1 |  | 2
 
+//feb18
+echo ~ Documents
 - [ ] ..more(replace this)
 
 HANDLED EXECUTION:
 
+todo: 
+//last one should overwrite the prev ones
+echo $PATH | echo hi

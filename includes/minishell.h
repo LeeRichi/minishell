@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 18:58:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:46:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@
 # include <stdlib.h>
 
 //defines
-# define STDERR 2
+#define STDIN  0   // Standard input
+#define STDOUT 1   // Standard output
+#define STDERR 2   // Standard error
 
 # define SUCCESS 0
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
+# define PATH_MAX 4096
 
 //printing purpose
 #define RED "\033[31m"
@@ -46,7 +49,8 @@ typedef struct s_sig
 typedef enum e_token_type {
     TOKEN_WORD,
     TOKEN_PIPE,
-    TOKEN_REDIRECT
+    TOKEN_REDIRECT,
+	TOKEN_HEREDOC
 } t_token_type;
 
 typedef enum e_redirect_type {
@@ -104,6 +108,7 @@ typedef struct s_shell
 	t_token_type	last_token_type;
 	t_cmd		*cmds;
   int     ambiguous_flag;   //DEPRECATED
+  pid_t shell_id;
 } t_shell;
 
 
@@ -160,10 +165,12 @@ void handle_sigquit(int code);
 void init_sig(void);
 
 //builtins
-void handle_echo(char **tokens);
-void handle_cd(char **tokens);
-int handle_pwd(void);
+void handle_echo(char **tokens, t_shell *shell);
+void handle_cd(char **tokens, t_shell *shell);
+int handle_pwd(t_shell *shell);
 void handle_exit(t_shell *shell, char **tokens);
+void handle_env(char **envp);
+void handle_unset(t_shell *shell, char *input);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);

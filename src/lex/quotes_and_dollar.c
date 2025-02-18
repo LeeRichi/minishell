@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 18:51:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:11:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ int is_c_num(char c)
 
 char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 {
+	(void)shell;
 	char *env_name;
 	char *result;
 	int len;
-	char *temp;
+	char *temp = NULL;
+	// int local_flag = 0;
 
 	len = 0;
 	(*index)++; //to skip $
@@ -48,11 +50,11 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
     (*index)--;
 	env_name[len] = '\0';
 	result = get_env_value(env_name);
+	// if (result)
+	// 	local_flag = 1;
 	if (!result)
     {
-		if (!temp)
-        	shell->ambiguous_flag = 1;
-		else
+		if (temp)
 			return (temp);
 		return (NULL);
     }

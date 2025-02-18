@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 16:45:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:38:37 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ void print_tokens(char **tokens)
 {
     int i;
 
+    printf("\n");
     i = 0;
     while (tokens[i])
     {
         printf("Token %d: %s\n", i, tokens[i]);
 		i++;
 	}
+    printf("\n");
 }
 
 static const char *get_redirection_type_string(int type)
@@ -44,14 +46,24 @@ static const char *get_redirection_type_string(int type)
 
 void print_cmd_struct(t_cmd *cmd)
 {
+    // t_cmd *head = cmd;
+
     printf("---------Start---------\n");
+
+    // while (cmd)
+    // {
+    //     if (cmd->ambiguous_flag_node)
+    //         printf(RED "Warning, this link-list contains ambiguous node(s)!!\n" RESET);
+    //     cmd = cmd->next;
+    // }
+    // cmd = head;
 
     int command_index = 1;  // To track the command index in the linked list
     while (cmd)
     {
         // Print arguments if any
         if (cmd->ambiguous_flag_node)
-            printf(RED "watch out, this is an ambiguous node!!\n" RESET);
+            printf(RED "This is an ambiguous node!!\n" RESET);
 
         printf("Command %d:\n", command_index++);
         printf("Command Name: %s\n", cmd->cmd_name ? cmd->cmd_name : "NULL");
@@ -119,60 +131,3 @@ void print_cmd_struct(t_cmd *cmd)
     }
     printf("----------End----------\n\n");
 }
-
-
-// void print_cmd_struct(t_cmd *cmd)
-// {    
-//     int command_index = 1;  // To track the command index in the linked list
-//     while (cmd)
-//     {
-//         printf("Command %d:\n", command_index++);
-//         printf("Command Name: %s\n", cmd->cmd_name ? cmd->cmd_name : "NULL");
-
-//         // Print arguments if any
-//         if (cmd->ambiguous_flag_node)
-//         {
-//             printf(RED "watch out, this is an ambiguous node!!\n" RESET);
-//             // Print all details of the ambiguous node
-//             if (cmd->arg)
-//             {
-//                 printf("Arguments: ");
-//                 for (int i = 0; cmd->arg[i]; i++)
-//                     printf("%s ", cmd->arg[i]);
-//                 printf("\n");
-//             }
-//             if (cmd->infiles)
-//             {
-//                 printf("Input Files: ");
-//                 for (int i = 0; cmd->infiles[i]; i++)
-//                     printf("%s ", cmd->infiles[i]);
-//                 printf("\n");
-//             }
-//             if (cmd->outfiles)
-//             {
-//                 printf("Output Files: ");
-//                 for (int i = 0; cmd->outfiles[i]; i++)
-//                     printf("%s ", cmd->outfiles[i]);
-//                 printf("\n");
-//             }
-//             printf("Types: \n");
-//             for (int i = 0; cmd->redirect_type[i]; i++)
-//                 printf("%s \n", get_redirection_type_string(cmd->redirect_type[i]));
-//             printf("Pipe: %d\n", cmd->pipe);
-//         }
-
-//         // Print the "next" pointer information to show it's a linked list
-//         if (cmd->next)
-//         {
-//             printf("Next Command: %p\n", (void *)cmd->next);
-//             printf("  |\n");
-//             printf("  V\n");
-//         }
-//         else
-//             printf("Next Command: NULL\n");
-
-//         // Move to the next command in the list
-//         cmd = cmd->next;
-//         // printf("\n");  // Adding a newline between commands for better readability
-//     }
-// }
