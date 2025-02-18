@@ -12,12 +12,15 @@
 
 #include "../../includes/minishell.h"
 
-int handle_cd(char **tokens)
+void handle_cd(char **tokens, t_shell *shell)
 {
     if (tokens[1])
     {
         if (chdir(tokens[1]) != 0)
+		{
             perror("cd");
+			shell->exit_code = 1;
+		}
     }
     else
     {

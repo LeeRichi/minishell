@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/02/12 22:26:51 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/02/14 17:55:10 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ SRCS = src/main.c \
 		src/buildins/cd.c \
 		src/buildins/pwd.c \
 		src/buildins/exit.c \
+		src/buildins/env.c \
+		src/buildins/unset.c \
+		src/buildins/export.c \
 		src/lex/lex.c \
 		src/lex/wrong_pipe.c \
 		src/utils/free.c \

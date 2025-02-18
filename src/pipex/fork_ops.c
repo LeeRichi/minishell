@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   fork_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
 /*   Updated: 2025/02/18 21:10:28 by mbutuzov         ###   ########.fr       */
