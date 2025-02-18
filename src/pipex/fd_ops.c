@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 18:20:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:49:11 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int handle_heredoc_child(int *heredoc_fd)
 {
 	int	dup_res;
 
-	dup_res = dup2(*heredoc_fd, STDOUT_FILENO);
+	dup_res = dup2(*heredoc_fd, STDIN_FILENO);
 	close(*heredoc_fd);
 	*heredoc_fd = -1;
 	return (dup_res);
