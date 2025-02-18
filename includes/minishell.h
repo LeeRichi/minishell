@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/17 23:03:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:55:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_cmd
 	char	**env;		// execve
   int ambiguous_flag_node; //USE THIS
 	struct s_cmd		*next;
+	void	*shell;
 } t_cmd;
 
 typedef struct s_pipex {
@@ -96,8 +97,6 @@ typedef struct s_pipex {
 	int			pipe[2];
 	int			reserve_fd;
 	char		**env;				//is it ever adjusted through child process
-	//char		**first_command;		//rethink, unnecessary?
-//	t_cmd		*parsed_cmds;
 	t_cmd		*command;			//change type and adjust
 	char		**path_split;			//rethink, should it happen in child?
 }	t_pipex;
@@ -141,7 +140,7 @@ typedef enum e_perrtypes {
 }	t_perrtypes;
 
 char *get_redir_str(int index, t_cmd cmd);
-int	pipex_launch(t_cmd *argv, char **env);
+int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
 int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof);
@@ -159,7 +158,7 @@ void		before_fork(t_pipex *pipex);
 //void		get_command(char **argv, t_pipex *pipex);
 void		get_command(t_pipex *pipex);
 //t_pipex		get_pipex(int argc, char **argv, char **envp);
-t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp);
+t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp, t_shell *shell);
 void		print_current_error(void);
 void		free_all(t_pipex pipex);
 int			after_fork(pid_t fork_result, t_pipex *pipex);

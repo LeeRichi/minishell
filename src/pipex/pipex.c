@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/12 22:03:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:52:20 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	t_cmd_list_count(t_cmd *head)
 
 //int	pipex_launch(int command_count, char **argv, char **env)
 //TODO: add ambigous redir message here???!!!
-int	pipex_launch(t_cmd *argv, char **env)
+int	pipex_launch(t_cmd *argv, char **env, t_shell *shell)
 {
 	t_pipex	pipex;
 	pid_t	pid;
@@ -87,7 +87,7 @@ int	pipex_launch(t_cmd *argv, char **env)
 //		return (EXIT_FAILURE);
 		return (0);
 	}
-	pipex = get_pipex(command_count, argv, env);
+	pipex = get_pipex(command_count, argv, env, shell);
 	if (!pipex.command)
 	{
 		//TODO: handle malloc fail error

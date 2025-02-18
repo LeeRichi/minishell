@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/17 19:32:14 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:10:46 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,12 @@ void execute(t_shell *shell)
 	if (!shell->cmds)
 		return ;
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
-		pipex_launch(shell->cmds, shell->envp);
+	{
+		pipex_launch(shell->cmds, shell->envp, shell);
+	}
 	else
 	{
+		shell->cmds->shell = shell;
 		redirection_result = preserve_fds(shell);
 		if (redirection_result == -1)
 		{
@@ -131,6 +134,8 @@ int	main(int ac, char **av, char **envp)
 		parse(&shell);
 // TODO: check here / check inside
 		execute(&shell);
+		// cleanup shell cmds
+		shell.cmds = 0;
 	}
 	ft_free_all(&shell);
 	return (shell.exit_code);

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/17 19:28:25 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:20:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,6 @@
 /*
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
-*/
-/*
-int	process_rfile_name_arg(t_pipex *pipex)
-{
-	int	fd;
-
-	ft_close(&pipex->pipe[0]);
-	fd = open(pipex->infile, O_RDONLY);
-	if (fd == -1)
-		error_and_exit(pipex, RFILE_FAIL);
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		close(fd);
-		error_and_exit(pipex, DUP_FAIL);
-	}
-	close(fd);
-	return (dup2_and_close(&pipex->pipe[1], STDOUT_FILENO));
-}
-
-int	process_wfile_name_arg(t_pipex *pipex)
-{
-	char	*arg;
-	int		fd;
-
-	arg = pipex->outfile;
-	ft_close(&pipex->pipe[1]);
-	if (pipex->current_command)
-	{
-		if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO))
-			error_and_exit(pipex, DUP_FAIL);
-	}
-	fd = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		error_and_exit(pipex, WFILE_FAIL);
-	return (dup2_and_close(&fd, STDOUT_FILENO));
-}
 */
 int	process_normal_pipe(t_pipex *pipex)
 {
@@ -74,23 +38,6 @@ void	before_fork(t_pipex *pipex)
 			error_and_exit(pipex, PIPE_FAIL);
 	}
 }
-/*
-void	redirect_fds(t_pipex *pipex)
-{
-	if (pipex->current_command == 0)
-	{
-		if (process_rfile_name_arg(pipex) == -1)
-			error_and_exit(pipex, DUP_FAIL);
-	}
-	else if (pipex->current_command == (pipex->command_count - 1))
-	{
-		if (process_wfile_name_arg(pipex) == -1)
-			error_and_exit(pipex, DUP_FAIL);
-	}
-	else if (process_normal_pipe(pipex) == -1)
-		error_and_exit(pipex, DUP_FAIL);
-}
-*/
 
 /*
 RULES:
@@ -123,97 +70,6 @@ add_input redir
 direction: infile | oufile
 
 */
-/*
-t_redirect_type get_redirect_type(int direction, int index, t_redirect_type *ordered_types)
-{
-	int irrelevant_count;
-
-	irrelevant_count = 0;
-	if (direction == 0)
-	{
-		if (ordered_types[index] == )
-	}
-	else
-	
-}
-
-//WIP
-int attempt_redirect(t_redirection redir)
-{
-	int fd[2];
-	int fork_return;
-//TODO: dup2 checks
-	if (redir.type == INPUT_REDIRECT)
-	{
-		fd[0] = open(pipex->infile, O_RDONLY);
-		if (fd[0] == -1)
-		{
-//error and exit
-		}
-		dup2(fd[0], 0);
-		close(fd[0]);
-		
-	} else if (redir.type == OUTPUT_REDIRECT)
-	{
-		fd[0] = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd[0] == -1)
-		{
-//error and exit
-		}
-		dup2(fd[0], 1);
-		close(fd[0]);
-		
-	} else if (redir.type == APPEND_REDIRECT)
-	{
-		fd[0] = open(arg, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
-		if (fd[0] == -1)
-		{
-//error and exit
-		}
-		dup2(fd[0], 1);
-		close(fd[0]);
-		
-	} else if (redir.type == HERE_DOC)
-	{
-		if (pipe(fd) == -1)
-		{
-// TODO: error and exit?
-		}
-		fork_return = fork();
-		if (fork_return == 0)
-		{
-// heredoc
-		}
-		else
-		{
-// parent
-		}
-	}
-}
-
-void handle_file_redirections(t_pipex *pipex)
-{
-	size_t infile_count;
-	size_t outfile_count;
-	char **infiles;
-	char **outfiles;
-	size_t i;
-
-	i = 0;
-	infiles = pipex->command[pipex->current_command].infiles;
-	outfiles = pipex->command[pipex->current_command].outfiles;
-	infile_count = (size_t)count_split(infiles);
-	outfile_count = (size_t)count_split(outfiles);
-	pipex->command[pipex->current_command].type;
-	while (i < infile_count + outfile_count)
-	{
-		pipex->type[i]
-		i++;
-	}
-}
-*/
-
-//char *get_redir_str(int index, char **infiles, char **outfiles, t_redirect_type *type)
 char *get_redir_str(int index, t_cmd cmd)
 {
 	int			fd;
@@ -353,31 +209,21 @@ int process_file_redirections(t_cmd *cmd)
 
 void 	redirect_fds(t_pipex *pipex)
 {
-	int	file_red_result;
 	if (pipex->current_command == 0)
 	{
 		ft_close(&pipex->pipe[0]);
-		dup2_and_close(&pipex->pipe[1], STDOUT_FILENO);
-		//if (process_rfile_name_arg(pipex) == -1)
-		//	error_and_exit(pipex, DUP_FAIL);
+		if (dup2_and_close(&pipex->pipe[1], STDOUT_FILENO) == -1)
+			error_and_exit(pipex, DUP_FAIL);
 	}
 	else if (pipex->current_command == (pipex->command_count - 1))
 	{
 		ft_close(&pipex->pipe[1]);
 		if (pipex->current_command)
 		{
-			if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO))
+			if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO) == -1)
 				error_and_exit(pipex, DUP_FAIL);
 		}
-		//if (process_wfile_name_arg(pipex) == -1)
-		//	error_and_exit(pipex, DUP_FAIL);
 	}
 	else if (process_normal_pipe(pipex) == -1)
 		error_and_exit(pipex, DUP_FAIL);
-	file_red_result = process_file_redirections(pipex->command + pipex->current_command);
-	if (file_red_result)
-	{
-	// clean up
-		exit(1);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/17 19:29:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:10:28 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 //int is_builtin(t_cmd cmd)
 t_builtin_type get_builtin_type(t_cmd cmd)
 {
-	
+	if (!cmd.cmd_name)
+		return (NOT_BUILTIN);
 	if (!ft_strcmp(cmd.cmd_name, "cd"))
 		return (IS_CD);
 	if (!ft_strcmp(cmd.cmd_name, "echo"))
@@ -40,7 +41,9 @@ t_builtin_type get_builtin_type(t_cmd cmd)
 int handle_builtin(t_cmd command)
 {
 	t_builtin_type type;
+	t_shell *shell;
 
+	shell = (t_shell *)command.shell;
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
@@ -83,8 +86,17 @@ int handle_builtin(t_cmd command)
 void	in_child(t_pipex pipex)
 {
 	t_cmd	command;
+	int	file_red_result;
 
-	redirect_fds(&pipex);
+
+	if (pipex.command_count > 1)
+		redirect_fds(&pipex);
+	file_red_result = process_file_redirections(pipex.command + pipex.current_command);
+	if (file_red_result)
+	{
+	// clean up
+		exit(1);
+	}
 	get_command(&pipex);
 	command = pipex.command[pipex.current_command];
 	if (get_builtin_type(command))
