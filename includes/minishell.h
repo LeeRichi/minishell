@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 20:55:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:00:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
+
+
 char *get_redir_str(int index, t_cmd cmd);
 int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
 int check_heredoc(t_cmd cmd);
@@ -173,6 +175,7 @@ char		**get_path_split(char **envp, size_t ind);
 //char		**get_command_argv(char *arg);
 char		**get_command_argv(t_cmd cmd);
 /* PIPEX END */
+
 
 /*	processing	*/
 int	process_file_redirections(t_cmd *cmd);

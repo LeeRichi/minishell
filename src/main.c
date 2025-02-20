@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 21:10:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:42:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ int restore_fds(t_shell *shell)
 void execute(t_shell *shell)
 {
 	int	redirection_result;
-	int	builtin_result;
+	int	exec_result;
 	//ft_printf("%p\n", shell->cmds);
 	if (!shell->cmds)
 		return ;
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
 	{
-		pipex_launch(shell->cmds, shell->envp, shell);
+		exec_result = pipex_launch(shell->cmds, shell->envp, shell);
 	}
 	else
 	{
@@ -93,8 +93,8 @@ void execute(t_shell *shell)
 			//TODO: error cleanup and exit?
 		}
 //TODO: pass shell as a parameter, return to exit status
-		builtin_result = handle_builtin(*(shell->cmds));
-		if (builtin_result == -1)
+		exec_result = handle_builtin(*(shell->cmds));
+		if (exec_result == -1)
 		{
 			//TODO: error cleanup and exit?
 		}
@@ -105,6 +105,7 @@ void execute(t_shell *shell)
 		}
 
 	}
+	shell->exit_code = exec_result;
 }
 
 // static int ft_getpid(void)

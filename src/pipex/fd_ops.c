@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 21:49:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:03:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
 */
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
+{
+	printf("%s, %d", fname, line);
+	error_and_exit(pipex, errtype);
+}
+#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
@@ -146,7 +152,13 @@ int handle_heredoc_child(int *heredoc_fd)
 	*heredoc_fd = -1;
 	return (dup_res);
 }
-
+int is_last_heredoc_redir(size_t index, t_redirect_type *arr, size_t arr_size)
+{
+	while (++index < arr_size)
+		if (arr[index] == HERE_DOC)
+			return(0); 
+	return (1);
+}
 //TODO: handle error and exit here, to give correct file name in error
 //give correctt pointers to cmd forease
 int process_file_redirections(t_cmd *cmd)
@@ -187,7 +199,8 @@ int process_file_redirections(t_cmd *cmd)
 		else if (cmd->redirect_type[count] == HERE_DOC)
 		{
 //			ft_putstr_fd("HD", 2);
-			if (handle_heredoc_child(&cmd->heredoc_fd) == -1)
+			if (is_last_heredoc_redir(count, cmd->redirect_type, infile_count + outfile_count) &&
+				handle_heredoc_child(&cmd->heredoc_fd) == -1)
 			{
 				//TODO: print error
 				return (1);
