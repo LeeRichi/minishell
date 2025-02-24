@@ -42,7 +42,7 @@ HANDLED PARSING:
 - [x] ls |>infile ls > outfile
 
 //this one should print ambiguous redirect, however, the exectution should have been done
-- [x] echo "hello" > afile | echo hi > $random > random 
+- [x] echo "hello" > afile | echo hi > $random > random
 
 
 - [] ..more(replace this)

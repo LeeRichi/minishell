@@ -31,8 +31,8 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-    // if (shell->tokens)
-    //     print_tokens(shell->tokens);
+    if (shell->tokens)
+        print_tokens(shell->tokens);
     if (shell->ambiguous_flag)
         printf(YELLOW "global shell ambiguous flag: %d, meaning to print the Error message will be needed.\n\n" RESET, shell->ambiguous_flag);
     else
