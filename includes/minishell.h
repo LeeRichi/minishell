@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 18:58:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:55:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@
 # include <stdlib.h>
 
 //defines
-# define STDERR 2
+#define STDIN  0   // Standard input
+#define STDOUT 1   // Standard output
+#define STDERR 2   // Standard error
 
 # define SUCCESS 0
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
+# define PATH_MAX 4096
 
 //printing purpose
 #define RED "\033[31m"
@@ -46,7 +49,8 @@ typedef struct s_sig
 typedef enum e_token_type {
     TOKEN_WORD,
     TOKEN_PIPE,
-    TOKEN_REDIRECT
+    TOKEN_REDIRECT,
+	TOKEN_HEREDOC
 } t_token_type;
 
 typedef enum e_redirect_type {
@@ -55,6 +59,17 @@ typedef enum e_redirect_type {
     APPEND_REDIRECT,
     HERE_DOC
 } t_redirect_type;
+
+typedef enum e_builtin_type {
+	NOT_BUILTIN = 0,
+	IS_CD,
+	IS_ECHO,
+	IS_ENV,
+	IS_EXIT,
+	IS_EXPORT,
+	IS_PWD,
+	IS_UNSET
+} t_builtin_type;
 
 typedef struct s_redirection {
 	t_redirect_type type;
@@ -65,9 +80,10 @@ typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
 	char		**arg; //arguments of command
-	t_redirect_type	redirect_type[10];                          //DELETE
+	t_redirect_type	redirect_type[10];	//rewrite to dynamically alloc spaces for different types or increase buffer sufficiently
 	char		**infiles;                            
 	char		**outfiles;
+	int		heredoc_fd;			//when close == -1, when open - legal fd, opening error handled in pipex
 	int		pipe; //  pipe at the end
 	int		redirection_index; // parsing purposes
 	char	*path;		// execve
@@ -75,6 +91,7 @@ typedef struct s_cmd
 	char	**env;		// execve
   int ambiguous_flag_node; //USE THIS
 	struct s_cmd		*next;
+	void	*shell;
 } t_cmd;
 
 typedef struct s_pipex {
@@ -84,8 +101,6 @@ typedef struct s_pipex {
 	int			pipe[2];
 	int			reserve_fd;
 	char		**env;				//is it ever adjusted through child process
-	char		**first_command;		//rethink, unnecessary?
-//	t_cmd		*parsed_cmds;
 	t_cmd		*command;			//change type and adjust
 	char		**path_split;			//rethink, should it happen in child?
 }	t_pipex;
@@ -102,8 +117,11 @@ typedef struct s_shell
 	int		in_double_quote;
 	int		err_code;
 	t_token_type	last_token_type;
-	t_cmd		*cmds;
+	t_cmd		*cmds;			// TODO: add pipex here for error handling, free up cmds linked list, use arr from pipex
+	int		stdin_fd;
+	int		stdout_fd;
   int     ambiguous_flag;   //DEPRECATED
+  pid_t shell_id;
 } t_shell;
 
 
@@ -114,9 +132,11 @@ typedef enum e_perrtypes {
 	CMD_FILE_NOT_FOUND,
 	PROG_FILE_IS_DIR,
 	FILE_NOT_FOUND,
+	HEREDOC_FAIL,
 	DUP_FAIL,
 	RFILE_FAIL,
 	WFILE_FAIL,
+	APPEND_FAIL,
 	OPEN_FAIL,
 	PERMISSION_FAIL,
 	EXECVE_FAIL,
@@ -124,7 +144,11 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
-int	pipex_launch(t_cmd *argv, char **env);
+char *get_redir_str(int index, t_cmd cmd);
+int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
+int check_heredoc(t_cmd cmd);
+int get_cmd_heredoc(t_cmd cmd);
+int get_here_doc_fd(char *eof);
 t_cmd	*free_command_content(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 void		ft_close(int *fd);
@@ -139,7 +163,7 @@ void		before_fork(t_pipex *pipex);
 //void		get_command(char **argv, t_pipex *pipex);
 void		get_command(t_pipex *pipex);
 //t_pipex		get_pipex(int argc, char **argv, char **envp);
-t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp);
+t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp, t_shell *shell);
 void		print_current_error(void);
 void		free_all(t_pipex pipex);
 int			after_fork(pid_t fork_result, t_pipex *pipex);
@@ -149,6 +173,12 @@ char		**get_path_split(char **envp, size_t ind);
 //char		**get_command_argv(char *arg);
 char		**get_command_argv(t_cmd cmd);
 /* PIPEX END */
+
+/*	processing	*/
+int	process_file_redirections(t_cmd *cmd);
+int	handle_builtin(t_cmd command);
+t_builtin_type get_builtin_type(t_cmd cmd);
+
 
 
 //global functions
@@ -160,10 +190,12 @@ void handle_sigquit(int code);
 void init_sig(void);
 
 //builtins
-void handle_echo(char **tokens);
-void handle_cd(char **tokens);
-int handle_pwd(void);
+void handle_echo(char **tokens, t_shell *shell);
+void handle_cd(char **tokens, t_shell *shell);
+int handle_pwd(t_shell *shell);
 void handle_exit(t_shell *shell, char **tokens);
+void handle_env(char **envp);
+void handle_unset(t_shell *shell, char *input);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/06 21:50:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:47:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,106 @@
 //#include "minishell.h"
 #include "../../includes/minishell.h"
 
+//int is_builtin(t_cmd cmd)
+t_builtin_type get_builtin_type(t_cmd cmd)
+{
+	if (!cmd.cmd_name)
+		return (NOT_BUILTIN);
+	if (!ft_strcmp(cmd.cmd_name, "cd"))
+		return (IS_CD);
+	if (!ft_strcmp(cmd.cmd_name, "echo"))
+		return (IS_ECHO);
+	if (!ft_strcmp(cmd.cmd_name, "env"))
+		return (IS_ENV);
+	if (!ft_strcmp(cmd.cmd_name, "exit"))
+		return (IS_EXIT);
+	if (!ft_strcmp(cmd.cmd_name, "export"))
+		return (IS_EXPORT);
+	if (!ft_strcmp(cmd.cmd_name, "pwd"))
+		return (IS_PWD);
+	if (!ft_strcmp(cmd.cmd_name, "unset"))
+		return (IS_UNSET);
+	return (NOT_BUILTIN);
+}
+
+
+// TODO: add shell as parameter, for some builtins
+int handle_builtin(t_cmd command)
+{
+	t_builtin_type type;
+	t_shell *shell;
+
+	shell = (t_shell *)command.shell;
+	type = get_builtin_type(command);
+	if (type == IS_CD)
+	{
+            	handle_cd(command.arg, shell);
+//		ft_printf("cd builtin\n");
+		return (0);
+	}
+	if (type == IS_ECHO)
+	{
+		handle_echo(command.arg, shell);
+	//	ft_printf("echo builtin\n");
+		return (0);
+	}
+	if (type == IS_PWD)
+	{
+            	handle_pwd(shell);
+		//ft_printf("pwd builtin\n");
+		return (0);
+	}
+	if (type == IS_EXIT)
+	{
+            	handle_exit(shell, shell->tokens);
+//		ft_printf("exit builtin\n");
+		return (0);
+	}
+	if (type == IS_EXPORT)
+	{
+		ft_printf("export builtin\n");
+		return (0);
+	}
+	if (type == IS_UNSET)
+	{
+            	handle_unset(shell, command.arg[0]);
+		//ft_printf("unset builtin\n");
+		return (0);
+	}
+	if (type == IS_ENV)
+	{
+           	handle_env(shell->envp); // Pass environment variables
+		//ft_printf("env builtin\n");
+		return (0);
+	}
+	return (1);
+}
+
 void	in_child(t_pipex pipex)
 {
 	t_cmd	command;
+	int	file_red_result;
 
-//	ft_bzero((void *)&command, sizeof(t_command));
-//	pipex.command = &command;
-// TODO: handle per command redirections in redirect fds
-// move 
-	redirect_fds(&pipex);
+
+	if (pipex.command_count > 1)
+		redirect_fds(&pipex);
+	file_red_result = process_file_redirections(pipex.command + pipex.current_command);
+	if (file_red_result)
+	{
+	// clean up
+		exit(1);
+	}
 	get_command(&pipex);
 	command = pipex.command[pipex.current_command];
-//	ft_putendl_fd("in child:", 2);
-//	ft_putnbr_fd((int)pipex.current_command, 2);
-//	ft_putendl_fd(command.path, 2);
-	
-// pipex.env? to execve
-	execve(command.path, command.argv, command.env);
-//	perror("after exec");
-	if (errno == ENOENT)
-		error_and_exit(&pipex, CMD_FILE_NOT_FOUND);
-	error_and_exit(&pipex, EXECVE_FAIL);
+	if (get_builtin_type(command))
+		handle_builtin(command);
+	else
+	{
+		execve(command.path, command.argv, command.env);
+		if (errno == ENOENT)
+			error_and_exit(&pipex, CMD_FILE_NOT_FOUND);
+		error_and_exit(&pipex, EXECVE_FAIL);
+	}
 }
 
 int	after_fork(pid_t fork_result, t_pipex *pipex)

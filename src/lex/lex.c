@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 16:42:09 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:59:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,75 @@ void finalize_token(t_shell *shell, char **current_token, int *token_count)
     }
 }
 
+// int is_one_of(char *str)
+// {
+// 	int i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '|' || str[i] == '<' || str[i] == '>' ||)
+// 		i++;
+// 	}
+// }
+
 void parse_input_character(t_shell *shell, char **current_token, int *i, char *input)
 {
     char *env_value;
     int j;
-    char *hard_code_for_$ = "325570";
+    char *id_as_str;
+    int str_len;
 
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
     else if (input[*i] == '"' && !(shell->in_single_quote))
         shell->in_double_quote = !(shell->in_double_quote);
+    else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
+    {
+		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
+		{
+			const char *home_dir = getenv("HOME");
+			if (home_dir != NULL)
+			{
+				j = 0;
+				while (home_dir[j++])
+					*current_token = str_append(*current_token, home_dir[j-1]);
+			}
+			(*i)++;
+            if (input[*i] == '/')
+            {
+                while (input[*i] != ' ' && input[*i])
+                {
+                    *current_token = str_append(*current_token, input[*i]);
+                    (*i)++;
+                }
+            }
+			return ;
+		}
+		while (input[*i] == '~') 
+		{
+			*current_token = str_append(*current_token, '~');
+			(*i)++;
+		}
+    }
     else if (!(shell->in_single_quote) && input[*i] == '$')
     {
-        if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
+	    if (strchr("$", input[*i + 1])) //consecutive dollar sign //todo
+        {
+            id_as_str = ft_itoa(shell->shell_id);
+            str_len = ft_strlen(id_as_str);
+            j = 0;
+            while(j < str_len)
+            {
+                *current_token = str_append(*current_token, id_as_str[j]);
+                j++;
+            }
+            (*i) += 2;
+            while(input[*i] == '$')
+            {
+                *current_token = str_append(*current_token, '$');
+                (*i)++;
+            }
+        }
+        else if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
         {
             printf("ignored dollar sign.\n"); //throw to the water
 			return ;
@@ -60,24 +116,12 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         {
             *current_token = str_append(*current_token, '$');
         }
-		else if (strchr("$", input[*i + 1])) //consecutive dollar sign //hard code
-        {
-            j = 0;
-            while (j < 6)
-            {
-                *current_token = str_append(*current_token, hard_code_for_$[j]);
-                j++;
-            }
-            (*i)++;
-        }
         else
 		{
 			env_value = handle_dollar_sign(shell, input, i);
-			if (!env_value) //if the env_value is not found, let's simply return the input str itself
-			{
-				// printf("dollar sign with var has no value.\n"); //If no value, strjoin the rest until encounter spcae
-                // return ;
-			}
+            // printf("env_value: %s\n", env_value);
+			if (!env_value) //asign '\0' for the tokens who does have value
+				*current_token = str_append(*current_token, '\0');
 			else
 			{
 				j = 0;
@@ -89,25 +133,19 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	{
-        // if (input[*i] == '|')
-        //     shell->last_token_type = 1;
-        // else if (input[*i] == '>' || input[*i] == '<')
-        //     shell->last_token_type = 2;
-        // else
-        //     shell->last_token_type = 0;
-        // current_c = input[*i];
-        // printf("current_c: %c\n", current_c);
-        if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
+        if (input[*i] == '|')
+            shell->last_token_type = 1;
+        else if (input[*i] == '>' || input[*i] == '<')
+            shell->last_token_type = 2;
+        else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
         {
+            shell->last_token_type = 3;
             // handle_heredoc(shell, extract_delimiter(input, i));
             //do i need a break here??
             return ;
         }
-        // else if (strchr("|<>", input[*i + 1])) //invalid
-        // {
-        //     printf("invalid consecutive\n");
-        //     //put this current token + (*i + 1)char to one token, how to do it?
-        // }
+        else
+            shell->last_token_type = 0;
 		shell->current_index = *i;
 		handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
 		*i = shell->current_index;
@@ -115,9 +153,9 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
     {
         finalize_token(shell, current_token, &shell->token_count);
-        if (input[*i] == '|')
+        if (input[*i - 1] == '|')
             shell->last_token_type = 1;
-        else if (input[*i] == '>' || input[*i] == '<')
+        else if (input[*i - 1] == '>' || input[*i - 1] == '<')
             shell->last_token_type = 2;
         else
             shell->last_token_type = 0;
@@ -140,6 +178,9 @@ void parse_input_fragment(char *input, t_shell *shell)
         i++;
     }
     finalize_token(shell, &current_token, &shell->token_count);
+    //if the last parsed char is one of the below
+	while(strchr(WHITESPACE, input[i]))
+		i--;
 	if (input[i] == '|')
 		shell->last_token_type = 1;
 	else if (input[i] == '>' || input[i] == '<')
@@ -176,7 +217,8 @@ void process_additional_input(t_shell *shell, char **input)
     // printf("WTF last token ty: %d\n", shell->last_token_type);
 
 	// while (shell->last_token_type == 1 || shell->last_token_type == 2)
-    while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
+    // while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
+    while (shell->last_token_type == 1 && **input)
     {
     //     printf("what is the **input: %c\n", **input);
     //     printf("last token ty: %d\n", shell->last_token_type);
@@ -217,7 +259,7 @@ char *ft_start_with_specials_v2(char *str) //pipe is excluded
 int empty_between_checker(t_shell *shell)
 {
 	int i;
-	
+
     if(!shell->tokens)
     {
         return (1);
@@ -228,7 +270,7 @@ int empty_between_checker(t_shell *shell)
 		if (ft_start_with_specials_v2(shell->tokens[i]) ||
     		(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
 		{
-			if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we don print syntax error, but try to handle ambiguous flag for that current node
+			if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax error, but try to handle ambiguous flag for that current node
 			{
         		printf("minishell: syntax error.\n");
 				return (1);
@@ -259,14 +301,17 @@ void tokenize_input(char *input, t_shell *shell)
 	handle_unbalanced_quotes(&input); //checking case like '''
 	parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
 
-	//process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
-	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed 
+    //debug
+    // printf("shell->last_token_type = %d\n", shell->last_token_type);
+    
+	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
 	{
 		free(input);
 		shell->err_code = 258;
 		clear_tokens(shell);
 		return;
 	}
-	shell->last_token_type = 0;
+	// shell->last_token_type = 0;
 	free(input);
 }

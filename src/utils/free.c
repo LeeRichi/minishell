@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/30 11:57:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:58:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void free_tokens(char **tokens)
     free(tokens);
 
 	//temp
-	*tokens = NULL;
+	//*tokens = NULL;
 }
 
 void clear_tokens(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/10 18:53:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/15 21:34:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,87 @@ void	close_pipe_safe(int fds[2])
 {
 	close_fd_safe(fds);
 	close_fd_safe(fds + 1);
+}
+/*
+int is_eof_with_nl(char *line, char *eof)
+{
+	size_t eof_length;
+
+	eof_length = ft_strlen(eof)
+	if (ft_strncmp(eof, line, eof_length))
+		return (1);
+	line += eof_length;
+	if (*line == '\n')
+}
+*/
+
+int check_heredoc(t_cmd cmd)
+{
+	size_t infile_count;
+	size_t outfile_count;
+	size_t count;
+
+	count = 0;
+	if (cmd.infiles)
+		infile_count = (size_t)count_split(cmd.infiles);
+	else
+		infile_count = 0;
+	if (cmd.outfiles)
+		outfile_count = (size_t)count_split(cmd.outfiles);
+	else
+		outfile_count = 0;
+	if (!infile_count)
+		return (0);
+	while (count < infile_count + outfile_count)
+	{
+		if (cmd.redirect_type[count] == HERE_DOC)
+			return (1);
+		count++;
+	}
+	return (0);
+}
+
+int get_cmd_heredoc(t_cmd cmd)
+{
+	int fd;
+	size_t infile_count;
+	size_t outfile_count;
+	size_t count;
+	char *heredoc_eof;
+
+	fd = -1;
+	count = 0;
+	if (cmd.infiles)
+		infile_count = (size_t)count_split(cmd.infiles);
+	else
+		infile_count = 0;
+	if (cmd.outfiles)
+		outfile_count = (size_t)count_split(cmd.outfiles);
+	else
+		outfile_count = 0;
+	while (count < infile_count + outfile_count)
+	{
+		if (cmd.redirect_type[count] == HERE_DOC)
+		{
+			if (fd != -1)
+			{
+				close(fd);
+				heredoc_eof = get_redir_str(count, cmd);
+				fd = get_here_doc_fd(heredoc_eof);
+				if (fd == -1)
+					return (-1);
+			}
+			else
+			{
+				heredoc_eof = get_redir_str(count, cmd);
+				fd = get_here_doc_fd(heredoc_eof);
+				if (fd == -1)
+					return (-1);
+			}
+		}
+		count++;
+	}
+	return (fd);
 }
 
 int get_here_doc_fd(char *eof)
