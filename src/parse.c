@@ -29,30 +29,24 @@ void execute_external_command(char **tokens)
 
 void parse(t_shell *shell)
 {
-//    printf("\nYour gorgeous input: \n");
-  //  printf(GREEN "%s\n\n" RESET, shell->input);
+	//printf("\nYour gorgeous input: \n");
+  	//printf(GREEN "%s\n\n" RESET, shell->input);
 
 	tokenize_input(shell->input, shell);
 
-    if (shell->tokens)
-        print_tokens(shell->tokens);
+    // if (shell->tokens)
+    //     print_tokens(shell->tokens);
 
     if (!shell->err_code)
 	{
         ft_structlize(shell);
 	}
 
-    // if (shell->tokens)
-    // {
-    //     printf("test2: %p\n", shell->tokens);
-    //     print_tokens(shell->tokens);
-    // }
-
 	// printing purpose
 	if (!shell->err_code)
 	{
-//		print_cmd_struct(shell->cmds);
-//		pipex_launch(shell->cmds, shell->envp);
+		print_cmd_struct(shell->cmds);
+        //pipex_launch(shell->cmds, shell->envp);
 	}
 	else
 		shell->err_code = 0;

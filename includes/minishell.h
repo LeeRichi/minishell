@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 20:55:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 10:16:49 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
-# define PATH_MAX 4096
+// # define PATH_MAX 4096
 
 //printing purpose
 #define RED "\033[31m"
@@ -80,8 +80,8 @@ typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
 	char		**arg; //arguments of command
-	t_redirect_type	redirect_type[10];	//rewrite to dynamically alloc spaces for different types or increase buffer sufficiently
-	char		**infiles;                            
+	t_redirect_type	*redirect_type;  // Dynamic allocation
+	char		**infiles;
 	char		**outfiles;
 	int		heredoc_fd;			//when close == -1, when open - legal fd, opening error handled in pipex
 	int		pipe; //  pipe at the end

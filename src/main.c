@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 21:10:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:35:18 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int restore_fds(t_shell *shell)
 	return (0);
 }
 
-// builtin error handing 
+// builtin error handing
 void execute(t_shell *shell)
 {
 	int	redirection_result;
@@ -166,9 +166,11 @@ int	main(int ac, char **av, char **envp)
 			add_history(shell.input);
 		parse(&shell);
 // TODO: check here / check inside
-		execute(&shell);
+		// execute(&shell);
 		// cleanup shell cmds
-		shell.cmds = 0;
+		clear_cmds(&shell);
+		// shell.cmds = 0;
+		// rich Feb 25
 	}
 	// ft_free_all(&shell);
 

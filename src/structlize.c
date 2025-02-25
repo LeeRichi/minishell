@@ -6,12 +6,47 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 18:36:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/25 12:16:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int count_specific(char **tokens, char *nid)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i])
+	{
+		if (strcmp(tokens[i], nid) == 0)
+			count++;
+		i++;
+	}
+	return count;
+}
+
+//temp function //clean up at the end
+int count_redirections(char **tokens)
+{
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	while (tokens[i])
+	{
+		if (strcmp(tokens[i], "<") == 0 || strcmp(tokens[i], ">") == 0 ||
+			strcmp(tokens[i], ">>") == 0 || strcmp(tokens[i], "<<") == 0)
+		{
+			count++;
+		}
+		i++;
+	}
+	return count;
+}
 char **ft_add_to_array(char **array, const char *new_element)
 {
 	int i;
@@ -62,7 +97,7 @@ void ft_nullize_struct(t_cmd *new_cmd)
     new_cmd->arg = NULL;
     new_cmd->infiles = NULL;
     new_cmd->outfiles = NULL;
-    memset(new_cmd->redirect_type, 0, sizeof(new_cmd->redirect_type)); 
+    memset(new_cmd->redirect_type, 0, sizeof(new_cmd->redirect_type));
     new_cmd->pipe = 0;
 	new_cmd->redirection_index = 0;
 	new_cmd->next = NULL;
@@ -75,7 +110,7 @@ void ft_add_redirection(char ***array, char *file)
     // ft_print_array(*array);
 }
 
-void handle_pipe(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
+void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
 {
     if (*current_cmd)
         (*current_cmd)->pipe = 1;
@@ -86,12 +121,22 @@ void handle_pipe(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
         exit(EXIT_FAILURE);
     }
     ft_nullize_struct(*new_cmd);
+	(*new_cmd)->redirect_type = malloc(sizeof(t_redirect_type) * count_redirections(shell->tokens));
+	(*new_cmd)->outfiles = malloc(sizeof(char *) * (count_specific(shell->tokens, ">") + 1));
+	(*new_cmd)->infiles = malloc(sizeof(char *) * (count_specific(shell->tokens, "<") + 1));
+    if (!(*new_cmd)->redirect_type || !(*new_cmd)->outfiles || !(*new_cmd)->infiles)
+	// if (!(*new_cmd)->redirect_type || !(*new_cmd)->outfiles)
+    {
+        perror("malloc failed for redirect_type || intfiles || outfiles");
+        exit(EXIT_FAILURE);
+    }
     if (*current_cmd)
         (*current_cmd)->next = *new_cmd;
     else
         shell->cmds = *new_cmd;
     *current_cmd = *new_cmd;
 }
+
 
 void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 {
@@ -100,15 +145,15 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 	i = current_cmd->redirection_index;
     if (strcmp(operator, "<") == 0)
     {
-        ft_add_redirection(&current_cmd->infiles, file);
+        ft_add_redirection(&current_cmd->infiles, file); //might need to allocate this too
         current_cmd->redirect_type[i] = INPUT_REDIRECT;
 	}
 	else if (strcmp(operator, ">") == 0 || strcmp(operator, ">>") == 0)
     {
-        ft_add_redirection(&current_cmd->outfiles, file);
+		ft_add_redirection(&current_cmd->outfiles, file);
         if (strcmp(operator, ">") == 0)
         {
-            current_cmd->redirect_type[i] = OUTPUT_REDIRECT;
+			current_cmd->redirect_type[i] = OUTPUT_REDIRECT;
         }
         else
             current_cmd->redirect_type[i] = APPEND_REDIRECT;
@@ -132,7 +177,7 @@ void ft_structlize(t_shell *shell)
 	{
         if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
         {
-            handle_pipe(&current_cmd, &new_cmd, shell);
+            allocate_nodes(&current_cmd, &new_cmd, shell);
             if (strcmp(shell->tokens[i], "|") == 0)
                 i++;
         }
@@ -153,6 +198,7 @@ void ft_structlize(t_shell *shell)
             }
             if (current_cmd != NULL)
             {
+				//can i write malloc for infiles and outfiles here?
 			    handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
             }
             else
@@ -160,7 +206,7 @@ void ft_structlize(t_shell *shell)
 			i++;
 		}
 		else
-        	{
+		{
 			if (current_cmd->cmd_name == NULL)
 				current_cmd->cmd_name = strdup(shell->tokens[i]);
 			else

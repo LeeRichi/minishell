@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 18:58:57 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/25 12:33:33 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,17 @@ void clear_cmds(t_shell *shell)
                 free(current->outfiles[i]);
             free(current->outfiles);
             current->outfiles = NULL;
+        }
+
+        if (current->redirect_type)
+        {
+            //so, enum style's free:
+            free(current->redirect_type);
+            current->redirect_type = NULL;
+            // for (int i = 0; current->redirect_type[i]; i++)
+            //     free(current->redirect_type[i]);
+            // free(current->redirect_type);
+            // current->redirect_type = NULL;
         }
 
         // Free redirection type array (if needed)

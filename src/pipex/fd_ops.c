@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_ops.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 21:49:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:58:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ TODO: figure out perimissions for output redirections
 		if more redirections
 			close
 			and open
-		if multiple, last one wins, if no problems in other redirections 
+		if multiple, last one wins, if no problems in other redirections
 		if exist, nothing to pipe
 	input redirections:
 		command uses last redir
@@ -72,13 +72,13 @@ direction: infile | oufile
 */
 char *get_redir_str(int index, t_cmd cmd)
 {
-	int			fd;
+	// int			fd;
 	int			count;
 	t_redirect_type	*type;
 	char		**infiles;
 	char		**outfiles;
 
-	fd = -1;
+	// fd = -1;
 	count = 0;
 	type = cmd.redirect_type;
 	infiles = cmd.infiles;
