@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 20:52:20 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:44:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **env)
 	ft_close(&pipex.pipe[0]);
 	ft_close(&pipex.pipe[1]);
 	wait_all_return = wait_all(pipex);
-	free_all(pipex);
+	free_pipex(pipex);
 	return (wait_all_return);
 }
 */
@@ -94,7 +94,10 @@ int	pipex_launch(t_cmd *argv, char **env, t_shell *shell)
 		perror("pipex alloc fail");
 		return 0; ///asdassdas
 	}
-// different logic if command count == 1 and builtin is used (no fork)
+	shell->pipex = &pipex;
+	/*
+		clean up command list
+	*/
 	while (pipex.current_command < pipex.command_count)
 	{
 		//TODO: change logic of error and exit in before fork, as you should not exit from minishell, or should you?
@@ -110,7 +113,8 @@ int	pipex_launch(t_cmd *argv, char **env, t_shell *shell)
 	ft_close(&pipex.pipe[1]);
 // TODO: wait fails considiration?
 	wait_all_return = wait_all(pipex);
-//TODO:  adjust free_all
-	free_all(pipex);
+//TODO:  adjust free_pipex
+	free_pipex(pipex);
+	shell->pipex = 0;
 	return (wait_all_return);
 }

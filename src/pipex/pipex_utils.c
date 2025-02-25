@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 20:54:12 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:44:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ t_cmd	*free_command_content(t_cmd *command)
 	return (0);
 }
 
-void	free_all(t_pipex pipex)
+void	free_pipex(t_pipex pipex)
 {
 	if (pipex.command)
 		free_command_content(pipex.command);

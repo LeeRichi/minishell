@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/20 23:00:13 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:44:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct s_shell
 	t_cmd		*cmds;			// TODO: add pipex here for error handling, free up cmds linked list, use arr from pipex
 	int		stdin_fd;
 	int		stdout_fd;
+	t_pipex		*pipex;
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
 } t_shell;
@@ -167,7 +168,7 @@ void		get_command(t_pipex *pipex);
 //t_pipex		get_pipex(int argc, char **argv, char **envp);
 t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp, t_shell *shell);
 void		print_current_error(void);
-void		free_all(t_pipex pipex);
+void		free_pipex(t_pipex pipex);
 int			after_fork(pid_t fork_result, t_pipex *pipex);
 int			wait_all(t_pipex pipex);
 char		*get_command_path(char *filename, char **paths);
@@ -178,6 +179,7 @@ char		**get_command_argv(t_cmd cmd);
 
 
 /*	processing	*/
+void execute(t_shell *shell);
 int	process_file_redirections(t_cmd *cmd);
 int	handle_builtin(t_cmd command);
 t_builtin_type get_builtin_type(t_cmd cmd);
