@@ -78,13 +78,13 @@ direction: infile | oufile
 */
 char *get_redir_str(int index, t_cmd cmd)
 {
-	int			fd;
+//	int			fd;
 	int			count;
 	t_redirect_type	*type;
 	char		**infiles;
 	char		**outfiles;
 
-	fd = -1;
+//	fd = -1;
 	count = 0;
 	type = cmd.redirect_type;
 	infiles = cmd.infiles;
