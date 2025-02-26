@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 21:47:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:52:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_UNSET)
 	{
-            	handle_unset(shell, command.arg[0]);
+            	// handle_unset(shell, command.arg[0]); //old
+            	handle_unset(shell); //new
+
 		//ft_printf("unset builtin\n");
 		return (0);
 	}

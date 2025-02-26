@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/25 12:35:18 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:00:01 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_sig	g_sig;
 void shell_init(char **envp, t_shell *shell)
 {
     shell->envp = envp;
-    shell->input = NULL;
-    shell->tokens = NULL;
+	shell->envp_value_pair = NULL;
+	shell->input = NULL;
+	shell->tokens = NULL;
     shell->token_count = 0;
     shell->current_index = 0;
     shell->exit_code = 0;
@@ -143,7 +144,6 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	// shell.shell_id = ft_getpid();
-
 	(void)av;
 	if (ac != 1)
 	{
@@ -154,6 +154,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, &handle_sigint);
 	signal(SIGQUIT, &handle_sigquit);
 	shell_init(envp, &shell);
+	pf_banner();
 	while (1)
 	{
 		shell.input = readline("$ ");

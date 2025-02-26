@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/25 10:16:49 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 16:59:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ typedef struct s_redirection {
 	char	*file;
 } t_redirection;
 
+typedef struct s_key_value
+{
+    char *key;
+    char *value;
+    struct s_key_value *next;
+} t_key_value;
+
 typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
@@ -108,7 +115,8 @@ typedef struct s_pipex {
 typedef struct s_shell
 {
 	char	**envp;
-	char	*input;
+	t_key_value *envp_value_pair;
+	char *input;
 	int		current_index;
 	int 		exit_code;
 	char	**tokens;
@@ -123,7 +131,6 @@ typedef struct s_shell
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
 } t_shell;
-
 
 /* PIPEX */
 typedef enum e_perrtypes {
@@ -179,8 +186,6 @@ int	process_file_redirections(t_cmd *cmd);
 int	handle_builtin(t_cmd command);
 t_builtin_type get_builtin_type(t_cmd cmd);
 
-
-
 //global functions
 void parse(t_shell *shell);
 
@@ -195,7 +200,8 @@ void handle_cd(char **tokens, t_shell *shell);
 int handle_pwd(t_shell *shell);
 void handle_exit(t_shell *shell, char **tokens);
 void handle_env(char **envp);
-void handle_unset(t_shell *shell, char *input);
+void handle_unset(t_shell *shell);
+void handle_export(t_shell *shell);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);
@@ -225,9 +231,11 @@ void clear_tokens(t_shell *shell);
 void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
-// print.c
+// test_print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
+// production_print.c
+void pf_banner();
 
 //lex/heredoc.c
 char *extract_delimiter(char *input, int *i);

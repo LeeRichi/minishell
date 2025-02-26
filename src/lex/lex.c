@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 17:59:34 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 16:54:01 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             }
 			return ;
 		}
-		while (input[*i] == '~') 
+		while (input[*i] == '~')
 		{
 			*current_token = str_append(*current_token, '~');
 			(*i)++;
@@ -303,7 +303,7 @@ void tokenize_input(char *input, t_shell *shell)
 
     //debug
     // printf("shell->last_token_type = %d\n", shell->last_token_type);
-    
+
 	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
 	{

@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/02/14 17:55:10 by chlee2           ###   ########.fr        #
+#    Updated: 2025/02/26 16:58:36 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 LIBFTDIR = lib/libft
 LIBFT = $(LIBFTDIR)/libft.a
 
-CC = cc 
+CC = cc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
@@ -49,8 +49,7 @@ SRCS = src/main.c \
 		src/pipex/pipex_utils.c \
 		src/pipex/utils.c \
 		src/pipex/heredoc.c \
-
-
+		src/utils/production_print.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -73,5 +72,3 @@ fclean: clean
 re: fclean $(NAME)
 
 .PHONY: all clean fclean re
-
-

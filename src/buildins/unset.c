@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 21:46:23 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:05:07 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *ft_strncpy(char *str, size_t n) //"PATH=FUCK", 4
+char *ft_strncpy(char *str, size_t n)
 {
     size_t len;
 	char *res = NULL;
@@ -62,7 +62,6 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 	}
 	printf("og: %zu\n", found_index);
 
-
 //	while (found_index < total)
 	while (found_index < total - 1)
 	{
@@ -73,23 +72,23 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 	}
 	new_envp[i] = NULL; // Null-terminate the new array
 
-    // free(shell->envp); // Free old envp
+	// free(shell->envp); // Free old envp
 	// printf("new_enp[%zu]: %s\n", i, new_envp[i]);
 	shell->envp = new_envp;
 }
 
-void handle_unset(t_shell *shell, char *input)
+void handle_unset(t_shell *shell)
 {
     char **v_names = NULL;
     size_t i;
     size_t j;
-    size_t len = 0;
+    size_t og_total_len = 0;
 	// char **updated_v_names = NULL;
 
-	len = 0;
-	while(shell->envp[len])
-		len++;
-	v_names = malloc((len + 1) * sizeof(char *));
+	og_total_len = 0;
+	while(shell->envp[og_total_len])
+		og_total_len++;
+	v_names = malloc((og_total_len + 1) * sizeof(char *));
 	if (!v_names)
 	{
 		perror("malloc failed on v_names");
@@ -106,15 +105,20 @@ void handle_unset(t_shell *shell, char *input)
     }
 	i = 0;
 	// j = len;
-	while (i < len)
+	while (i < og_total_len)
     {
-        if (ft_strcmp(v_names[i], input) == 0)
-        {
-            // Remove the matching var_name from the environment
-            ft_cpy2envp(i, len, shell);
-            break;
-        }
-        i++;
+		j = 1;
+		while (shell->tokens[j])
+		{
+			if (ft_strcmp(v_names[i], shell->tokens[j]) == 0)
+			{
+				// Remove the matching var_name from the environment
+				ft_cpy2envp(i, og_total_len, shell);
+				break;
+			}
+			j++;
+		}
+		i++;
     }
 	// while(v_names[i])
 	// {
@@ -130,16 +134,16 @@ void handle_unset(t_shell *shell, char *input)
 	// 	}
 	// 	i++;
 	// }
-	
-	for (i = 0; i < len; i++)
+
+	for (i = 0; i < og_total_len; i++)
         free(v_names[i]);
     free(v_names);
 
-	
+
 	// ft_cpy2envp(len, j, shell);
 	/*
 	i = 0;
-	
+
 	while (shell->envp[i])
 	{
 		printf("%zu: %s\n", i, shell->envp[i]);

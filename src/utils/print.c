@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/25 11:23:15 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 11:07:06 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void print_cmd_struct(t_cmd *cmd)
             printf("\n");
         }
 
-
         //cat < 1 > 2 >> 3
         // if (cmd->type)
         // {
@@ -122,9 +121,11 @@ void print_cmd_struct(t_cmd *cmd)
         // else
         //     printf("Next Command: NULL\n");
 
+
         if (cmd->next)
         {
             printf("Next Command: %p\n", (void *)cmd->next);
+            printf("  |\n");
             printf("  |\n");
             printf("  V\n");
         }
