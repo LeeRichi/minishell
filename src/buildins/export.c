@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 12:39:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:20:46 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,16 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 				print_tokens(shell->envp);
 			while (shell->tokens[j])
 			{
-				char *that_key = strchr(shell->tokens[j], '='); //x=2
+				char *that_key = strchr(shell->tokens[j], '=');
 				if (that_key)
 					*that_key = '\0';
+				if (strlen(shell->tokens[j]) == 0)
+				{
+					printf("syntax error.\n");
+					return ;
+				}
 				else
-					return;
+					return ;
 				update_value_in_env(shell, shell->tokens[j], that_key + 1);
 				j++;
 			}
