@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 11:54:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:39:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,18 @@ t_key_value *arr_to_key_value(t_shell *shell)
     return head;
 }
 
-// void free_key_value_list(t_key_value *head)
-// {
-//     t_key_value *temp;
-//     while (head)
-//     {
-//         temp = head;
-//         head = head->next;
-//         free(temp->key);
-//         free(temp->value);
-//         free(temp);
-//     }
-// }
+void free_key_value_list(t_key_value *head)
+{
+    t_key_value *temp;
+    while (head)
+    {
+        temp = head;
+        head = head->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
+    }
+}
 
 void from_pair_to_arr(t_shell *shell)
 {
@@ -104,20 +104,6 @@ void from_pair_to_arr(t_shell *shell)
         count++;
         temp = temp->next;
     }
-	// printf("count: %d\n", count);
-	// if (shell->envp)
-    // {
-    //     for (int i = 0; shell->envp[i]; i++)
-    //         free(shell->envp[i]);
-    //     free(shell->envp);
-    // }
-    // shell->envp = malloc(sizeof(char *) * (count + 1));
-    // if (!shell->envp)
-    // {
-    //     printf("malloc failed at update_envp_from_list()\n");
-    //     return;
-    // }
-
     temp = shell->envp_value_pair;
 	i = 0;
 	while (temp)
@@ -138,13 +124,10 @@ void from_pair_to_arr(t_shell *shell)
 
 void update_value_in_env(t_shell *shell, char *key, char *value)
 {
-	// t_key_value *envp_value_pair;
 	t_key_value *temp;
 	t_key_value *new_node;
-	// int i;
 
 	shell->envp_value_pair = arr_to_key_value(shell);
-
 	temp = shell->envp_value_pair;
     while (temp)
     {
@@ -167,17 +150,6 @@ void update_value_in_env(t_shell *shell, char *key, char *value)
     new_node->next = shell->envp_value_pair;
 	shell->envp_value_pair = new_node;
 
-	// //temp
-	// printf("\nUpdated Environment Variables:\n");
-    // temp = shell->envp_value_pair;
-	// i = 0;
-	// while (temp)
-	// {
-    //     printf("i: %d, %s=%s\n", i, temp->key, temp->value);
-    //     temp = temp->next;
-	// 	i++;
-	// }
-
 	from_pair_to_arr(shell);
 }
 
@@ -187,7 +159,6 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 	int j;
 	char **key_value_pair;
 	t_key_value *head;
-	// t_key_value *temp;
 
 	head = NULL;
 	i = 0;
@@ -202,12 +173,6 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 		}
 		i++;
 	}
-	// temp = head;
-    // while (temp)
-    // {
-    //     printf("Key: %s, Value: %s\n", temp->key, temp->value);
-    //     temp = temp->next;
-    // }
 
 	i = 0;
 	while(shell->tokens[i]) //two main cases, 1: already exits key 2: otherwise
@@ -231,8 +196,9 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 		i++;
 	}
 
-// free_key_value_list(head)
+	free_key_value_list(head);
 
+	//to print
 	// int z;
 	// z = 0;
 	// while (shell->envp[z])
