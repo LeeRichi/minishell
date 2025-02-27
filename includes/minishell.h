@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 16:59:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:03:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,9 @@ void handle_exit(t_shell *shell, char **tokens);
 void handle_env(char **envp);
 void handle_unset(t_shell *shell);
 void handle_export(t_shell *shell);
+
+//utils/lvl_handler.c
+void shell_level_ctrl(t_shell *shell);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);

@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/02/26 16:58:36 by chlee2           ###   ########.fr        #
+#    Updated: 2025/02/27 11:58:51 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS = src/main.c \
 		src/pipex/utils.c \
 		src/pipex/heredoc.c \
 		src/utils/production_print.c \
+		src/utils/lvl_handler.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 10:42:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 11:54:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ void add_key_value_pair(t_key_value **head, const char *key, const char *value)
 	new_node->next = *head;
 	*head = new_node;
 }
-
-// int key_exists_in_env(t_shell *shell, char *input)
-// {
-// 	int i;
-// 	char *key;
-
-// 	key = ft_strjoin(input, "=");
-// 	i = 0;
-// 	while (shell->envp[i])
-// 	{
-// 		if (ft_strstr(shell->envp[i], key))
-// 		{
-// 			printf("yes\n");
-// 			return (i);
-// 		}
-// 		i++;
-// 	}
-// 	printf("no\n");
-// 	return (-1);
-// }
 
 t_key_value *arr_to_key_value(t_shell *shell)
 {
@@ -244,8 +224,6 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 					*that_key = '\0';
 				else
 					return;
-
-				// printf("shell->tokens[j]: %s\n", shell->tokens[j]);
 				update_value_in_env(shell, shell->tokens[j], that_key + 1);
 				j++;
 			}
