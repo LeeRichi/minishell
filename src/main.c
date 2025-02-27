@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 17:00:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 20:01:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, &handle_sigquit);
 	shell_init(envp, &shell);
 	pf_banner();
+	print_tokens(shell.envp);
 	while (1)
 	{
 		shell.input = readline("$ ");

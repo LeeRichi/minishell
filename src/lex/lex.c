@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 16:54:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 11:08:09 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     char *id_as_str;
     int str_len;
 
+    //put an empty str into token
+    if (input[*i] == '"' && input[*i + 1] == '"')
+    {
+        printf("Caught empty string inside double quotes!\n");
+        if (*current_token == NULL)
+            *current_token = strdup("");
+        (*i)++;
+    }
 	if (input[*i] == '\'' && !(shell->in_double_quote))
         shell->in_single_quote = !(shell->in_single_quote);
     else if (input[*i] == '"' && !(shell->in_single_quote))

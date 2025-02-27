@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 17:33:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/27 10:42:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,12 +235,16 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 		if (strcmp(shell->tokens[i], "export") == 0)
 		{
 			j = i + 1;
+			if (!shell->tokens[j]) //if no second arg follow up by export
+				print_tokens(shell->envp);
 			while (shell->tokens[j])
 			{
-				char *that_key = strchr(shell->tokens[j], '=');
-				if (that_key) {
+				char *that_key = strchr(shell->tokens[j], '='); //x=2
+				if (that_key)
 					*that_key = '\0';
-				}
+				else
+					return;
+
 				// printf("shell->tokens[j]: %s\n", shell->tokens[j]);
 				update_value_in_env(shell, shell->tokens[j], that_key + 1);
 				j++;
@@ -249,13 +253,13 @@ void handle_export(t_shell *shell) //two loops //first check which token contain
 		i++;
 	}
 
-	// free_key_value_list(head);
+// free_key_value_list(head)
 
-	int z;
-	z = 0;
-	while (shell->envp[z])
-	{
-		printf("shell->envp[%d]: %s\n", z, shell->envp[z]);
-		z++;
-	}
+	// int z;
+	// z = 0;
+	// while (shell->envp[z])
+	// {
+	// 	printf("shell->envp[%d]: %s\n", z, shell->envp[z]);
+	// 	z++;
+	// }
 }

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 11:07:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:44:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void print_tokens(char **tokens)
     while (tokens[i])
     {
         printf("Token %d: %s\n", i, tokens[i]);
+        // printf("%s\n", tokens[i]);
 		i++;
 	}
     printf("\n");
