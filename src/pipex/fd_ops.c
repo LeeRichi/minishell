@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/20 23:03:52 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/28 19:15:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ TODO: figure out perimissions for output redirections
 		each:
 			dup2 to pipe, if pipe?
 			> open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			>> open(arg, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+			>> open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			check not dir
 			check access rights
 		if more redirections
@@ -135,7 +135,7 @@ int handle_append(char *name)
 	int	fd;
 	int	dup_res;
 
-	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+	fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (-1);
 	dup_res = dup2(fd, STDOUT_FILENO);
