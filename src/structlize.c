@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/25 12:16:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:37:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,11 @@ void ft_structlize(t_shell *shell)
 		else
 		{
 			if (current_cmd->cmd_name == NULL)
+            {
+                while (shell->tokens[i][0] == '\0') //skip empty tokens
+                    i++;
 				current_cmd->cmd_name = strdup(shell->tokens[i]);
+            }
 			else
 				current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
 		}
