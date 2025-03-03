@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/11 13:11:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/03 19:49:28 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
     (*index)--;
 	env_name[len] = '\0';
 	result = get_env_value(env_name);
+	free(env_name);
 	// if (result)
 	// 	local_flag = 1;
 	if (!result)
@@ -58,7 +59,6 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 			return (temp);
 		return (NULL);
     }
-	free(env_name);
 	return (result);
 }
 
@@ -89,7 +89,7 @@ void handle_unbalanced_quotes(char **input)
 {
     while (!check_balanced_quotes(*input))
     {
-        printf("$ ");
+        printf("> ");
         char *additional_input = readline(NULL);
         if (!additional_input)
         {

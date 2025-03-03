@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/25 12:33:33 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/03 18:01:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ void clear_cmds(t_shell *shell)
             current->arg = NULL;
         }
 
-        // Free infiles array
+        // // Free infiles array
         if (current->infiles)
         {
             for (int i = 0; current->infiles[i]; i++)
                 free(current->infiles[i]);
             free(current->infiles);
-            current->infiles = NULL;
+            // current->infiles = NULL;
         }
 
         // Free outfiles array
@@ -114,7 +114,7 @@ void clear_cmds(t_shell *shell)
         if (current->redirect_type)
         {
             //so, enum style's free:
-            free(current->redirect_type);
+			free(current->redirect_type);
             current->redirect_type = NULL;
             // for (int i = 0; current->redirect_type[i]; i++)
             //     free(current->redirect_type[i]);
@@ -135,7 +135,7 @@ void clear_cmds(t_shell *shell)
     }
 
     // Set the cmds pointer in shell to NULL
-    shell->cmds = NULL;
+        shell->cmds = NULL;
 }
 
 void free_matrix(char **matrix)

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 12:07:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/03 17:13:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ static void replace_env_var(char **envp, char *key, char *new_entry)
 		{
 			free(envp[i]);
 			envp[i] = new_entry;
+			free(formatted_key);
 			return;
 		}
 		i++;
 	}
+	free(formatted_key); 
 }
 
 void shell_level_ctrl(t_shell *shell)
@@ -51,4 +53,5 @@ void shell_level_ctrl(t_shell *shell)
 		free(shlvl_str);
 	}
 	replace_env_var(shell->envp, "SHLVL", new_shlvl_entry);
+	free(new_shlvl_entry);
 }

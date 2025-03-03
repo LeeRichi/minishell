@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/02 19:50:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/03 18:05:27 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
         perror("malloc failed for redirect_type || intfiles || outfiles");
         exit(EXIT_FAILURE);
     }
+    memset((*new_cmd)->redirect_type, 0, sizeof(t_redirect_type) * count_redirections(shell->tokens));
+    memset((*new_cmd)->outfiles, 0, sizeof(char *) * (count_specific(shell->tokens, ">") + 1));
+    memset((*new_cmd)->infiles, 0, sizeof(char *) * (count_specific(shell->tokens, "<") + 1));
+
     if (*current_cmd)
         (*current_cmd)->next = *new_cmd;
     else
@@ -209,7 +213,7 @@ void ft_structlize(t_shell *shell)
 		{
 			if (current_cmd->cmd_name == NULL)
             {
-                while (shell->tokens[i][0] == '\0' && shell->tokens[i+1]) //skip empty tokens
+                while (shell->tokens[i][0] == '\0' && shell->tokens[i + 1]) //skip empty tokens
                     i++;
 				current_cmd->cmd_name = strdup(shell->tokens[i]);
             }

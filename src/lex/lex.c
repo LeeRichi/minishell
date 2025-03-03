@@ -6,48 +6,64 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 19:58:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/03 19:45:49 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// void finalize_token(t_shell *shell, char **current_token, int *token_count)
+// {
+//     if (*current_token)
+//     {
+//         shell->tokens = ft_realloc(shell->tokens, sizeof(char *) * (*token_count + 2));
+//         if (!shell->tokens)
+//             return;
+
+//         shell->tokens[(*token_count)++] = *current_token;
+//         shell->tokens[*token_count] = NULL;
+//         *current_token = NULL;
+//         // shell->last_token_type = 1;
+//         // if (input[*i] == '|')
+//         // {
+//         //     shell->last_token_type = 1;
+//         // }
+//         // else if (input[*i] == '>' || input[*i] == '<')
+//         // {
+//         //     shell->last_token_type = 2;
+//         // }
+//         // else
+//         // {
+//         //     shell->last_token_type = 0;
+//         // }
+//     }
+// }
+
 void finalize_token(t_shell *shell, char **current_token, int *token_count)
 {
     if (*current_token)
     {
-        shell->tokens = ft_realloc(shell->tokens, sizeof(char *) * (*token_count + 2));
-        if (!shell->tokens)
+        size_t new_size = sizeof(char *) * (*token_count + 2);
+        char **new_tokens = malloc(new_size);
+
+        if (!new_tokens)
             return;
 
-        shell->tokens[(*token_count)++] = *current_token;
-        shell->tokens[*token_count] = NULL;
+        for (int i = 0; i < *token_count; i++)
+        {
+            new_tokens[i] = shell->tokens[i];
+        }
+
+        new_tokens[*token_count] = *current_token;
+        new_tokens[*token_count + 1] = NULL;
+
+        free(shell->tokens);
+        shell->tokens = new_tokens;
+
+        (*token_count)++;
         *current_token = NULL;
-        // shell->last_token_type = 1;
-        // if (input[*i] == '|')
-        // {
-        //     shell->last_token_type = 1;
-        // }
-        // else if (input[*i] == '>' || input[*i] == '<')
-        // {
-        //     shell->last_token_type = 2;
-        // }
-        // else
-        // {
-        //     shell->last_token_type = 0;
-        // }
     }
 }
-
-// int is_one_of(char *str)
-// {
-// 	int i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '|' || str[i] == '<' || str[i] == '>' ||)
-// 		i++;
-// 	}
-// }
 
 void parse_input_character(t_shell *shell, char **current_token, int *i, char *input)
 {
@@ -127,16 +143,18 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         else
 		{
 			env_value = handle_dollar_sign(shell, input, i);
-            // printf("env_value: %s\n", env_value);
 			if (!env_value) //asign '\0' for the tokens who does have value
-				*current_token = str_append(*current_token, '\0');
+            {
+				return ;				
+				// *current_token = str_append(*current_token, '\0');
+            }
 			else
 			{
 				j = 0;
 				while (env_value[j])
 					*current_token = str_append(*current_token, env_value[j++]);
-				// free(env_value);
 			}
+            free(env_value);
 		}
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
