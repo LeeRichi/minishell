@@ -72,14 +72,14 @@ int	t_cmd_list_count(t_cmd *head)
 
 //int	pipex_launch(int command_count, char **argv, char **env)
 //TODO: add ambigous redir message here???!!!
-int	pipex_launch(t_cmd *argv, char **env, t_shell *shell)
+int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 {
 	t_pipex	pipex;
 	pid_t	pid;
 	int		wait_all_return;
 	int command_count;
 
-	command_count = t_cmd_list_count(argv);
+	command_count = t_cmd_list_count(cmds);
 	if (command_count < 1)
 	{
 // TODO: rethink this logic, find out about return logic and general exit code logic
@@ -87,7 +87,7 @@ int	pipex_launch(t_cmd *argv, char **env, t_shell *shell)
 //		return (EXIT_FAILURE);
 		return (0);
 	}
-	pipex = get_pipex(command_count, argv, env, shell);
+	pipex = get_pipex(command_count, cmds, env, shell);
 	if (!pipex.command)
 	{
 		//TODO: handle malloc fail error
