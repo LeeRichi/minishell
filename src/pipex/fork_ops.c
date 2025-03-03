@@ -115,8 +115,6 @@ void	in_child(t_pipex pipex)
 		exit(0);
 	}
 	// TODO: only do if not builtin?
-	get_command(&pipex);
-	command = pipex.command[pipex.current_command];
 	if (get_builtin_type(command))
 	{
 		file_red_result = handle_builtin(command);
@@ -127,6 +125,8 @@ void	in_child(t_pipex pipex)
 	}
 	else
 	{
+		get_command(&pipex);
+		command = pipex.command[pipex.current_command];
 		execve(command.path, command.argv, command.env);
 		if (errno == ENOENT)
 			error_and_exit(&pipex, CMD_FILE_NOT_FOUND);
