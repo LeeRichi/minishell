@@ -91,6 +91,9 @@ int	main(int ac, char **av, char **envp)
 		parse(&shell);
 // TODO: check here / check inside
 		execute(&shell);
+		clear_cmds(&shell);
+//		free(shell.input);
+//		shell.input = 0;
 		// cleanup shell cmds
 		shell.cmds = 0;
 	}

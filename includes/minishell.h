@@ -89,9 +89,9 @@ typedef struct s_cmd
 	char	*path;		// execve
 	char	**argv;		// execve
 	char	**env;		// execve
+	void	*shell;
   int ambiguous_flag_node; //USE THIS
 	struct s_cmd		*next;
-	void	*shell;
 } t_cmd;
 
 typedef struct s_pipex {
@@ -103,6 +103,7 @@ typedef struct s_pipex {
 	char		**env;				//is it ever adjusted through child process
 	t_cmd		*command;			//change type and adjust
 	char		**path_split;			//rethink, should it happen in child?
+	void	*shell;
 }	t_pipex;
 
 typedef struct s_shell

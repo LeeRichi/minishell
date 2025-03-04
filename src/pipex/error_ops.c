@@ -57,12 +57,19 @@ static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 */
 void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 {
+	t_shell	*shell;
 //TODO: rethink, rewrite
 /*
 	print_error_message(*pipex, errtype);
 */
+	shell = 0;
 	perror("PIPEX ERROR");
 	if (pipex)
+	{
+		shell = (t_shell *)pipex->shell;
 		free_pipex(*pipex);
+		shell->pipex = 0;
+	}
+	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
