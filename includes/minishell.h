@@ -152,7 +152,7 @@ int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
 int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof);
-t_cmd	*free_command_content(t_cmd *command);
+t_cmd	*free_pipex_cmd(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 void		ft_close(int *fd);
 int			dup2_and_close(int *fd_from, int fd_to);

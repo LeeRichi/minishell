@@ -85,7 +85,6 @@ void execute(t_shell *shell)
 		{
 			//TODO: error cleanup and exit?
 		}
-
 	}
 	shell->exit_code = exec_result;
 }

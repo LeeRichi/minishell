@@ -143,7 +143,7 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 }
 
 //t_command	*free_command_content(t_command *command)
-t_cmd	*free_command_content(t_cmd *command)
+t_cmd	*free_pipex_cmd(t_cmd *command)
 {
 	if (command)
 	{
@@ -159,6 +159,26 @@ t_cmd	*free_command_content(t_cmd *command)
 			free(command->path);
 			command->path = 0;
 		}
+		if (command->cmd_name)
+		{
+			free(command->cmd_name);
+			command->cmd_name = 0;
+		}
+		if (command->arg)
+		{
+			free(command->arg);
+			command->arg = 0;
+		}
+		if (command->infiles)
+		{
+			
+		}
+		if (command->outfiles)
+		{
+		}
+		if (command->heredoc_fd)
+		{
+		}
 	}
 	return (0);
 }
@@ -166,7 +186,7 @@ t_cmd	*free_command_content(t_cmd *command)
 void	free_pipex(t_pipex pipex)
 {
 	if (pipex.command)
-		free_command_content(pipex.command);
+		free_pipex_cmd(pipex.command);
 	if (pipex.path_split)
 		free_split(pipex.path_split);
 	ft_close(&pipex.pipe[0]);
