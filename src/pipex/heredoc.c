@@ -15,7 +15,7 @@
 #include "sys/wait.h"
 #include "stdio.h"
 //wip
-
+/*
 int ft_strcmp(const char *s1, const char *s2)
 {
 	int s1_length;
@@ -27,7 +27,7 @@ int ft_strcmp(const char *s1, const char *s2)
 		return (ft_strncmp(s1, s2, s1_length));
 	return (ft_strncmp(s1, s2, s2_length));
 }
-
+*/
 void	close_fd_safe(int *fd)
 {
 	if (*fd != -1)

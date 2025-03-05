@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 20:55:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:44:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ typedef struct s_cmd
 	char	*path;		// execve
 	char	**argv;		// execve
 	char	**env;		// execve
+	void	*shell;
   int ambiguous_flag_node; //USE THIS
 	struct s_cmd		*next;
-	void	*shell;
 } t_cmd;
 
 typedef struct s_pipex {
@@ -103,6 +103,7 @@ typedef struct s_pipex {
 	char		**env;				//is it ever adjusted through child process
 	t_cmd		*command;			//change type and adjust
 	char		**path_split;			//rethink, should it happen in child?
+	void	*shell;
 }	t_pipex;
 
 typedef struct s_shell
@@ -120,6 +121,7 @@ typedef struct s_shell
 	t_cmd		*cmds;			// TODO: add pipex here for error handling, free up cmds linked list, use arr from pipex
 	int		stdin_fd;
 	int		stdout_fd;
+	t_pipex		*pipex;
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
 } t_shell;
@@ -144,12 +146,14 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
+
+
 char *get_redir_str(int index, t_cmd cmd);
 int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
 int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof);
-t_cmd	*free_command_content(t_cmd *command);
+t_cmd	*free_pipex_cmd(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 void		ft_close(int *fd);
 int			dup2_and_close(int *fd_from, int fd_to);
@@ -165,7 +169,7 @@ void		get_command(t_pipex *pipex);
 //t_pipex		get_pipex(int argc, char **argv, char **envp);
 t_pipex		get_pipex(size_t argc, t_cmd *argv, char **envp, t_shell *shell);
 void		print_current_error(void);
-void		free_all(t_pipex pipex);
+void		free_pipex(t_pipex pipex);
 int			after_fork(pid_t fork_result, t_pipex *pipex);
 int			wait_all(t_pipex pipex);
 char		*get_command_path(char *filename, char **paths);
@@ -174,7 +178,9 @@ char		**get_path_split(char **envp, size_t ind);
 char		**get_command_argv(t_cmd cmd);
 /* PIPEX END */
 
+
 /*	processing	*/
+void execute(t_shell *shell);
 int	process_file_redirections(t_cmd *cmd);
 int	handle_builtin(t_cmd command);
 t_builtin_type get_builtin_type(t_cmd cmd);

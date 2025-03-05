@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/18 21:42:16 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:26:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void handle_cd(char **args, t_shell *shell)
 {
-	printf("%p\n", shell);
 	if (!args)
 	{
 		char *home = getenv("HOME");

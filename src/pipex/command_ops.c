@@ -6,13 +6,19 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/06 19:57:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:04:07 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
+{
+	printf("%s, %d", fname, line);
+	error_and_exit(pipex, errtype);
+}
+#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
 
 static ssize_t	get_path_index(char **envp)
 {
@@ -63,10 +69,19 @@ static void	handle_command(char **path_split, t_pipex *pipex)
 		error_and_exit(pipex, CMD_NOT_FOUND);
 }
 
+//TODO: look into argv[0]==0, potential error and exit on its == to 0
+
+//WIP
 static void	resolve_command_path(t_pipex *pipex)
 {
 	ssize_t	ind;
 
+	if (pipex->command[pipex->current_command].argv[0] == 0)
+	{
+		pipex->command[pipex->current_command].path = 0;
+		pipex->command[pipex->current_command].argv = 0;
+			error_and_exit(pipex, PROG_FILE_IS_DIR);
+	}
 	if (ft_strchr(pipex->command[pipex->current_command].argv[0], '/'))
 	{
 		pipex->command[pipex->current_command].path = pipex->command[pipex->current_command].argv[0];
@@ -99,6 +114,7 @@ void	get_command(t_pipex *pipex)
 	if (!pipex->command[pipex->current_command].argv)
 		error_and_exit(pipex, MALLOC_FAIL);
 //  TODO: special case, needs handling?
+
 /*	if (*(pipex->command->argv) == 0)
 	{
 		free_split(pipex->command->argv);

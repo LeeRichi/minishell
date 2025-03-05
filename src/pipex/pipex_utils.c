@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/18 20:54:12 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:54:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 
 	pipex.command_count = command_count;
 	pipex.current_command = 0;
+	pipex.shell = (void *)shell;
 // TODO : rethink where to do this
 /*
 	pipex.infile = *(argv + 1);
@@ -143,30 +144,64 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 }
 
 //t_command	*free_command_content(t_command *command)
-t_cmd	*free_command_content(t_cmd *command)
+//wip, careful here
+t_cmd	*free_pipex_cmd(t_cmd *command)
 {
-	if (command)
+	while (command->cmd_name && command->infiles && command->outfiles)
 	{
 		if (command->argv)
 		{
-			if (command->path && command->argv[0] == command->path)
-				command->path = 0;
-			free_split(command->argv);
+//			if (command->path && command->argv[0] == command->path)
+//				command->path = 0;
+//			free_split(command->argv);
+			ft_putstr_fd("before freeing command argv\n", 2);
+			free(command->argv);
 			command->argv = 0;
 		}
-		if (command->path)
+		if (command->path && command->path != command->cmd_name)
 		{
 			free(command->path);
 			command->path = 0;
 		}
+		if (command->cmd_name)
+		{
+			free(command->cmd_name);
+			command->cmd_name = 0;
+		}
+		if (command->heredoc_fd != -1)
+		{
+			close(command->heredoc_fd);
+			command->heredoc_fd = -1;
+		}
+		command++;
+/*		if (command->arg)
+		{
+			free_split(command->arg);
+			command->arg = 0;
+		}
+		if (command->infiles)
+		{
+			
+		}
+		if (command->outfiles)
+		{
+		}
+		if (command->heredoc_fd)
+		{
+		}
+*/
 	}
 	return (0);
 }
 
-void	free_all(t_pipex pipex)
+void	free_pipex(t_pipex pipex)
 {
 	if (pipex.command)
-		free_command_content(pipex.command);
+	{
+		free_pipex_cmd(pipex.command);
+		free(pipex.command);
+		pipex.command = 0;
+	}
 	if (pipex.path_split)
 		free_split(pipex.path_split);
 	ft_close(&pipex.pipe[0]);

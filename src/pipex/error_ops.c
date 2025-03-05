@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/10 17:32:33 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:43:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,19 @@ static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 */
 void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 {
+	t_shell	*shell;
 //TODO: rethink, rewrite
 /*
 	print_error_message(*pipex, errtype);
 */
+	shell = 0;
 	perror("PIPEX ERROR");
 	if (pipex)
-		free_all(*pipex);
+	{
+		shell = (t_shell *)pipex->shell;
+		free_pipex(*pipex);
+		shell->pipex = 0;
+	}
+	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
