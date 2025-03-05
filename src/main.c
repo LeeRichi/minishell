@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 19:51:52 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/05 16:51:36 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int ac, char **av, char **envp)
 		parse(&shell);
 // TODO: check here / check inside
 		execute(&shell);
-		clear_cmds(&shell);
 //		free(shell.input);
 //		shell.input = 0;
 		// cleanup shell cmds

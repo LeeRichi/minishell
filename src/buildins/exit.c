@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/20 22:37:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:55:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void handle_exit(t_shell *shell, char **args)
     {
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
         shell->exit_code = STDERR;
+        /*TODO: cleanup*/
         exit(shell->exit_code);
     }
     else if (args && args[0] && !ft_isNum(args[0]))
@@ -45,15 +46,18 @@ void handle_exit(t_shell *shell, char **args)
 		ft_putstr_fd(args[0], STDERR);
 		ft_putendl_fd(": numeric argument required", STDERR);
         shell->exit_code = NONE_NUMERIC_EXIT_CODE;
+        /*TODO: cleanup*/
         exit(NONE_NUMERIC_EXIT_CODE);
     }
     else if (args && args[0]) //valid //with exit and 1 numeric arg
     {
         shell->exit_code = ft_atoi(args[0]) % 256;
+        /*TODO: cleanup*/
         exit(ft_atoi(args[0]) % 256);
     }
     else //default //valid //only exit
     {
+        /*TODO: cleanup*/
         exit(shell->exit_code);
         // shell->exit_code = 0;
         // exit(0);

@@ -58,26 +58,26 @@ void parse(t_shell *shell)
 	else
 		shell->err_code = 0;
 
-	if (shell->tokens && shell->tokens[0] != NULL)
-    {
-		if (strcmp(shell->tokens[0], "echo") == 0)
-            handle_echo(shell->tokens, shell);
-        else if (strcmp(shell->tokens[0], "cd") == 0)
-            handle_cd(shell->tokens, shell);
-        else if (strcmp(shell->tokens[0], "pwd") == 0)
-            handle_pwd(shell);
-        else if (strcmp(shell->tokens[0], "exit") == 0)
-            handle_exit(shell, shell->tokens);
-        else if (strcmp(shell->tokens[0], "env") == 0)
-           handle_env(shell->envp); // Pass environment variables
-        else if (strcmp(shell->tokens[0], "unset") == 0)
-            handle_unset(shell);
-        else if (contains_str(shell->tokens, "export")) //this is tricky one, cause export does not need to be the first argument?
-            handle_export(shell);
+	// if (shell->tokens && shell->tokens[0] != NULL)
+    // {
+	// 	if (strcmp(shell->tokens[0], "echo") == 0)
+    //         handle_echo(shell->tokens, shell);
+    //     else if (strcmp(shell->tokens[0], "cd") == 0)
+    //         handle_cd(shell->tokens, shell);
+    //     else if (strcmp(shell->tokens[0], "pwd") == 0)
+    //         handle_pwd(shell);
+    //     else if (strcmp(shell->tokens[0], "exit") == 0)
+    //         handle_exit(shell, shell->tokens);
+    //     else if (strcmp(shell->tokens[0], "env") == 0)
+    //        handle_env(shell->envp); // Pass environment variables
+    //     else if (strcmp(shell->tokens[0], "unset") == 0)
+    //         handle_unset(shell);
+    //     else if (contains_str(shell->tokens, "export")) //this is tricky one, cause export does not need to be the first argument?
+    //         handle_export(shell);
         // else
         //     execute_external_command(shell->tokens);
         // might delete depends how I free_all?
-	}
+	// }
 
 	// freeing
 	if (shell->tokens)

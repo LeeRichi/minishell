@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/04 17:54:13 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:49:31 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ t_cmd	*free_pipex_cmd(t_cmd *command)
 //			if (command->path && command->argv[0] == command->path)
 //				command->path = 0;
 //			free_split(command->argv);
-			ft_putstr_fd("before freeing command argv\n", 2);
+		//	ft_putstr_fd("before freeing command argv\n", 2);
 			free(command->argv);
 			command->argv = 0;
 		}
@@ -163,11 +163,12 @@ t_cmd	*free_pipex_cmd(t_cmd *command)
 			free(command->path);
 			command->path = 0;
 		}
-		if (command->cmd_name)
+/*		if (command->cmd_name)
 		{
 			free(command->cmd_name);
 			command->cmd_name = 0;
 		}
+*/
 		if (command->heredoc_fd != -1)
 		{
 			close(command->heredoc_fd);

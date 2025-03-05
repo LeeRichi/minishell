@@ -1,0 +1,14 @@
+1
+asd
+EOF
+includes
+infile
+lib
+line
+Makefile
+minishell
+note
+readline.supp
+README.md
+src
+wtf

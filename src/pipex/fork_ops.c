@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/20 23:10:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:47:26 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_EXPORT)
 	{
+		handle_export(shell);
 		ft_printf("export builtin\n");
 		return (0);
 	}
