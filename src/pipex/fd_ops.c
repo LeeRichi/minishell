@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/24 23:58:05 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/28 19:15:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
 */
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
+{
+	printf("%s, %d", fname, line);
+	error_and_exit(pipex, errtype);
+}
+#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
@@ -46,7 +52,7 @@ TODO: figure out perimissions for output redirections
 		each:
 			dup2 to pipe, if pipe?
 			> open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			>> open(arg, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+			>> open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			check not dir
 			check access rights
 		if more redirections
@@ -72,13 +78,11 @@ direction: infile | oufile
 */
 char *get_redir_str(int index, t_cmd cmd)
 {
-	// int			fd;
 	int			count;
 	t_redirect_type	*type;
 	char		**infiles;
 	char		**outfiles;
 
-	// fd = -1;
 	count = 0;
 	type = cmd.redirect_type;
 	infiles = cmd.infiles;
@@ -129,7 +133,7 @@ int handle_append(char *name)
 	int	fd;
 	int	dup_res;
 
-	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+	fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (-1);
 	dup_res = dup2(fd, STDOUT_FILENO);
@@ -146,7 +150,13 @@ int handle_heredoc_child(int *heredoc_fd)
 	*heredoc_fd = -1;
 	return (dup_res);
 }
-
+int is_last_heredoc_redir(size_t index, t_redirect_type *arr, size_t arr_size)
+{
+	while (++index < arr_size)
+		if (arr[index] == HERE_DOC)
+			return(0); 
+	return (1);
+}
 //TODO: handle error and exit here, to give correct file name in error
 //give correctt pointers to cmd forease
 int process_file_redirections(t_cmd *cmd)
@@ -187,7 +197,8 @@ int process_file_redirections(t_cmd *cmd)
 		else if (cmd->redirect_type[count] == HERE_DOC)
 		{
 //			ft_putstr_fd("HD", 2);
-			if (handle_heredoc_child(&cmd->heredoc_fd) == -1)
+			if (is_last_heredoc_redir(count, cmd->redirect_type, infile_count + outfile_count) &&
+				handle_heredoc_child(&cmd->heredoc_fd) == -1)
 			{
 				//TODO: print error
 				return (1);

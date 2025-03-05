@@ -51,6 +51,8 @@ SRCS = src/main.c \
 		src/pipex/heredoc.c \
 		src/utils/production_print.c \
 		src/utils/lvl_handler.c \
+		src/execute.c \
+
 
 OBJS = $(SRCS:.c=.o)
 

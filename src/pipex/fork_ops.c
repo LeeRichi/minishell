@@ -6,13 +6,20 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/26 12:52:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/02/20 23:10:11 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
+
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
+{
+	printf("%s, %d", fname, line);
+	error_and_exit(pipex, errtype);
+}
+#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
 
 //int is_builtin(t_cmd cmd)
 t_builtin_type get_builtin_type(t_cmd cmd)
@@ -65,7 +72,7 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_EXIT)
 	{
-            	handle_exit(shell, shell->tokens);
+            	handle_exit(shell, command.arg);
 //		ft_printf("exit builtin\n");
 		return (0);
 	}
@@ -96,7 +103,6 @@ void	in_child(t_pipex pipex)
 	t_cmd	command;
 	int	file_red_result;
 
-
 	if (pipex.command_count > 1)
 		redirect_fds(&pipex);
 	file_red_result = process_file_redirections(pipex.command + pipex.current_command);
@@ -105,10 +111,22 @@ void	in_child(t_pipex pipex)
 	// clean up
 		exit(1);
 	}
+	if (!pipex.command[pipex.current_command].cmd_name)
+	{
+//TODO: clean up and exit success
+		exit(0);
+	}
+	// TODO: only do if not builtin?
 	get_command(&pipex);
 	command = pipex.command[pipex.current_command];
 	if (get_builtin_type(command))
-		handle_builtin(command);
+	{
+		file_red_result = handle_builtin(command);
+/*
+		cleanup
+*/
+		exit(file_red_result);
+	}
 	else
 	{
 		execve(command.path, command.argv, command.env);
