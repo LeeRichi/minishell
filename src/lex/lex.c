@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 19:45:49 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/07 16:55:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
                 *current_token = str_append(*current_token, '$');
                 (*i)++;
             }
+        }
+        else if (strchr("?", input[*i + 1]))
+        {
+            printf("%d\n", shell->exit_code);
         }
         else if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
         {

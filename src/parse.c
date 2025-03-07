@@ -45,18 +45,18 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-	if (shell->tokens)
-        print_tokens(shell->tokens);
+	// if (shell->tokens)
+    //     print_tokens(shell->tokens);
 
     if (!shell->err_code)
 		ft_structlize(shell);
-	if (!shell->err_code)
-	{
-		print_cmd_struct(shell->cmds);
-		//pipex_launch(shell->cmds, shell->envp);
-	}
-	else
-		shell->err_code = 0;
+	// if (!shell->err_code)
+	// {
+	// 	print_cmd_struct(shell->cmds);
+	// 	//pipex_launch(shell->cmds, shell->envp);
+	// }
+	// else
+	// 	shell->err_code = 0;
 
 	// if (shell->tokens && shell->tokens[0] != NULL)
     // {
@@ -80,11 +80,11 @@ void parse(t_shell *shell)
 	// }
 
 	// freeing
-	if (shell->tokens)
-	{
-		free_tokens(shell->tokens);
-		shell->tokens = 0;
-	}
+	// if (shell->tokens)
+	// {
+	// 	free_tokens(shell->tokens);
+	// 	shell->tokens = 0;
+	// }
 
     shell->ambiguous_flag = 0;
 }
