@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/07 16:55:52 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/07 20:19:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     int j;
     char *id_as_str;
     int str_len;
+	char *itoaed_str;
 
     //put an empty str into token
     if (input[*i] == '"' && input[*i + 1] == '"')
     {
-        printf("Caught empty string inside double quotes!\n");
+        // printf("Caught empty string inside double quotes!\n");
         if (*current_token == NULL)
             *current_token = strdup("");
         (*i)++;
@@ -133,11 +134,27 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         }
         else if (strchr("?", input[*i + 1]))
         {
-            printf("%d\n", shell->exit_code);
+            // printf("%d", shell->exit_code);
+			itoaed_str = ft_itoa(shell->exit_code);
+
+			int j = 0;
+			while(itoaed_str[j])
+			{
+				*current_token = str_append(*current_token, itoaed_str[j]);
+				j++;
+			}
+
+			(*i)++;
+            // while (input[*i] && !strchr(" ", input[*i + 1])) //echo $?
+			// {
+			// 	printf("hiiiii\n");
+			// 	(*i)++;
+			// }
         }
-        else if (strchr("\'", input[*i + 1]) || strchr("\"", input[*i + 1])) //if it's consecutive, then we should avoid the $ feature
+        else if ((strchr("\'", input[*i + 1]) && shell->in_single_quote) || (strchr("\"", input[*i + 1]) && shell->in_double_quote)) //if it's consecutive, then we should avoid the $ feature
         {
-            printf("ignored dollar sign.\n"); //throw to the water
+			*current_token = str_append(*current_token, '$');
+            // printf("ignored dollar sign.\n"); //throw to the water
 			return ;
         }
 		else if (strchr(" ", input[*i + 1]))

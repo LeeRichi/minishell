@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/27 20:07:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/07 20:41:06 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void update_value_in_env(t_shell *shell, char *key, char *value)
 	from_pair_to_arr(shell);
 }
 
-void handle_export(t_shell *shell) //two loops //first check which token contains =, second check where export is
+void handle_export(t_shell *shell) //two loops //first check which token contains =, second check where export is //rich_to_do
 {
 	int i;
 	int j;

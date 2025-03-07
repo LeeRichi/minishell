@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/10 15:46:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/07 18:52:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ char *str_append(char *str, char c)
     new_str[len + 1] = '\0';
     return new_str;
 }
+
+// char *ft_getenv(char *env_name, char **envp)
+// {
+		
+// }
 
 char *get_env_value(const char *env_name)
 {
