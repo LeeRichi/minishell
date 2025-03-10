@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 18:31:34 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:46:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int handle_exit(t_shell *shell, char **args)
     int atoied_value;
 
 	atoied_value = 0;
-    if (args[0])
+    if (args && args[0])
 		atoied_value = ft_atoi(args[0]);
 	
     ft_putstr_fd("exit\n", STDOUT);

@@ -4,3 +4,8 @@
 minishell
 .vscode
 temp_cleanup
+
+test_files/*
+test_files
+/test_files
+./test_files

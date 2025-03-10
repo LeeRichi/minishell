@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:33:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 22:23:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			env_value = handle_dollar_sign(shell, input, i);
 			if (!env_value) //asign '\0' for the tokens who does have value
             {
-				return ;				
+				return ;
 				// *current_token = str_append(*current_token, '\0');
             }
 			else
@@ -201,6 +201,7 @@ void parse_input_fragment(char *input, t_shell *shell)
         parse_input_character(shell, &current_token, &i, input);
         i++;
     }
+    //fuck
     finalize_token(shell, &current_token, &shell->token_count);
     //if the last parsed char is one of the below
 	while(strchr(WHITESPACE, input[i]))
@@ -284,6 +285,9 @@ int empty_between_checker(t_shell *shell)
 {
 	int i;
 
+    // if(shell->tokens)
+    //     print_tokens(shell->tokens);
+
     if(!shell->tokens)
     {
         return (1);
@@ -291,10 +295,12 @@ int empty_between_checker(t_shell *shell)
 	i = 0;
 	while (shell->tokens[i])
 	{
-		if (ft_start_with_specials_v2(shell->tokens[i]) ||
-    		(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
+		// if (ft_start_with_specials_v2(shell->tokens[i]) ||
+    	// 	(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
+        if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
 		{
-			if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax error, but try to handle ambiguous flag for that current node
+			// if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
+            if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
 			{
         		printf("minishell: syntax error.\n");
 				return (1);
@@ -326,7 +332,15 @@ void tokenize_input(char *input, t_shell *shell)
     
     if (ft_strcmp("", shell->input) != 0)
         parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+    
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
+
+    if (!shell->tokens)
+    {
+        //fuck2
+        printf("exit code: %d\n", shell->exit_code);
+        
+    }
 
     if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
     {

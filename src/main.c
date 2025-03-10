@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:35:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 22:16:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	main(int ac, char **av, char **envp)
 		shell.input = readline("$ ");
 		
 		// printf("fuck: %d\n", shell.exit_code);
+		// if (strcmp(shell.input, "") == 0) //true
+		// 	printf("test fuck\n");
 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
         {
             printf("exit\n");
@@ -96,7 +98,10 @@ int	main(int ac, char **av, char **envp)
         }
 		if (*shell.input)
 			add_history(shell.input);
-		parse(&shell);
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
 // TODO: check here / check inside
 		execute(&shell);
 //		free(shell.input);
