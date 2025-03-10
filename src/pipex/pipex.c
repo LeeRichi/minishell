@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/25 22:44:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:48:51 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 //		return (EXIT_FAILURE);
 		return (0);
 	}
+// GOOD  place for init?
+	shell->pipex = 0;
 	pipex = get_pipex(command_count, cmds, env, shell);
 	if (!pipex.command)
 	{

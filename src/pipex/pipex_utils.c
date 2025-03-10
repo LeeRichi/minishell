@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:31:10 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:49:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:17:24 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,35 @@ t_pipex_command	cmd_to_pipex_command(t_cmd cmd, char **envp)
 */
 /* TODO: keep in mind order of freeing */
 
-t_cmd	*cmd_list_to_arr_resolve_hd(t_cmd *cmds, size_t command_count, t_shell *shell)
+int resolve_heredoc_cmds(t_cmd *cmds, size_t command_count)
+{
+	size_t i;
+
+	i = 0;
+	while(i < command_count)
+	{
+		if (check_heredoc(cmds[i]))
+		{
+			cmds[i].heredoc_fd = get_cmd_heredoc(cmds[i]);
+			if (cmds[i].heredoc_fd == -1)
+			{
+				/* TODO: error handle, array cleanup? list cleanup separately */
+				/* ft_free_all
+				exit or return
+				cleanup previous heredocs?
+*/
+				return (0);
+			}
+		}
+		else
+			cmds[i].heredoc_fd = -1;
+		i++;
+	}
+	return (1);
+}
+
+//t_cmd	*cmd_list_to_arr_resolve_hd(t_cmd *cmds, size_t command_count, t_shell *shell)
+t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count, t_shell *shell)
 {
 	t_cmd	*arr;
 	size_t	i;
@@ -100,17 +128,19 @@ t_cmd	*cmd_list_to_arr_resolve_hd(t_cmd *cmds, size_t command_count, t_shell *sh
 	while (i < command_count)
 	{
 		arr[i] = *cmds;
-		arr[i].shell = shell;
+		arr[i].shell = (void *)shell;
+/*
 		if (check_heredoc(*cmds))
 		{
 			arr[i].heredoc_fd = get_cmd_heredoc(*cmds);
 			if (arr[i].heredoc_fd == -1)
 			{
-				/* TODO: error handle, array cleanup? list cleanup separately */
+				TODO: error handle, array cleanup? list cleanup separately
 			}
 		}
 		else
 			arr[i].heredoc_fd = -1;
+*/
 		cmds = cmds->next;
 		i++;
 	}
@@ -137,7 +167,8 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 	pipex.pipe[0] = -1;
 	pipex.pipe[1] = -1;
 //TODO: null check
-	pipex.command = cmd_list_to_arr_resolve_hd(commands, command_count, shell);
+	pipex.command = cmd_list_to_arr(commands, command_count, shell);
+	resolve_heredoc_cmds(pipex.command, command_count);
 //TODO: free list
 	pipex.path_split = 0;
 	return (pipex);
@@ -147,7 +178,7 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 //wip, careful here
 t_cmd	*free_pipex_cmd(t_cmd *command)
 {
-	while (command->cmd_name && command->infiles && command->outfiles)
+	while (command->cmd_name || command->infiles || command->outfiles)
 	{
 		if (command->argv)
 		{
@@ -203,8 +234,11 @@ void	free_pipex(t_pipex pipex)
 		free(pipex.command);
 		pipex.command = 0;
 	}
+	//ft_putendl_fd("before free path split", 2);
+	//printf("%p\n", pipex.path_split);
 	if (pipex.path_split)
 		free_split(pipex.path_split);
+	ft_putendl_fd("after free path split", 2);
 	ft_close(&pipex.pipe[0]);
 	ft_close(&pipex.pipe[1]);
 	ft_close(&pipex.reserve_fd);

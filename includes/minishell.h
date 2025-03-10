@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 18:17:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:21:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ char		**get_command_argv(t_cmd cmd);
 
 
 /*	processing	*/
-void execute(t_shell *shell);
+void	execute(t_shell *shell);
+int	resolve_heredoc_cmds(t_cmd *cmds, size_t command_count);
 int	process_file_redirections(t_cmd *cmd);
 int	handle_builtin(t_cmd command);
 t_builtin_type get_builtin_type(t_cmd cmd);

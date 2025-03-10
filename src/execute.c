@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/25 22:30:33 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:21:15 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,17 @@ void execute(t_shell *shell)
 		{
 			//TODO: error cleanup and exit?
 		}
+		resolve_heredoc_cmds(shell->cmds, 1);
 		redirection_result = process_file_redirections(shell->cmds);
 		if (redirection_result == -1)
 		{
-			//TODO: error cleanup and exit?
+			//TODO: error cleanup, no exit
 		}
 //TODO: pass shell as a parameter, return to exit status
 		exec_result = handle_builtin(*(shell->cmds));
 		if (exec_result == -1)
 		{
-			//TODO: error cleanup and exit?
+			//TODO: error cleanup no exit
 		}
 		redirection_result = restore_fds(shell);
 		if (redirection_result == -1)

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 18:01:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:02:16 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,11 @@ void ft_free_all(t_shell *shell)
 {
 	if (shell->pipex)
 	{
-		free_pipex(*shell->pipex);
+		free_pipex(*(shell->pipex));
 		shell->pipex = 0;
 	}
 	clear_tokens(shell);
 	clear_cmds(shell);
-/*	if (shell->input)
-    {
-        free(shell->input);
-        shell->input = NULL;
-    }
-*/
-	//free linked list?
-
-	//might as well free envp?
-	// if (shell->envp)
-    // {
-    //     for (int i = 0; shell->envp[i] != NULL; i++)
-    //     {
-    //         free(shell->envp[i]);
-    //     }
-    //     free(shell->envp);
-    // }
 }
 
 void clear_cmds(t_shell *shell)
