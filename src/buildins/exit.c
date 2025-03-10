@@ -6,29 +6,29 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 17:19:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 18:31:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_isNum(char *s)
-{
-    int i;
-    i = 0;
+// int ft_isNum(char *s)
+// {
+//     int i;
+//     i = 0;
 
-    if (s == NULL)
-        return (0);
-    if (s[0] == '-')
-        i++;
-    while (s[i])
-    {
-        if (s[i] < '0' || s[i] > '9')
-            return (0);
-        i++;
-    }
-    return (1);
-}
+//     if (s == NULL)
+//         return (0);
+//     if (s[0] == '-')
+//         i++;
+//     while (s[i])
+//     {
+//         if (s[i] < '0' || s[i] > '9')
+//             return (0);
+//         i++;
+//     }
+//     return (1);
+// }
 
 void temp_cleanup(t_shell *shell)
 {
@@ -45,35 +45,41 @@ void temp_cleanup(t_shell *shell)
 
 int handle_exit(t_shell *shell, char **args)
 {
+    int atoied_value;
+
+	atoied_value = 0;
+    if (args[0])
+		atoied_value = ft_atoi(args[0]);
+	
     ft_putstr_fd("exit\n", STDOUT);
     if (args && args[0] && args[1])
     {
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
-        shell->exit_code = STDERR;
+        shell->exit_code = ERROR;
         /*TODO: cleanup*/
         temp_cleanup(shell);
-        exit(shell->exit_code);
+        exit(ERROR);
     }
-    else if (args && args[0] && !ft_isNum(args[0]))
+    else if (args && args[0] && !atoied_value)
     {
         ft_putstr_fd("minishell: exit: ", STDERR);
 		ft_putstr_fd(args[0], STDERR);
 		ft_putendl_fd(": numeric argument required", STDERR);
-        shell->exit_code = NONE_NUMERIC_EXIT_CODE;
+        shell->exit_code = STDERR;
         /*TODO: cleanup*/
         temp_cleanup(shell);
-        exit(NONE_NUMERIC_EXIT_CODE);
+        exit(STDERR);
     }
     else if (args && args[0]) //valid //with exit and 1 numeric arg
     {
-        printf("fuck\n");
         shell->exit_code = ft_atoi(args[0]) % 256;
+        int some = shell->exit_code;
         /*TODO: cleanup*/
-        printf("hi: %d\n", shell->exit_code);
         temp_cleanup(shell);
 
-        return (ft_atoi(args[0]) % 256);
-        exit(ft_atoi(args[0]) % 256);
+        // return (ft_atoi(args[0]) % 256);
+       
+        exit(some);
     }
     else //default //valid //only exit
     {

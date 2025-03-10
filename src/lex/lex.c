@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 16:20:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:33:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,10 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         else if (strchr("?", input[*i + 1]))
         {
             // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
-            // printf("%d", shell->exit_code);
+            // printf("hi: %d", shell->exit_code);
+            
 			itoaed_str = ft_itoa(shell->exit_code);
-
+            
 			int j = 0;
 			while(itoaed_str[j])
 			{
@@ -322,19 +323,31 @@ void tokenize_input(char *input, t_shell *shell)
 		// exit(EXIT_FAILURE);
 	}
 	handle_unbalanced_quotes(&input); //checking case like '''
-	parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+    
+    if (ft_strcmp("", shell->input) != 0)
+        parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+    process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 
+    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    {
+        free(input);
+        shell->err_code = 258;
+        clear_tokens(shell);
+        return;
+    }
+    // shell->last_token_type = 0;
+    free(input);
+    
     //debug
     // printf("shell->last_token_type = %d\n", shell->last_token_type);
 
-	process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
-	if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-	{
-		free(input);
-		shell->err_code = 258;
-		clear_tokens(shell);
-		return;
-	}
-	// shell->last_token_type = 0;
-	free(input);
+	// if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+	// {
+	// 	free(input);
+	// 	shell->err_code = 258;
+	// 	clear_tokens(shell);
+	// 	return;
+	// }
+	// // shell->last_token_type = 0;
+	// free(input);
 }

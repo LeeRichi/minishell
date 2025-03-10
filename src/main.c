@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 15:38:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:35:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		shell.input = readline("$ ");
+		
+		// printf("fuck: %d\n", shell.exit_code);
 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
         {
             printf("exit\n");
