@@ -45,12 +45,19 @@ void clear_tokens(t_shell *shell)
 
 void ft_free_all(t_shell *shell)
 {
-	if (shell->input)
+	if (shell->pipex)
+	{
+		free_pipex(*shell->pipex);
+		shell->pipex = 0;
+	}
+	clear_tokens(shell);
+	clear_cmds(shell);
+/*	if (shell->input)
     {
         free(shell->input);
         shell->input = NULL;
     }
-
+*/
 	//free linked list?
 
 	//might as well free envp?
