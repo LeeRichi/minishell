@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 17:13:59 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 15:32:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void shell_level_ctrl(t_shell *shell)
 	char *new_shlvl_entry;
 
 	new_shlvl_entry = NULL;
-	shlvl_str = getenv("SHLVL");
+	shlvl_str = ft_getenv("SHLVL", shell);
 	if (shlvl_str)
 		shlvl = ft_atoi(shlvl_str) + 1;
 	else

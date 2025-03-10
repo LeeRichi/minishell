@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/07 20:47:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:18:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,46 +56,45 @@ int handle_builtin(t_cmd command)
 	{
 		return handle_cd(command.arg, shell);
 //		ft_printf("cd builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_ECHO)
 	{
 		//handle_echo(shell->tokens, shell);
 		return handle_echo(command.arg, shell);
 	//	ft_printf("echo builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_PWD)
 	{
 		return handle_pwd(shell);
 		//ft_printf("pwd builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_EXIT)
 	{
 		return handle_exit(shell, command.arg);
 //		ft_printf("exit builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_EXPORT)
 	{
-		return handle_export(shell);
+		return handle_export(shell, command.arg);
 		ft_printf("export builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_UNSET)
 	{
 		// handle_unset(shell, command.arg[0]); //old
-		return handle_unset(shell); //new
-
+ 		return handle_unset(shell); //new
 		//ft_printf("unset builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_ENV)
 	{
 		return handle_env(shell->envp); // Pass environment variables
 		//ft_printf("env builtin\n");
-		return (0);
+		// return (0);
 	}
 	return (1);
 }

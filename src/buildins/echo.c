@@ -6,18 +6,20 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/07 20:31:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 16:19:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void handle_echo(char **cmd_args, t_shell *shell)
+int handle_echo(char **cmd_args, t_shell *shell)
 {
     (void)shell;
     int i = 0;
     int newline = 1;
-    
+
+    if (!cmd_args)
+        return (0);
     
     if (cmd_args[0] && strcmp(cmd_args[0], "-n") == 0)
     {
@@ -41,4 +43,6 @@ void handle_echo(char **cmd_args, t_shell *shell)
     
     if (newline)
         printf("\n");
+
+    return (0);
 }

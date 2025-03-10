@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/07 15:38:24 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 17:19:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ void temp_cleanup(t_shell *shell)
     //ft_free_all(shell);
 }
 
-void handle_exit(t_shell *shell, char **args)
+int handle_exit(t_shell *shell, char **args)
 {
-
     ft_putstr_fd("exit\n", STDOUT);
     if (args && args[0] && args[1])
     {
@@ -67,9 +66,13 @@ void handle_exit(t_shell *shell, char **args)
     }
     else if (args && args[0]) //valid //with exit and 1 numeric arg
     {
+        printf("fuck\n");
         shell->exit_code = ft_atoi(args[0]) % 256;
         /*TODO: cleanup*/
+        printf("hi: %d\n", shell->exit_code);
         temp_cleanup(shell);
+
+        return (ft_atoi(args[0]) % 256);
         exit(ft_atoi(args[0]) % 256);
     }
     else //default //valid //only exit
@@ -82,4 +85,5 @@ void handle_exit(t_shell *shell, char **args)
         exit(shell->exit_code);
     }
 	// printf("%d\n", shell->exit_code);
+    return (SUCCESS);
 }

@@ -6,60 +6,34 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/07 20:19:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 16:20:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void finalize_token(t_shell *shell, char **current_token, int *token_count)
-// {
-//     if (*current_token)
-//     {
-//         shell->tokens = ft_realloc(shell->tokens, sizeof(char *) * (*token_count + 2));
-//         if (!shell->tokens)
-//             return;
-
-//         shell->tokens[(*token_count)++] = *current_token;
-//         shell->tokens[*token_count] = NULL;
-//         *current_token = NULL;
-//         // shell->last_token_type = 1;
-//         // if (input[*i] == '|')
-//         // {
-//         //     shell->last_token_type = 1;
-//         // }
-//         // else if (input[*i] == '>' || input[*i] == '<')
-//         // {
-//         //     shell->last_token_type = 2;
-//         // }
-//         // else
-//         // {
-//         //     shell->last_token_type = 0;
-//         // }
-//     }
-// }
-
 void finalize_token(t_shell *shell, char **current_token, int *token_count)
 {
+    size_t new_size;
+    int i;
+	char **new_tokens; 
+    
     if (*current_token)
     {
-        size_t new_size = sizeof(char *) * (*token_count + 2);
-        char **new_tokens = malloc(new_size);
-
+        new_size = sizeof(char *) * (*token_count + 2);
+        new_tokens = malloc(new_size);
         if (!new_tokens)
             return;
-
-        for (int i = 0; i < *token_count; i++)
-        {
+        i = 0;
+        while (i < *token_count)
+		{
             new_tokens[i] = shell->tokens[i];
+            i++;
         }
-
         new_tokens[*token_count] = *current_token;
         new_tokens[*token_count + 1] = NULL;
-
         free(shell->tokens);
         shell->tokens = new_tokens;
-
         (*token_count)++;
         *current_token = NULL;
     }
@@ -89,7 +63,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     {
 		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
 		{
-			const char *home_dir = getenv("HOME");
+			const char *home_dir = ft_getenv("HOME", shell);
 			if (home_dir != NULL)
 			{
 				j = 0;
@@ -113,10 +87,11 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			(*i)++;
 		}
     }
-    else if (!(shell->in_single_quote) && input[*i] == '$')
+    else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
     {
-	    if (strchr("$", input[*i + 1])) //consecutive dollar sign //todo
+	    if (strchr("$", input[*i + 1]) && input[*i + 1] != '\0') //consecutive dollar sign //todo
         {
+            // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
             id_as_str = ft_itoa(shell->shell_id);
             str_len = ft_strlen(id_as_str);
             j = 0;
@@ -134,6 +109,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         }
         else if (strchr("?", input[*i + 1]))
         {
+            // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
             // printf("%d", shell->exit_code);
 			itoaed_str = ft_itoa(shell->exit_code);
 

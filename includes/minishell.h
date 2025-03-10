@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/07 20:34:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 15:32:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,13 +201,13 @@ void handle_sigquit(int code);
 void init_sig(void);
 
 //builtins
-void handle_echo(char **tokens, t_shell *shell);
-void handle_cd(char **tokens, t_shell *shell);
+int handle_echo(char **tokens, t_shell *shell);
+int handle_cd(char **tokens, t_shell *shell);
 int handle_pwd(t_shell *shell);
-void handle_exit(t_shell *shell, char **tokens);
-void handle_env(char **envp);
-void handle_unset(t_shell *shell);
-void handle_export(t_shell *shell);
+int handle_exit(t_shell *shell, char **args);
+int handle_env(char **envp);
+int handle_unset(t_shell *shell);
+int handle_export(t_shell *shell, char **args);
 
 //utils/lvl_handler.c
 void shell_level_ctrl(t_shell *shell);
@@ -227,7 +227,7 @@ void handle_unbalanced_quotes(char **input);
 
 //lex/lex_helper.c
 char *str_append(char *str, char c);
-char *get_env_value(const char *env_name);
+char *get_env_value(char *env_name, t_shell *shell);
 int ft_arraylen(char **tokens);
 int ft_start_with(char *str, char c);
 char *ft_start_with_specials(char *str);
@@ -255,6 +255,13 @@ void ft_structlize(t_shell *shell);
 
 //exit.c
 int ft_isNum(char *s);
+
+// ft_getenv.c
+char *ft_getenv(char *env_name, t_shell *shell);
+
+//export.c
+t_key_value *arr_to_key_value(t_shell *shell);
+
 
 extern t_sig g_sig;
 #endif
