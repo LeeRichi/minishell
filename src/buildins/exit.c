@@ -57,7 +57,8 @@ int handle_exit(t_shell *shell, char **args)
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
         shell->exit_code = ERROR;
         /*TODO: cleanup*/
-        temp_cleanup(shell);
+        //temp_cleanup(shell);
+        ft_free_all(shell);
         exit(ERROR);
     }
     else if (args && args[0] && !atoied_value)
@@ -67,7 +68,8 @@ int handle_exit(t_shell *shell, char **args)
 		ft_putendl_fd(": numeric argument required", STDERR);
         shell->exit_code = STDERR;
         /*TODO: cleanup*/
-        temp_cleanup(shell);
+        //temp_cleanup(shell);
+        ft_free_all(shell);
         exit(STDERR);
     }
     else if (args && args[0]) //valid //with exit and 1 numeric arg
@@ -75,7 +77,8 @@ int handle_exit(t_shell *shell, char **args)
         shell->exit_code = ft_atoi(args[0]) % 256;
         int some = shell->exit_code;
         /*TODO: cleanup*/
-        temp_cleanup(shell);
+        //temp_cleanup(shell);
+        ft_free_all(shell);
 
         // return (ft_atoi(args[0]) % 256);
        
@@ -84,7 +87,8 @@ int handle_exit(t_shell *shell, char **args)
     else //default //valid //only exit
     {
         /*TODO: cleanup*/
-        temp_cleanup(shell);
+        //temp_cleanup(shell);
+        ft_free_all(shell);
         // printf("code is %d\n", shell->exit_code);
         // exit(0);
         shell->exit_code = 0;

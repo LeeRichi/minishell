@@ -168,8 +168,6 @@ t_pipex	get_pipex(size_t command_count, t_cmd *commands, char **envp, t_shell *s
 	pipex.pipe[1] = -1;
 //TODO: null check
 	pipex.command = cmd_list_to_arr(commands, command_count, shell);
-	resolve_heredoc_cmds(pipex.command, command_count);
-//TODO: free list
 	pipex.path_split = 0;
 	return (pipex);
 }

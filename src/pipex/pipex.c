@@ -97,6 +97,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 		return 0; ///asdassdas
 	}
 	shell->pipex = &pipex;
+	resolve_heredoc_cmds(pipex.command, command_count);
 	/*
 		clean up command list
 	*/
