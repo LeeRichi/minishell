@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/11 17:08:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:51:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ void clear_tokens(t_shell *shell)
     }
 }
 
+void clear_envp(t_shell *shell)
+{
+    if (shell->envp)
+    {
+        free_tokens(shell->envp);
+        shell->envp = 0;
+    }
+}
+
 void ft_free_all(t_shell *shell)
 {
 	if (shell->pipex)
@@ -53,6 +62,13 @@ void ft_free_all(t_shell *shell)
 	clear_tokens(shell);
 
     //fuck
+    
+    if(shell->envp)
+    {
+        printf("envp exists\n");
+        clear_envp(shell);
+    }
+
 	clear_cmds(shell);
 }
 

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/11 17:03:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:55:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void shell_init(char **envp, t_shell *shell)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
+	char **env;
 	// shell.shell_id = ft_getpid();
 	(void)av;
 	if (ac != 1)
@@ -80,6 +81,7 @@ int	main(int ac, char **av, char **envp)
 	init_sig();
 	signal(SIGINT, &handle_sigint);
 	signal(SIGQUIT, &handle_sigquit);
+	// env = ft_getenv(envp);
 	shell_init(envp, &shell);
 
 	//cmd out when running tester
