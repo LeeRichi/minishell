@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/10 21:15:31 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:20:38 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,47 +54,46 @@ int handle_builtin(t_cmd command)
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
-            	handle_cd(command.arg, shell);
+		return handle_cd(command.arg, shell);
 //		ft_printf("cd builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_ECHO)
 	{
-		handle_echo(command.arg, shell);
+		// printf("hi\n");
+		//handle_echo(shell->tokens, shell);
+		return handle_echo(command.arg, shell);
 	//	ft_printf("echo builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_PWD)
 	{
-            	handle_pwd(shell);
+		return handle_pwd(shell);
 		//ft_printf("pwd builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_EXIT)
 	{
-            	handle_exit(shell, command.arg);
+		return handle_exit(shell, command.arg);
 //		ft_printf("exit builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_EXPORT)
 	{
-		handle_export(shell);
-//		ft_printf("export builtin\n");
-		return (0);
+		return handle_export(shell, command.arg);
 	}
 	if (type == IS_UNSET)
 	{
-            	// handle_unset(shell, command.arg[0]); //old
-            	handle_unset(shell); //new
-
+		// handle_unset(shell, command.arg[0]); //old
+ 		return handle_unset(shell); //new
 		//ft_printf("unset builtin\n");
-		return (0);
+		// return (0);
 	}
 	if (type == IS_ENV)
 	{
-           	handle_env(shell->envp); // Pass environment variables
+		return handle_env(shell->envp); // Pass environment variables
 		//ft_printf("env builtin\n");
-		return (0);
+		// return (0);
 	}
 	return (1);
 }
@@ -129,6 +128,7 @@ void	in_child(t_pipex pipex)
 	}
 	else
 	{
+	//	printf("test printf: %s , %s, %s, %s END\n", command.argv[0], command.argv[1], command.argv[2],command.argv[3]  );
 		execve(command.path, command.argv, command.env);
 		if (errno == ENOENT)
 			error_and_exit(&pipex, CMD_FILE_NOT_FOUND);

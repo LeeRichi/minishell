@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
 /*   Updated: 2025/03/10 21:21:15 by mbutuzov         ###   ########.fr       */
@@ -52,11 +52,16 @@ static int restore_fds(t_shell *shell)
 // builtin error handing 
 void execute(t_shell *shell)
 {
+	// printf("shel code: %d\n", shell->exit_code);
+
 	int	redirection_result;
 	int	exec_result;
 	//ft_printf("%p\n", shell->cmds);
 	if (!shell->cmds)
+	{
+		// printf("fuck yoyo: %d\n", shell->exit_code);
 		return ;
+	}
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
 	{
 		exec_result = pipex_launch(shell->cmds, shell->envp, shell);

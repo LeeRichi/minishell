@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/03 18:05:27 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:32:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void ft_add_redirection(char ***array, char *file)
 
 void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
 {
+    // printf("fuck\n");
     if (*current_cmd)
         (*current_cmd)->pipe = 1;
     *new_cmd = malloc(sizeof(t_cmd));
@@ -137,7 +138,10 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
     if (*current_cmd)
         (*current_cmd)->next = *new_cmd;
     else
+    {
         shell->cmds = *new_cmd;
+        // printf("shell->cmds...: %s\n", shell->cmds->cmd_name);
+    }
     *current_cmd = *new_cmd;
 }
 

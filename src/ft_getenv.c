@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 19:45:07 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 20:35:12 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/10 15:27:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int handle_env(char **envp)
+char *ft_getenv(char *env_name, t_shell *shell)
 {
-    int i;
+    t_key_value *pair;
+    t_key_value *head = NULL;
 
-    i = 0;
-    while (envp[i])
+    pair = arr_to_key_value(shell);
+    head = pair;
+    while(head)
     {
-        printf("%s\n", envp[i]);
-        i++;
+        if (ft_strcmp(head->key, env_name) == 0)
+            return (head->value);
+        head = head->next;
     }
-    // if (envp)
-    //     print_tokens(envp);
-    return (SUCCESS);
+
+    return (NULL);
 }
+

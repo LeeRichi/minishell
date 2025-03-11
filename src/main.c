@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/05 16:51:36 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/10 22:16:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void shell_init(char **envp, t_shell *shell)
 	shell->ambiguous_flag = 0;
 	shell->stdin_fd = -1;
 	shell->stdout_fd = -1;
+	shell->pipex = 0;
 	shell_level_ctrl(shell);
 }
 
@@ -80,10 +81,16 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, &handle_sigint);
 	signal(SIGQUIT, &handle_sigquit);
 	shell_init(envp, &shell);
-	pf_banner();
+
+	//cmd out when running tester
+	// pf_banner();
 	while (1)
 	{
 		shell.input = readline("$ ");
+		
+		// printf("fuck: %d\n", shell.exit_code);
+		// if (strcmp(shell.input, "") == 0) //true
+		// 	printf("test fuck\n");
 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
         {
             printf("exit\n");
@@ -91,15 +98,23 @@ int	main(int ac, char **av, char **envp)
         }
 		if (*shell.input)
 			add_history(shell.input);
-		parse(&shell);
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
 // TODO: check here / check inside
 		execute(&shell);
 //		free(shell.input);
 //		shell.input = 0;
 		// cleanup shell cmds
+		if (shell.tokens)
+		{
+			free_tokens(shell.tokens);
+			shell.tokens = 0;
+		}
+		
 		clear_cmds(&shell);
 		// shell.cmds = 0;
-		// rich Feb 25
 	}
 	// ft_free_all(&shell);
 

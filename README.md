@@ -43,7 +43,7 @@ HANDLED PARSING:
 
 //this one should print ambiguous redirect, however, the exectution should have been done
 - [x] echo "hello" > afile | echo hi > $random > random
-- [x] echo "hello" | echo "bye" > $FUCK | ls -l
+- [x] echo "hello" | echo "bye" > $ | ls -l
 - [x] >$LASD$PATH | ls
 
 - [] ..more(replace this)
