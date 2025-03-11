@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/25 22:43:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:07:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 	if (pipex)
 	{
 		shell = (t_shell *)pipex->shell;
-		free_pipex(*pipex);
+//		if (shell->pipex != pipex)
+//			ft_printf("problem with pipex pointer\nshell-pipex: %p\npipex: %p\n", shell->pipex, pipex);
+		ft_free_all(shell);
 		shell->pipex = 0;
 	}
 	clear_cmds(shell);

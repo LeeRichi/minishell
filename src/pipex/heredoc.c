@@ -41,18 +41,20 @@ void	close_pipe_safe(int fds[2])
 	close_fd_safe(fds);
 	close_fd_safe(fds + 1);
 }
-/*
+
+
 int is_eof_with_nl(char *line, char *eof)
 {
 	size_t eof_length;
 
-	eof_length = ft_strlen(eof)
+	eof_length = ft_strlen(eof);
 	if (ft_strncmp(eof, line, eof_length))
-		return (1);
+		return (0);
 	line += eof_length;
-	if (*line == '\n')
+	if (*line == '\n' && *(line + 1) == 0)
+		return (1);
+	return (0);
 }
-*/
 
 int check_heredoc(t_cmd cmd)
 {
@@ -106,14 +108,15 @@ int get_cmd_heredoc(t_cmd cmd)
 			{
 				close(fd);
 				heredoc_eof = get_redir_str(count, cmd);
-				fd = get_here_doc_fd(heredoc_eof);
+// TODO: check shell cleanup in child process
+				fd = get_here_doc_fd(heredoc_eof, (t_shell *)cmd.shell);
 				if (fd == -1)
 					return (-1);
 			}
 			else
 			{
 				heredoc_eof = get_redir_str(count, cmd);
-				fd = get_here_doc_fd(heredoc_eof);
+				fd = get_here_doc_fd(heredoc_eof, (t_shell *)cmd.shell);
 				if (fd == -1)
 					return (-1);
 			}
@@ -123,30 +126,30 @@ int get_cmd_heredoc(t_cmd cmd)
 	return (fd);
 }
 
-int get_here_doc_fd(char *eof)
+int get_here_doc_fd(char *eof, t_shell *shell)
 {
 	//int fork_res;
 	int fds[2];
 	int fork_res;
 	char *line;
 	int dup_res;
-	char *fineof;
+//	char *fineof;
 	if (pipe(fds) == -1)
 		return (-1);
 	fork_res = fork();
 	if (!fork_res)
 	{
 		dup_res = dup2(fds[1], 1);
-		fineof = ft_strjoin(eof, "\n");
+	//	fineof = ft_strjoin(eof, "\n");
 		close_pipe_safe(fds);
 //		close(fds[1]);
 //		close(fds[0]);
-		if (!fineof)
-			exit(1);
+//		if (!fineof)
+//			exit(1);
 		if (dup_res == -1)
 		{
 			perror("dup error");
-			free(fineof);
+//			free(fineof);
 			exit(1);
 		}
 	// TODO: check write, cleanup on fail
@@ -154,7 +157,8 @@ int get_here_doc_fd(char *eof)
 		line = get_next_line(0);
 		while (line)
 		{
-			if (!ft_strcmp(line, fineof))
+			if (is_eof_with_nl(line, eof))
+//			if (!ft_strcmp(line, fineof))
 			{
 				free(line);
 				break ;
@@ -165,8 +169,9 @@ int get_here_doc_fd(char *eof)
 			free(line);
 			line = get_next_line(0);
 		}
-		free(fineof);
+//		free(fineof);
 		get_next_line(-1);
+		ft_free_all(shell);
 /*
 		TODO: cleanup everything
 */
