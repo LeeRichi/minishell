@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 15:27:34 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:06:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char *ft_getenv(char *env_name, t_shell *shell)
             return (head->value);
         head = head->next;
     }
+
+    // free_key_value_list(pair);
 
     return (NULL);
 }

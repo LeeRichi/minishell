@@ -45,8 +45,8 @@ void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
 
-	if (shell->tokens)
-        print_tokens(shell->tokens);
+	// if (shell->tokens)
+    //     print_tokens(shell->tokens);
 
     if (!shell->err_code)
 		ft_structlize(shell);
