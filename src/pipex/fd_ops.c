@@ -16,13 +16,13 @@
 /*
 	TODO: rewrite to account for multiple redirections and no pipes
 	TODO: think through the usage with builtins
-*/
 static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
 {
 	printf("%s, %d", fname, line);
 	error_and_exit(pipex, errtype);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
+*/
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);

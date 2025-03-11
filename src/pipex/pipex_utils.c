@@ -234,11 +234,8 @@ void	free_pipex(t_pipex pipex)
 		free(pipex.command);
 		pipex.command = 0;
 	}
-	//ft_putendl_fd("before free path split", 2);
-	//printf("%p\n", pipex.path_split);
 	if (pipex.path_split)
 		free_split(pipex.path_split);
-	ft_putendl_fd("after free path split", 2);
 	ft_close(&pipex.pipe[0]);
 	ft_close(&pipex.pipe[1]);
 	ft_close(&pipex.reserve_fd);

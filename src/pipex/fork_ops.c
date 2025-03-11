@@ -13,14 +13,14 @@
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-
+/*
 static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
 {
 	printf("%s, %d", fname, line);
 	error_and_exit(pipex, errtype);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
-
+*/
 //int is_builtin(t_cmd cmd)
 t_builtin_type get_builtin_type(t_cmd cmd)
 {
