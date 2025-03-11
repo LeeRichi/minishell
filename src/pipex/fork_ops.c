@@ -13,14 +13,14 @@
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-
+/*
 static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
 {
 	printf("%s, %d", fname, line);
 	error_and_exit(pipex, errtype);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
-
+*/
 //int is_builtin(t_cmd cmd)
 t_builtin_type get_builtin_type(t_cmd cmd)
 {
@@ -81,8 +81,6 @@ int handle_builtin(t_cmd command)
 	if (type == IS_EXPORT)
 	{
 		return handle_export(shell, command.arg);
-		ft_printf("export builtin\n");
-		// return (0);
 	}
 	if (type == IS_UNSET)
 	{
@@ -99,7 +97,7 @@ int handle_builtin(t_cmd command)
 	}
 	return (1);
 }
-
+/*
 void	in_child(t_pipex pipex)
 {
 	t_cmd	command;
@@ -124,9 +122,8 @@ void	in_child(t_pipex pipex)
 	if (get_builtin_type(command))
 	{
 		file_red_result = handle_builtin(command);
-/*
+
 		cleanup
-*/
 		exit(file_red_result);
 	}
 	else
@@ -138,6 +135,44 @@ void	in_child(t_pipex pipex)
 		error_and_exit(&pipex, EXECVE_FAIL);
 	}
 }
+*/
+void	in_child(t_pipex *pipex)
+{
+	t_cmd	command;
+	int	file_red_result;
+
+	if (pipex->command_count > 1)
+		redirect_fds(pipex);
+	file_red_result = process_file_redirections(pipex->command + pipex->current_command);
+	if (file_red_result)
+	{
+	// clean up
+		exit(1);
+	}
+	if (!pipex->command[pipex->current_command].cmd_name)
+	{
+//TODO: clean up and exit success
+		exit(0);
+	}
+	// TODO: only do if not builtin?
+	get_command(pipex);
+	command = pipex->command[pipex->current_command];
+	if (get_builtin_type(command))
+	{
+		file_red_result = handle_builtin(command);
+/*
+		cleanup
+*/
+		exit(file_red_result);
+	}
+	else
+	{
+		execve(command.path, command.argv, command.env);
+		if (errno == ENOENT)
+			error_and_exit(pipex, CMD_FILE_NOT_FOUND);
+		error_and_exit(pipex, EXECVE_FAIL);
+	}
+}
 
 int	after_fork(pid_t fork_result, t_pipex *pipex)
 {
@@ -147,7 +182,7 @@ int	after_fork(pid_t fork_result, t_pipex *pipex)
 		error_and_exit(pipex, FORK_FAIL);
 	}
 	if (fork_result == 0)
-		in_child(*pipex);
+		in_child(pipex);
 	else if (pipex->current_command != pipex->command_count - 1)
 		ft_close(&(pipex->pipe[1]));
 	return (0);
