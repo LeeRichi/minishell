@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/11 17:55:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/12 22:30:09 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,57 @@
 
 t_sig	g_sig;
 
+int ft_cpy_tab(char **dest, char **src, int length)
+{
+	int orig_length = length;
+	while(length--)
+	{
+		dest[length] = ft_strdup(src[length]);
+		if (dest[length] == 0)
+		{
+			while (length < orig_length)
+			{
+				if (dest[length])
+					free(dest[length]);
+				length++;
+			}
+			return (0);
+		}	
+	}
+	return (1);
+}
+
 void shell_init(char **envp, t_shell *shell)
 {
-    shell->envp = envp;
+	int split_count = count_split(envp);
+	//printf("split count: %d\n", split_count);
+	shell->envp = malloc(sizeof(char *) * (split_count + 1));
+	//print_tokens(envp);
+	if (!shell->envp)
+	{
+		shell->exit_code = 1;
+		return ;
+	}
+	shell->envp[split_count] = 0;
+	if (!ft_cpy_tab(shell->envp, envp, split_count))
+	{
+		shell->exit_code = 1;
+		free(shell->envp);
+		return ;
+	}
+//	print_tokens(shell->envp);
+	//printf("shell->envp pointer (shell init): %p\n", shell->envp);
+	/*
+	int i = 0;
+	while(i < split_count)
+	{
+		printf("little ptr:", i, &shell->envp[i]);
+		i++;		
+	}
+	*/
+
+	
+    //shell->envp = envp;
 	shell->envp_value_pair = NULL;
 	shell->input = NULL;
 	shell->tokens = NULL;
@@ -70,7 +118,7 @@ void shell_init(char **envp, t_shell *shell)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
-	char **env;
+	// char **env;
 	// shell.shell_id = ft_getpid();
 	(void)av;
 	if (ac != 1)
@@ -105,6 +153,7 @@ int	main(int ac, char **av, char **envp)
 		else
 			free(shell.input);
 // TODO: check here / check inside
+		//ft_free_all(&shell);
 		execute(&shell);
 //		free(shell.input);
 //		shell.input = 0;
