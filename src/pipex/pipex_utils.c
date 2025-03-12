@@ -65,8 +65,11 @@ char	**get_command_argv(t_cmd cmd)
 
 char	**get_path_split(char **envp, size_t ind)
 {
-	envp[ind] += 5;
-	return (ft_split(envp[ind], ':'));
+	char *path_str;
+
+	path_str = envp[ind] + 5;
+//	envp[ind] += 5;
+	return (ft_split(path_str, ':'));
 }
 /*
 t_pipex_command	cmd_to_pipex_command(t_cmd cmd, char **envp)
