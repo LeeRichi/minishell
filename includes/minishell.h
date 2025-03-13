@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:21:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:28:05 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,14 @@ typedef struct s_shell
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
 } t_shell;
+
+typedef struct s_error
+{
+	char *file_name;
+	char *command_name;
+	char *strerror_message;
+	t_perrtypes errtype;
+} t_error;
 
 /* PIPEX */
 typedef enum e_perrtypes {
