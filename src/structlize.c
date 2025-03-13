@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:32:57 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 20:24:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void ft_structlize(t_shell *shell)
             if (shell->tokens[i + 1] == NULL)
             {
                 // fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
-                fprintf(stderr, "Syntax error.\n");
+                ft_printf_fd(STDERR, "minishell: syntax error\n");
                 return; // Avoid accessing out-of-bounds memory
             }
             if (current_cmd != NULL)
@@ -210,7 +210,7 @@ void ft_structlize(t_shell *shell)
 			    handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
             }
             else
-                fprintf(stderr, "Error: Redirection without a command\n");
+                ft_printf_fd(STDERR, "Error: Redirection without a command\n");
 			i++;
 		}
 		else

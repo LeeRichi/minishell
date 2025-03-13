@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 17:52:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 20:23:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,9 +227,9 @@ static void append_additional_input(char **input, char *additional_input)
 void handle_unexpected_eof(t_shell *shell, char *input, char *additional_input)
 {
     if (shell->last_token_type == 2)
-        printf("minishell: syntax error near unexpected token `%c`\n", '|');
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "|");
     else
-        printf("minishell: syntax error near unexpected token `%c`\n", '<');
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "|");
     free(input);
     free(additional_input);
     exit(EXIT_FAILURE);
@@ -302,7 +302,7 @@ int empty_between_checker(t_shell *shell)
 			// if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
             if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
 			{
-        		printf("minishell: syntax error.\n");
+                ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n");
 				return (1);
 			}
 		}

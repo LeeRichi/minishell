@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/11 17:39:40 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 20:24:04 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ int empty_pipe_checker(char *input, t_shell *shell)
 		input++;
     if (ft_strncmp(input, "||", 2) == 0)
     {
-        printf("minishell: syntax error near unexpected token `%s`\n", "||");
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "||");
         clear_tokens(shell);
         return (1);
     }
     if (ft_start_with(input, '|'))
     {
-        printf("minishell: syntax error near unexpected token `%c`\n", '|');
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "|");
         clear_tokens(shell);
         return (1);
     }
 	if (ft_end_with(input, '>') || ft_end_with(input, '<'))
 	{
-		printf("minishell: syntax error near unexpected token `%s`\n", "newline");
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "newline");
 		clear_tokens(shell);
 		return (1);
 	}
 	if(is_exact_operator(input))
 	{
-		printf("minishell: syntax error near unexpected token `%s`\n", "newline");
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%c`\n", "newline");
 		clear_tokens(shell);
 		return (1);
     }
