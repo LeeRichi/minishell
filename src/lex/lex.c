@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 16:39:04 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:52:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,28 +324,22 @@ void tokenize_input(char *input, t_shell *shell)
   	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
 		free(input);
-        printf("%s, %d\n",__FILE__, __LINE__);
+        // printf("%s, %d\n",__FILE__, __LINE__);
 		shell->err_code = 258;
 		return;
 		// exit(EXIT_FAILURE);
 	}
 	handle_unbalanced_quotes(&input); //checking case like '''
     
-    if (ft_strcmp("", shell->input) != 0)
+    // if (ft_strcmp("", shell->input) != 0) //removed this line to avoid invalid read
         parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
     
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 
-    if (!shell->tokens)
-    {
-        //fuck2
-        // printf("exit code: %d\n", shell->exit_code);
-    }
-
     if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
     {
         free(input);
-        printf("%s, %d\n",__FILE__, __LINE__);
+        // printf("%s, %d\n",__FILE__, __LINE__);
         shell->err_code = 258;
         clear_tokens(shell);
         return;
