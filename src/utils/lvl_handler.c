@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 15:32:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/12 21:38:31 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void shell_level_ctrl(t_shell *shell)
 	shlvl_str = ft_itoa(shlvl);
 	if (shlvl_str)
 	{
-		setenv("SHLVL", shlvl_str, 1);
+		//setenv("SHLVL", shlvl_str, 1);
 		new_shlvl_entry = ft_strjoin("SHLVL=", shlvl_str);
 		free(shlvl_str);
 	}

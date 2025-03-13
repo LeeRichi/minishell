@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:21:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/12 20:49:29 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ char *ft_getenv(char *env_name, t_shell *shell);
 
 //export.c
 t_key_value *arr_to_key_value(t_shell *shell);
+void free_key_value_list(t_key_value *head);
 
 
 extern t_sig g_sig;
