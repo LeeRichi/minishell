@@ -173,7 +173,7 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 {
 	int i;
 	// int j;
-	char **key_value_pair;
+//	char **key_value_pair;
 	t_key_value *head;
 	
 	// //dubug
@@ -192,7 +192,7 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 
 	head = NULL;
 	i = 0;
-	key_value_pair = NULL;
+//	key_value_pair = NULL;
 	// while (shell->tokens[i])
 	// {
 	// 	if (ft_strchar(shell->tokens[i], '='))
