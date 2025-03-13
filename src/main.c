@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/12 22:30:09 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 15:50:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void shell_init(char **envp, t_shell *shell)
 	int split_count = count_split(envp);
 	//printf("split count: %d\n", split_count);
 	shell->envp = malloc(sizeof(char *) * (split_count + 1));
-	//print_tokens(envp);
 	if (!shell->envp)
 	{
 		shell->exit_code = 1;
@@ -167,7 +166,7 @@ int	main(int ac, char **av, char **envp)
 		clear_cmds(&shell);
 		// shell.cmds = 0;
 	}
-	// ft_free_all(&shell);
+	ft_free_all(&shell);
 
 	return (shell.exit_code);
 }
