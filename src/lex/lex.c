@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 22:23:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:39:04 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,7 @@ void tokenize_input(char *input, t_shell *shell)
   	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
 		free(input);
+        printf("%s, %d\n",__FILE__, __LINE__);
 		shell->err_code = 258;
 		return;
 		// exit(EXIT_FAILURE);
@@ -338,13 +339,13 @@ void tokenize_input(char *input, t_shell *shell)
     if (!shell->tokens)
     {
         //fuck2
-        printf("exit code: %d\n", shell->exit_code);
-        
+        // printf("exit code: %d\n", shell->exit_code);
     }
 
     if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
     {
         free(input);
+        printf("%s, %d\n",__FILE__, __LINE__);
         shell->err_code = 258;
         clear_tokens(shell);
         return;

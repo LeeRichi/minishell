@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 15:50:59 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:06:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,14 @@ void shell_init(char **envp, t_shell *shell)
 // 	return (fork_res);
 // }
 
+t_shell *get_set_shell(t_shell *shell)
+{
+	static t_shell *shell_storage;
+	if (shell)
+		shell_storage = shell;
+	return (shell_storage);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -125,9 +133,15 @@ int	main(int ac, char **av, char **envp)
 		printf("We only handle 1 comment.\n");
 		exit(EXIT_FAILURE);
 	}
-	init_sig();
+	
+
+	//push it before playing signal
+	//get_set_shell(&shell);
+	
 	signal(SIGINT, &handle_sigint);
 	signal(SIGQUIT, &handle_sigquit);
+
+	// sigaction()
 	// env = ft_getenv(envp);
 	shell_init(envp, &shell);
 
@@ -153,7 +167,11 @@ int	main(int ac, char **av, char **envp)
 			free(shell.input);
 // TODO: check here / check inside
 		//ft_free_all(&shell);
+		
 		execute(&shell);
+
+		//fuck
+		// printf("fuck: %d\n", shell.exit_code);
 //		free(shell.input);
 //		shell.input = 0;
 		// cleanup shell cmds

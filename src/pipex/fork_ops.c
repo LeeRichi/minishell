@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/10 19:20:38 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:14:08 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int handle_builtin(t_cmd command)
 	t_shell *shell;
 
 	shell = (t_shell *)command.shell;
+	
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
@@ -60,7 +61,7 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_ECHO)
 	{
-		// printf("hi\n");
+		
 		//handle_echo(shell->tokens, shell);
 		return handle_echo(command.arg, shell);
 	//	ft_printf("echo builtin\n");

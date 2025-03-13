@@ -56,7 +56,11 @@ void parse(t_shell *shell)
 	// 	//pipex_launch(shell->cmds, shell->envp);
 	// }
 	// else
-	// 	shell->err_code = 0;
+    //     shell->err_code = 0;
+
+
+    //try to alway call this so it doesnt affect the next input
+ 	shell->err_code = 0;
 
 	// if (shell->tokens && shell->tokens[0] != NULL)
     // {

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/10 21:21:15 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:36:23 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void execute(t_shell *shell)
 
 	int	redirection_result;
 	int	exec_result;
+	
 	//ft_printf("%p\n", shell->cmds);
+	//printf("in mainin mainin mainin mainin mainin mainin mainin mainin mainin mainin mainin main\n");
+	// printf("shell cmds %p\n", shell->cmds);
 	if (!shell->cmds)
 	{
 		// printf("fuck yoyo: %d\n", shell->exit_code);
@@ -64,10 +67,12 @@ void execute(t_shell *shell)
 	}
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
 	{
+		
 		exec_result = pipex_launch(shell->cmds, shell->envp, shell);
 	}
 	else
 	{
+		
 		shell->cmds->shell = shell;
 		redirection_result = preserve_fds(shell);
 		if (redirection_result == -1)
