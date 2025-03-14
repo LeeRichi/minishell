@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/13 16:55:28 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:37:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
 		
 */
 
-
+/*
 static void	print_error_message(t_error error)
 {
 	if (error.errtype == CMD_NOT_FOUND)
-	ft_putstr_fd("pipex: ", STDERR_FILENO);
+		ft_putstr_fd("pipex: ", STDERR_FILENO);
 	if (errtype == RFILE_FAIL)
 		write_smth_with_colon_fd(pipex.infile, STDERR_FILENO);
 	else if (errtype == WFILE_FAIL)
@@ -102,15 +102,16 @@ static void	print_error_message(t_error error)
 	else
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 }
-//void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
-void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error)
+*/
+void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
+//void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error)
 {
 	t_shell	*shell;
 //TODO: rethink, rewrite
 /*
 	print_error_message(*pipex, errtype);
 */
-	print_error_message(error);
+//	print_error_message(error);
 	shell = 0;
 	perror("PIPEX ERROR");
 	if (pipex)
@@ -121,6 +122,6 @@ void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error)
 		ft_free_all(shell);
 		shell->pipex = 0;
 	}
-	clear_cmds(shell);
+//	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
