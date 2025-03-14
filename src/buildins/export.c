@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 16:48:13 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 12:14:09 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void add_or_update_value_in_env(t_shell *shell, char *key, char *value)
         {
             free(temp->value);
             temp->value = ft_strdup(value);
+			from_pair_to_arr(shell);
             return;
         }
         temp = temp->next;
@@ -175,7 +176,7 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 	// int j;
 //	char **key_value_pair;
 	t_key_value *head;
-	
+
 	// //dubug
 	// printf("cmd name:\n");
 	// if (cmd_name)
@@ -223,7 +224,7 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 	while (args[i])
 	{
 		char *equal_pos = ft_strchr(args[i], '=');
-		
+
 		if (equal_pos)
 		{
 			*equal_pos = '\0';

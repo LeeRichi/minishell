@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 11:22:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 11:40:10 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,7 @@ int empty_between_checker(t_shell *shell)
             // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
             if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
 			{
-                ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n");
+                ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `fuck`\n");
 				return (1);
 			}
             // ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n");
