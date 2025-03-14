@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 11:00:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 19:51:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,13 @@ void shell_init(char **envp, t_shell *shell)
 // 	return (fork_res);
 // }
 
-// t_shell *get_set_shell(t_shell *shell)
-// {
-// 	static t_shell *shell_storage;
-// 	if (shell)
-// 		shell_storage = shell;
-// 	return (shell_storage);
-// }
+t_shell *get_set_shell(t_shell *shell)
+{
+	static t_shell *shell_storage;
+	if (shell)
+		shell_storage = shell;
+	return (shell_storage);
+}
 
 // int	main(int ac, char **av, char **envp)
 // {
@@ -188,13 +188,12 @@ void shell_init(char **envp, t_shell *shell)
 // 	return (shell.exit_code);
 // }
 
-
 //tester main
 
 int	main(int ac, char **av, char **envp)
 {
 	t_shell shell;
-	char *line;
+	char *line = NULL;
 	(void)av;
 	(void)ac;
 
@@ -210,8 +209,13 @@ int	main(int ac, char **av, char **envp)
 			shell.input = ft_strtrim(line, "\n");
 			free(line);
 		}
-		if (!line)
-			break;
+		// if (!line)
+		// 	break;
+
+		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
+        {
+            break;
+        }
 
 		if (*shell.input)
 			add_history(shell.input);

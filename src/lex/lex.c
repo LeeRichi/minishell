@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 11:40:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 19:59:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             while(j < str_len)
             {
                 *current_token = str_append(*current_token, id_as_str[j]);
+                free(id_as_str);
                 j++;
             }
             (*i) += 2;
@@ -118,6 +119,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			while(itoaed_str[j])
 			{
 				*current_token = str_append(*current_token, itoaed_str[j]);
+                // free(itoaed_str);
 				j++;
 			}
 
