@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:14:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 20:29:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 09:28:38 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	print_format(char specifier, va_list args, int fd)
+static int	print_format_new(char specifier, va_list args, int fd)
 {
 	int	count;
 
@@ -48,7 +48,7 @@ int	ft_printf_fd(int fd, const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			result = print_format(*++format, args, fd);
+			result = print_format_new(*++format, args, fd);
 			if (result == -1)
 				return (-1);
 			count += result;

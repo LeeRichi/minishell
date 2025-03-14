@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/12 20:49:29 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 09:26:36 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
-# define PATH_MAX 4096 //aware
+
+#ifndef PATH_MAX
+	#define PATH_MAX 4096
+#endif
 
 //printing purpose
 #define RED "\033[31m"

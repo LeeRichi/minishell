@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 18:19:13 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 11:00:35 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int ft_cpy_tab(char **dest, char **src, int length)
 				length++;
 			}
 			return (0);
-		}	
+		}
 	}
 	return (1);
 }
@@ -58,11 +58,11 @@ void shell_init(char **envp, t_shell *shell)
 	while(i < split_count)
 	{
 		printf("little ptr:", i, &shell->envp[i]);
-		i++;		
+		i++;
 	}
 	*/
 
-	
+
     //shell->envp = envp;
 	shell->envp_value_pair = NULL;
 	shell->input = NULL;
@@ -114,13 +114,13 @@ void shell_init(char **envp, t_shell *shell)
 // 	return (fork_res);
 // }
 
-t_shell *get_set_shell(t_shell *shell)
-{
-	static t_shell *shell_storage;
-	if (shell)
-		shell_storage = shell;
-	return (shell_storage);
-}
+// t_shell *get_set_shell(t_shell *shell)
+// {
+// 	static t_shell *shell_storage;
+// 	if (shell)
+// 		shell_storage = shell;
+// 	return (shell_storage);
+// }
 
 // int	main(int ac, char **av, char **envp)
 // {
@@ -133,11 +133,11 @@ t_shell *get_set_shell(t_shell *shell)
 // 		printf("We only handle 1 comment.\n");
 // 		exit(EXIT_FAILURE);
 // 	}
-	
+
 
 // 	//push it before playing signal
 // 	//get_set_shell(&shell);
-	
+
 // 	signal(SIGINT, &handle_sigint);
 // 	signal(SIGQUIT, &handle_sigquit);
 
@@ -150,12 +150,12 @@ t_shell *get_set_shell(t_shell *shell)
 // 	while (1)
 // 	{
 // 		shell.input = readline("$ ");
-		
+
 // 		// printf("fuck: %d\n", shell.exit_code);
 // 		// if (strcmp(shell.input, "") == 0) //true
 // 		// 	printf("test fuck\n");
 // 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
-//         {	
+//         {
 //             break;
 //         }
 // 		if (*shell.input)
@@ -166,7 +166,7 @@ t_shell *get_set_shell(t_shell *shell)
 // 			free(shell.input);
 // // TODO: check here / check inside
 // 		//ft_free_all(&shell);
-		
+
 // 		execute(&shell);
 
 // 		//fuck
@@ -179,7 +179,7 @@ t_shell *get_set_shell(t_shell *shell)
 // 			free_tokens(shell.tokens);
 // 			shell.tokens = 0;
 // 		}
-		
+
 // 		clear_cmds(&shell);
 // 		// shell.cmds = 0;
 // 	}
@@ -189,9 +189,7 @@ t_shell *get_set_shell(t_shell *shell)
 // }
 
 
-
-//test main
-
+//tester main
 
 int	main(int ac, char **av, char **envp)
 {
@@ -199,7 +197,7 @@ int	main(int ac, char **av, char **envp)
 	char *line;
 	(void)av;
 	(void)ac;
-	
+
 	shell_init(envp, &shell);
 
 	while (1)
@@ -222,6 +220,8 @@ int	main(int ac, char **av, char **envp)
 		else
 			free(shell.input);
 
+		execute(&shell);
+
 		if (shell.tokens)
 		{
 			free_tokens(shell.tokens);
@@ -229,25 +229,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		clear_cmds(&shell);
 	}
-	
+
 	ft_free_all(&shell);
-	
+
 	//exit
 	return (shell.exit_code);
 }
-
-
-// int main(void)
-// {
-
-	
-// 	if (isatty(fileno(stdin)))
-// 		shell->prompt = readline(shell->terminal_prompt);
-// 	else
-// 	{
-// 		char *line;
-// 		line = get_next_line(fileno(stdin));
-// 		shell->prompt = ft_strtrim(line, "\n");
-// 		free(line);
-// 	}
-// }
