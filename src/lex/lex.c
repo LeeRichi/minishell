@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 19:59:52 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/16 20:04:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,33 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         (*i)++;
     }
 	else if (input[*i] == '\'' && !(shell->in_double_quote))
+    {
         shell->in_single_quote = !(shell->in_single_quote);
+        //Mar 16
+        // (*i)++;
+        // // if (input[*i] == '"')
+        // {
+        //     while (input[*i] != '\'')
+        //     {
+        //         if (input[*i] == '$' && input[*i + 1] == '?')
+        //         {
+        //             printf("fuck\n");
+        //             char *code = ft_itoa(shell->exit_code);
+        //             while (*code)
+        //             {
+        //                 *current_token = str_append(*current_token, *code); 
+        //                 code++;
+        //             }
+        //             (*i)++;
+        //         }
+        //         else
+        //         {
+        //             *current_token = str_append(*current_token, input[*i]);
+        //             (*i)++;
+        //         }
+        //     }
+        // }
+    }
     else if (input[*i] == '"' && !(shell->in_single_quote))
         shell->in_double_quote = !(shell->in_double_quote);
     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
@@ -86,6 +112,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			*current_token = str_append(*current_token, '~');
 			(*i)++;
 		}
+        *current_token = str_append(*current_token, input[*i]);
     }
     else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
     {
