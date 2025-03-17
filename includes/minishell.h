@@ -32,7 +32,10 @@
 # define ERROR 1
 # define NONE_NUMERIC_EXIT_CODE 255
 # define WHITESPACE " \t\n"
-# define PATH_MAX 4096 //aware
+
+#ifndef PATH_MAX
+	#define PATH_MAX 4096
+#endif
 
 //printing purpose
 #define RED "\033[31m"
@@ -271,6 +274,7 @@ char *ft_getenv(char *env_name, t_shell *shell);
 
 //export.c
 t_key_value *arr_to_key_value(t_shell *shell);
+void free_key_value_list(t_key_value *head);
 
 
 extern t_sig g_sig;

@@ -1,43 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 21:03:04 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 20:32:16 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/13 20:14:11 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/14 09:28:38 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	printchar_old(char c)
-{
-	if (write(1, &c, 1) != 1)
-		return (-1);
-	return (1);
-}
-
-static int	printstr_old(char *s)
-{
-	int	count;
-
-	count = 0;
-	if (!s)
-		return (printstr_old("(null)"));
-	while (*s)
-	{
-		if (printchar_old((int)*s) == -1)
-			return (-1);
-		count++;
-		++s;
-	}
-	return (count);
-}
-
-
-int	print_format(char specifier, va_list args)
+static int	print_format_new(char specifier, va_list args, int fd)
 {
 	int	count;
 
@@ -45,7 +20,7 @@ int	print_format(char specifier, va_list args)
 	if (specifier == 'c')
 		count += printchar(va_arg(args, int));
 	else if (specifier == 's')
-		count += printstr_old(va_arg(args, char *));
+		count += printstr(fd, va_arg(args, char *));
 	else if (specifier == 'p')
 		count += printaddress(va_arg(args, unsigned long));
 	else if (specifier == 'd' || specifier == 'i')
@@ -61,7 +36,7 @@ int	print_format(char specifier, va_list args)
 	return (count);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf_fd(int fd, const char *format, ...)
 {
 	va_list	args;
 	int		count;
@@ -73,14 +48,14 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			result = print_format(*++format, args);
+			result = print_format_new(*++format, args, fd);
 			if (result == -1)
 				return (-1);
 			count += result;
 		}
 		else
 		{
-			if (write(1, format, 1) == -1)
+			if (write(fd, format, 1) == -1)
 				return (-1);
 			count += 1;
 		}

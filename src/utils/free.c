@@ -21,6 +21,14 @@ void free_tokens(char **tokens)
 		return ;
 	while (tokens[i])
 	{
+//        if (i  >= 22 && i <=24)
+  //      {
+        // ft_putstr_fd("free no ", 2);
+        // ft_putnbr_fd(i, 2);
+        // ft_putstr_fd(" in free tokens\n", 2);
+        // ft_putendl_fd(tokens[i], 2);
+//        }
+        
         free(tokens[i]);
         i++;
     }
@@ -65,7 +73,9 @@ void ft_free_all(t_shell *shell)
     
     if(shell->envp)
     {
-//        printf("envp exists\n");
+        //printf("envp exists\n");
+        //print_tokens(shell->envp);
+        //printf("shell->envp pointer (free all): %p\n", shell->envp);
         clear_envp(shell);
     }
 

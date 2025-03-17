@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:10:17 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:21:27 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 int handle_echo(char **cmd_args, t_shell *shell)
 {
+    //printf("hi\n");
+    
     (void)shell;
     int i = 0;
     int newline = 1;
+    //printf("hi \n");
+        //printf("cmd args in handle echo: %s\n", cmd_args[0]);    
 
     if (!cmd_args)
     {
         return (0);
     }
-    
+//printf("code: %d\n", shell->exit_code);    
     if (cmd_args[0] && ft_strcmp(cmd_args[0], "-n") == 0)
     {
         newline = 0;

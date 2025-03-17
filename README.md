@@ -76,3 +76,11 @@ HANDLED EXECUTION:
 todo:
 //last one should overwrite the prev ones
 echo $PATH | echo hi
+
+test cases failed but debate:
+COMPARE PARSING:
+17-38:
+/bin/echo hi >./outfiles/outfile01 | /bin/echo bye
+
+
+ 

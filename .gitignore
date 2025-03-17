@@ -11,3 +11,4 @@ test_files
 ./test_files
 
 minishell_tester/
+42_minishell_tester/

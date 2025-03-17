@@ -41,6 +41,32 @@ int contains_str(char **tokens, char *str)
 	return (0);
 }
 
+// void extra_care_for_dollar(t_shell *shell)
+// {
+//     int token_i;
+//     int j;
+
+//     token_i = 0;
+//     while (shell->tokens[token_i])
+//     {
+//         j = 0;
+//         while (shell->tokens[token_i][j])
+//         {
+//             if (shell->tokens[token_i][j] == '$' && shell->tokens[token_i][j + 1] == '?')
+//             {
+//                 char *exit_code_str = ft_itoa(shell->exit_code);
+//                 int exit_code_len = ft_strlen(exit_code_str);
+//                 ft_memmove(&shell->tokens[token_i][j], &shell->tokens[token_i][j + 1], ft_strlen(&shell->tokens[token_i][j + 1]) + 1);
+//                 ft_memcpy(&shell->tokens[token_i][j], exit_code_str, exit_code_len);
+//                 j += exit_code_len - 1;
+//                 free(exit_code_str);
+//             }
+//             j++;
+//         }
+//         token_i++;
+//     }
+// }
+
 void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
@@ -48,15 +74,26 @@ void parse(t_shell *shell)
 	// if (shell->tokens)
     //     print_tokens(shell->tokens);
 
-    if (!shell->err_code)
+    // extra_care_for_dollar(shell);
+
+	// if (shell->tokens)
+    //     print_tokens(shell->tokens);
+
+    if (!shell->err_code && shell->tokens)
+    {
 		ft_structlize(shell);
+    }
 	// if (!shell->err_code)
 	// {
 	// 	print_cmd_struct(shell->cmds);
 	// 	//pipex_launch(shell->cmds, shell->envp);
 	// }
 	// else
-	// 	shell->err_code = 0;
+    //     shell->err_code = 0;
+
+
+    //try to alway call this so it doesnt affect the next input
+ 	shell->err_code = 0;
 
 	// if (shell->tokens && shell->tokens[0] != NULL)
     // {

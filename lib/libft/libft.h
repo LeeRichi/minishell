@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:45:13 by chlee2            #+#    #+#             */
-/*   Updated: 2025/01/29 18:58:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/13 20:26:54 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	rich_flood_fill(char **tab, t_point size, t_point begin);
 //ft_printf_packages
 int		ft_printf(const char *format, ...);
 int		printchar(char c);
-int		printstr(char *s);
+int		printstr(int fd, char *s);
 int		printnbr(long n, int base);
 int		printnbr_butx(long n, int base);
 int		printnbr_foraddress(unsigned long n, int base);
@@ -93,6 +93,8 @@ int		is_empty_or_whitespace(char *str);
 
 //new for minishell
 void	*ft_realloc(void *ptr, size_t size);
+
+int	ft_printf_fd(int fd, const char *format, ...);
 
 
 #endif

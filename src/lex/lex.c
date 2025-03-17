@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 22:23:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:00:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void finalize_token(t_shell *shell, char **current_token, int *token_count)
 {
     size_t new_size;
     int i;
-	char **new_tokens; 
-    
+	char **new_tokens;
+
     if (*current_token)
     {
         new_size = sizeof(char *) * (*token_count + 2);
@@ -56,7 +56,40 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         (*i)++;
     }
 	else if (input[*i] == '\'' && !(shell->in_double_quote))
-        shell->in_single_quote = !(shell->in_single_quote);
+    {
+        shell->in_single_quote = !(shell->in_single_quote); //flip
+        //Mar 16 late
+        // (*i)++;
+        // while (input[*i] != '\'')
+        // {
+        //     *current_token = str_append(*current_token, input[*i]);
+        //     (*i)++;
+        // }
+        //Mar 16
+        // (*i)++;
+        // // if (input[*i] == '"')
+        // {
+        //     while (input[*i] != '\'')
+        //     {
+        //         if (input[*i] == '$' && input[*i + 1] == '?')
+        //         {
+        //             printf("fuck\n");
+        //             char *code = ft_itoa(shell->exit_code);
+        //             while (*code)
+        //             {
+        //                 *current_token = str_append(*current_token, *code);
+        //                 code++;
+        //             }
+        //             (*i)++;
+        //         }
+        //         else
+        //         {
+        //             *current_token = str_append(*current_token, input[*i]);
+        //             (*i)++;
+        //         }
+        //     }
+        // }
+    }
     else if (input[*i] == '"' && !(shell->in_single_quote))
         shell->in_double_quote = !(shell->in_double_quote);
     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
@@ -86,6 +119,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			*current_token = str_append(*current_token, '~');
 			(*i)++;
 		}
+        *current_token = str_append(*current_token, input[*i]);
     }
     else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
     {
@@ -98,6 +132,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             while(j < str_len)
             {
                 *current_token = str_append(*current_token, id_as_str[j]);
+                free(id_as_str);
                 j++;
             }
             (*i) += 2;
@@ -111,13 +146,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         {
             // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
             // printf("hi: %d", shell->exit_code);
-            
+
 			itoaed_str = ft_itoa(shell->exit_code);
-            
+
 			int j = 0;
 			while(itoaed_str[j])
 			{
 				*current_token = str_append(*current_token, itoaed_str[j]);
+                // free(itoaed_str);
 				j++;
 			}
 
@@ -227,9 +263,9 @@ static void append_additional_input(char **input, char *additional_input)
 void handle_unexpected_eof(t_shell *shell, char *input, char *additional_input)
 {
     if (shell->last_token_type == 2)
-        printf("minishell: syntax error near unexpected token `%c`\n", '|');
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n", "|");
     else
-        printf("minishell: syntax error near unexpected token `%c`\n", '<');
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n", "|");
     free(input);
     free(additional_input);
     exit(EXIT_FAILURE);
@@ -281,6 +317,12 @@ char *ft_start_with_specials_v2(char *str) //pipe is excluded
     return NULL;
 }
 
+int is_operator(const char *token) {
+    return (strcmp(token, "|") == 0 || strcmp(token, ">") == 0 ||
+            strcmp(token, ">>") == 0 || strcmp(token, "<") == 0 ||
+            strcmp(token, "<<") == 0);
+}
+
 int empty_between_checker(t_shell *shell)
 {
 	int i;
@@ -297,14 +339,18 @@ int empty_between_checker(t_shell *shell)
 	{
 		// if (ft_start_with_specials_v2(shell->tokens[i]) ||
     	// 	(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
-        if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
+
+        // if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
+        if (is_operator(shell->tokens[i]) && is_operator(shell->tokens[i + 1]))
 		{
-			// if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
+            // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
             if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
 			{
-        		printf("minishell: syntax error.\n");
+                ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `fuck`\n");
 				return (1);
 			}
+            // ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n");
+            // return (STDERR);
 		}
 		i++;
 	}
@@ -324,44 +370,37 @@ void tokenize_input(char *input, t_shell *shell)
   	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
 		free(input);
-		shell->err_code = 258;
-		return;
-		// exit(EXIT_FAILURE);
+        shell->exit_code = STDERR;
+        shell->err_code = 258;
+        return;
 	}
 	handle_unbalanced_quotes(&input); //checking case like '''
+
+    // if (ft_strcmp("", shell->input) != 0) //removed this line to avoid invalid read
+    parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+
     
-    if (ft_strcmp("", shell->input) != 0)
-        parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    // {
+    //     printf("fuck1\n");
+    //     free(input);
+    //     shell->err_code = STDERR;
+    //     shell->exit_code = STDERR;
+    //     clear_tokens(shell);
+    //     return;
+    // }
     
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 
-    if (!shell->tokens)
-    {
-        //fuck2
-        printf("exit code: %d\n", shell->exit_code);
-        
-    }
+    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    // {
+    //     free(input);
+    //     shell->err_code = STDERR;
+    //     shell->exit_code = STDERR;
+    //     clear_tokens(shell);
+    //     return;
+    // }
 
-    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-    {
-        free(input);
-        shell->err_code = 258;
-        clear_tokens(shell);
-        return;
-    }
     // shell->last_token_type = 0;
     free(input);
-    
-    //debug
-    // printf("shell->last_token_type = %d\n", shell->last_token_type);
-
-	// if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-	// {
-	// 	free(input);
-	// 	shell->err_code = 258;
-	// 	clear_tokens(shell);
-	// 	return;
-	// }
-	// // shell->last_token_type = 0;
-	// free(input);
 }

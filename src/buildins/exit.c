@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:46:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/16 19:01:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int handle_exit(t_shell *shell, char **args)
     if (args && args[0])
 		atoied_value = ft_atoi(args[0]);
 	
-    ft_putstr_fd("exit\n", STDOUT);
+    //fuck temp
+    // ft_putstr_fd("exit\n", STDOUT);
     if (args && args[0] && args[1])
     {
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
@@ -92,6 +93,7 @@ int handle_exit(t_shell *shell, char **args)
         // printf("code is %d\n", shell->exit_code);
         // exit(0);
         shell->exit_code = 0;
+        // ft_putstr_fd("exit", STDOUT);
         exit(shell->exit_code);
     }
 	// printf("%d\n", shell->exit_code);

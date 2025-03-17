@@ -51,6 +51,7 @@ int handle_builtin(t_cmd command)
 	t_shell *shell;
 
 	shell = (t_shell *)command.shell;
+	
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
@@ -60,7 +61,7 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_ECHO)
 	{
-		// printf("hi\n");
+		
 		//handle_echo(shell->tokens, shell);
 		return handle_echo(command.arg, shell);
 	//	ft_printf("echo builtin\n");
