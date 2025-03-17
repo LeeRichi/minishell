@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/13 16:14:08 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:06:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,18 +141,23 @@ void	in_child(t_pipex *pipex)
 {
 	t_cmd	command;
 	int	file_red_result;
+	t_shell	*shell;
 
+	shell = (t_shell *)pipex->shell;
 	if (pipex->command_count > 1)
 		redirect_fds(pipex);
 	file_red_result = process_file_redirections(pipex->command + pipex->current_command);
 	if (file_red_result)
 	{
 	// clean up
+// TODO: redo with error and exit
+		ft_free_all(shell);
 		exit(1);
 	}
 	if (!pipex->command[pipex->current_command].cmd_name)
 	{
 //TODO: clean up and exit success
+		ft_free_all(shell);
 		exit(0);
 	}
 	// TODO: only do if not builtin?
@@ -164,6 +169,7 @@ void	in_child(t_pipex *pipex)
 /*
 		cleanup
 */
+		ft_free_all(shell);
 		exit(file_red_result);
 	}
 	else

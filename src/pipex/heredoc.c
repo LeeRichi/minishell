@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/15 21:34:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:26:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 	int fork_res;
 	char *line;
 	int dup_res;
+	int proper_exit;
+
+	proper_exit = 0;
 //	char *fineof;
 	if (pipe(fds) == -1)
 		return (-1);
@@ -140,34 +143,35 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 	if (!fork_res)
 	{
 		dup_res = dup2(fds[1], 1);
-	//	fineof = ft_strjoin(eof, "\n");
 		close_pipe_safe(fds);
-//		close(fds[1]);
-//		close(fds[0]);
-//		if (!fineof)
-//			exit(1);
 		if (dup_res == -1)
 		{
 			perror("dup error");
-//			free(fineof);
+			ft_free_all(shell);
 			exit(1);
 		}
-	// TODO: check write, cleanup on fail
 		write(0, "> ", 2);
+		errno = 0;
 		line = get_next_line(0);
+//		if (!line)
+//			perror("line is EOF");
 		while (line)
 		{
 			if (is_eof_with_nl(line, eof))
-//			if (!ft_strcmp(line, fineof))
 			{
+				proper_exit = 1;
 				free(line);
 				break ;
 			}
 			ft_printf("%s", line);
-	// TODO: check write, cleanup on fail
 			write(0, "> ", 2);
 			free(line);
 			line = get_next_line(0);
+		}
+		if (!proper_exit)
+		{
+//			bash: warning: here-document at line 2 delimited by end-of-file (wanted `wow')
+			ft_putendl_fd("heredoc EOF stoped", 2);
 		}
 //		free(fineof);
 		get_next_line(-1);
