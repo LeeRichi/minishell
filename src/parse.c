@@ -88,6 +88,7 @@ void parse(t_shell *shell)
 	// 	print_cmd_struct(shell->cmds);
 	// 	//pipex_launch(shell->cmds, shell->envp);
 	// }
+
 	// else
     //     shell->err_code = 0;
 
