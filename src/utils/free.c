@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/11 17:51:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/14 18:02:14 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void ft_free_all(t_shell *shell)
     
     if(shell->envp)
     {
-        printf("envp exists\n");
+//        printf("envp exists\n");
         clear_envp(shell);
     }
 

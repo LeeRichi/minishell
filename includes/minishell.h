@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 19:21:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:37:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,14 @@ typedef enum e_perrtypes {
 	FORK_FAIL
 }	t_perrtypes;
 
+typedef struct s_error
+{
+	char *file_name;
+	char *command_name;
+	char *strerror_message;
+	t_perrtypes errtype;
+} t_error;
+
 
 
 char *get_redir_str(int index, t_cmd cmd);
@@ -162,6 +170,7 @@ int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof, t_shell *shell);
 t_cmd	*free_pipex_cmd(t_cmd *command);
 void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
+//void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error);
 void		ft_close(int *fd);
 int			dup2_and_close(int *fd_from, int fd_to);
 void		free_split(char **args);
