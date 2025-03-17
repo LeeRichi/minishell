@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/16 18:58:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:04:13 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ t_shell *get_set_shell(t_shell *shell)
 // 		exit(EXIT_FAILURE);
 // 	}
 
-
 // 	//push it before playing signal
 // 	//get_set_shell(&shell);
 
@@ -164,16 +163,16 @@ t_shell *get_set_shell(t_shell *shell)
 // 			parse(&shell);
 // 		else
 // 			free(shell.input);
-// // TODO: check here / check inside
+// 		// TODO: check here / check inside
 // 		//ft_free_all(&shell);
 
 // 		execute(&shell);
 
 // 		//fuck
-// 		// printf("fuck: %d\n", shell.exit_code);
-// //		free(shell.input);
-// //		shell.input = 0;
-// 		// cleanup shell cmds
+// 		//printf("fuck: %d\n", shell.exit_code);
+// 		//free(shell.input);
+// 		//shell.input = 0;
+// 		//cleanup shell cmds
 // 		if (shell.tokens)
 // 		{
 // 			free_tokens(shell.tokens);

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 09:44:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:00:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     {
         shell->in_single_quote = !(shell->in_single_quote); //flip
         //Mar 16 late
-        (*i)++;
-        while (input[*i] != '\'')
-        {
-            *current_token = str_append(*current_token, input[*i]);
-            (*i)++;
-        }
+        // (*i)++;
+        // while (input[*i] != '\'')
+        // {
+        //     *current_token = str_append(*current_token, input[*i]);
+        //     (*i)++;
+        // }
         //Mar 16
         // (*i)++;
         // // if (input[*i] == '"')
@@ -377,40 +377,30 @@ void tokenize_input(char *input, t_shell *shell)
 	handle_unbalanced_quotes(&input); //checking case like '''
 
     // if (ft_strcmp("", shell->input) != 0) //removed this line to avoid invalid read
-        parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
+    parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
 
-    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-    {
-        free(input);
-        shell->err_code = STDERR;
-        shell->exit_code = STDERR;
-        clear_tokens(shell);
-        return;
-    }
+    
+    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    // {
+    //     printf("fuck1\n");
+    //     free(input);
+    //     shell->err_code = STDERR;
+    //     shell->exit_code = STDERR;
+    //     clear_tokens(shell);
+    //     return;
+    // }
+    
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 
-    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-    {
-        free(input);
-        shell->err_code = STDERR;
-        shell->exit_code = STDERR;
-        clear_tokens(shell);
-        return;
-    }
+    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    // {
+    //     free(input);
+    //     shell->err_code = STDERR;
+    //     shell->exit_code = STDERR;
+    //     clear_tokens(shell);
+    //     return;
+    // }
 
     // shell->last_token_type = 0;
     free(input);
-
-    //debug
-    // printf("shell->last_token_type = %d\n", shell->last_token_type);
-
-	// if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-	// {
-	// 	free(input);
-	// 	shell->err_code = 258;
-	// 	clear_tokens(shell);
-	// 	return;
-	// }
-	// // shell->last_token_type = 0;
-	// free(input);
 }
