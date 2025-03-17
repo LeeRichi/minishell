@@ -6,13 +6,15 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 17:37:39 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:52:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# ifndef SHELL_NAME
+# define SHELL_NAME "bash"
 # include "../lib/libft/libft.h"
 
 # include <sys/wait.h>
@@ -161,6 +163,7 @@ typedef struct s_error
 	char *file_name;
 	char *command_name;
 	char *strerror_message;
+	char *final_message;
 	t_perrtypes errtype;
 } t_error;
 
@@ -195,6 +198,7 @@ char		*get_command_path(char *filename, char **paths);
 char		**get_path_split(char **envp, size_t ind);
 //char		**get_command_argv(char *arg);
 char		**get_command_argv(t_cmd cmd);
+char	*ft_split_join(char **tab, char *sep);
 /* PIPEX END */
 
 
