@@ -41,9 +41,40 @@ int contains_str(char **tokens, char *str)
 	return (0);
 }
 
+void extra_care_for_dollar(t_shell *shell)
+{
+    int token_i;
+    int j;
+
+    token_i = 0;
+    while (shell->tokens[token_i])
+    {
+        j = 0;
+        while (shell->tokens[token_i][j])
+        {
+            if (shell->tokens[token_i][j] == '$' && shell->tokens[token_i][j + 1] == '?')
+            {
+                char *exit_code_str = ft_itoa(shell->exit_code);
+                int exit_code_len = ft_strlen(exit_code_str);
+                ft_memmove(&shell->tokens[token_i][j], &shell->tokens[token_i][j + 1], ft_strlen(&shell->tokens[token_i][j + 1]) + 1);
+                ft_memcpy(&shell->tokens[token_i][j], exit_code_str, exit_code_len);
+                j += exit_code_len - 1;
+                free(exit_code_str);
+            }
+            j++;
+        }
+        token_i++;
+    }
+}
+
 void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
+
+	// if (shell->tokens)
+    //     print_tokens(shell->tokens);
+
+    extra_care_for_dollar(shell);
 
 	// if (shell->tokens)
     //     print_tokens(shell->tokens);

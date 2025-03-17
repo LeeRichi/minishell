@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/16 20:04:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 09:44:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,14 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
 	else if (input[*i] == '\'' && !(shell->in_double_quote))
     {
-        shell->in_single_quote = !(shell->in_single_quote);
+        shell->in_single_quote = !(shell->in_single_quote); //flip
+        //Mar 16 late
+        (*i)++;
+        while (input[*i] != '\'')
+        {
+            *current_token = str_append(*current_token, input[*i]);
+            (*i)++;
+        }
         //Mar 16
         // (*i)++;
         // // if (input[*i] == '"')
@@ -70,7 +77,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         //             char *code = ft_itoa(shell->exit_code);
         //             while (*code)
         //             {
-        //                 *current_token = str_append(*current_token, *code); 
+        //                 *current_token = str_append(*current_token, *code);
         //                 code++;
         //             }
         //             (*i)++;
