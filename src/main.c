@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 15:21:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:54:08 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void shell_init(char **envp, t_shell *shell)
 		i++;
 	}
 	*/
-
 
     //shell->envp = envp;
 	shell->envp_value_pair = NULL;

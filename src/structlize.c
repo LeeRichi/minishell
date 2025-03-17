@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 20:24:39 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:06:17 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,12 @@ void ft_structlize(t_shell *shell)
         if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
             strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
-            // if (shell->tokens[i + 1] && ft_start_with_specials_v2(shell->tokens[i + 1]))
+            if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
+            {
+                ft_printf_fd(STDERR, "minishell: syntax error\n");
+                shell->exit_code = STDERR;
+                return ;
+            }
             if (shell->tokens[i + 1][0] == '\0')
             {
                 // printf("found consecutive redir, plz put a flag to this node, which tell the executor - dont exe it.\n");
