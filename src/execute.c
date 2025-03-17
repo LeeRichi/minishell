@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/13 16:36:23 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:48:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,33 @@ static int restore_fds(t_shell *shell)
 	return (0);
 }
 
+void preserve_fds_and_error_exit(t_shell *shell)
+{
+	int	redirection_result;
+
+	redirection_result = preserve_fds(shell);
+	if (redirection_result == -1)
+	{
+		//TODO: error cleanup and exit?
+		perror("Saving stdandard out and in fail");
+		ft_free_all(shell);
+		exit(1);
+	}
+}
+
+void restore_fds_and_error_exit(t_shell *shell)
+{
+	int	redirection_result;
+
+	redirection_result = restore_fds(shell);
+	if (redirection_result == -1)
+	{
+		perror("restoring stdandard out and in fail");
+		ft_free_all(shell);
+		exit(1);
+	}
+}
+
 // builtin error handing 
 void execute(t_shell *shell)
 {
@@ -74,28 +101,27 @@ void execute(t_shell *shell)
 	{
 		
 		shell->cmds->shell = shell;
-		redirection_result = preserve_fds(shell);
-		if (redirection_result == -1)
-		{
-			//TODO: error cleanup and exit?
-		}
+		preserve_fds_and_error_exit(shell);
 		resolve_heredoc_cmds(shell->cmds, 1);
 		redirection_result = process_file_redirections(shell->cmds);
-		if (redirection_result == -1)
+		if (redirection_result)
 		{
 			//TODO: error cleanup, no exit
+//			
+			if (shell->cmds && shell->cmds->heredoc_fd != -1)
+			{
+				close(shell->cmds->heredoc_fd);
+				shell->cmds->heredoc_fd = -1;
+			}
+			clear_cmds(shell);
+			shell->exit_code = 1;
+			restore_fds_and_error_exit(shell);
+			return ;
 		}
 //TODO: pass shell as a parameter, return to exit status
 		exec_result = handle_builtin(*(shell->cmds));
-		if (exec_result == -1)
-		{
-			//TODO: error cleanup no exit
-		}
-		redirection_result = restore_fds(shell);
-		if (redirection_result == -1)
-		{
-			//TODO: error cleanup and exit?
-		}
+		shell->exit_code = exec_result;
+		restore_fds_and_error_exit(shell);
 	}
 	shell->exit_code = exec_result;
 }
