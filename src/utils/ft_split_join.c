@@ -6,11 +6,12 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:13 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/17 19:21:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:41:31 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+//#include "libft.h"
+#include "../../includes/minishell.h"
 
 static size_t	count_tab_chars(char **tab)
 {

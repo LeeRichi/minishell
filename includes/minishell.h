@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 14:01:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:51:00 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,15 +156,16 @@ typedef enum e_perrtypes {
 	PERMISSION_FAIL,
 	EXECVE_FAIL,
 	PIPE_FAIL,
-	FORK_FAIL
+	FORK_FAIL,
+	FILE_REDIR_FAIL,
 }	t_perrtypes;
 
 typedef struct s_error
 {
 	char *file_name;
 	char *command_name;
-	char *strerror_message;
-	char *final_message;
+//	char *strerror_message;
+//	char *final_message;
 	t_perrtypes errtype;
 } t_error;
 
@@ -176,7 +177,10 @@ int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof, t_shell *shell);
 t_cmd	*free_pipex_cmd(t_cmd *command);
-void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
+//void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
+t_error error_init(t_perrtypes errtype, char *file_name, char *command_name);
+void	print_error_message(t_error error);
+void		error_and_exit(t_pipex *pipex, t_error error);
 //void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error);
 void		ft_close(int *fd);
 int			dup2_and_close(int *fd_from, int fd_to);
