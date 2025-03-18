@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 15:46:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:34:44 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,34 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     int str_len;
 	char *itoaed_str;
 
+    // printf("input[%d]: %c\n", *i, input[*i]);
+
     //put an empty str into token
+    // if ((input[*i] == '"' && input[*i + 1] == '"'))
     if ((input[*i] == '"' && input[*i + 1] == '"') || (input[*i] == '\'' && input[*i + 1] == '\''))
     {
         // printf("Caught empty string inside double quotes!\n");
         if (*current_token == NULL)
-            *current_token = strdup("");
+            *current_token = ft_strdup("");
         (*i)++;
     }
 	else if (input[*i] == '\'' && !(shell->in_double_quote))
     {
         shell->in_single_quote = !(shell->in_single_quote); //flip
+
         //Mar 16 late
-        // (*i)++;
-        // while (input[*i] != '\'')
-        // {
-        //     *current_token = str_append(*current_token, input[*i]);
-        //     (*i)++;
-        // }
+        (*i)++;
+        while (input[*i] != '\'' && input[*i] != '\0')  // Handle end of single quote or end of input
+        {
+            *current_token = str_append(*current_token, input[*i]);
+            (*i)++;
+        }
+        if (input[*i] == '\'')
+        {
+            shell->in_single_quote = !(shell->in_single_quote);
+            // finalize_token(shell, current_token, &shell->token_count);
+            // (*i)++;
+        }
         //Mar 16
         // (*i)++;
         // // if (input[*i] == '"')
@@ -91,7 +101,21 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         // }
     }
     else if (input[*i] == '"' && !(shell->in_single_quote))
+    {
         shell->in_double_quote = !(shell->in_double_quote);
+        // (*i)++;
+        // while (input[*i] != '"' && input[*i] != '\0')  // Handle end of double quote or end of input
+        // {
+        //     *current_token = str_append(*current_token, input[*i]);
+        //     (*i)++;
+        // }
+        // if (input[*i] == '"')
+        // {
+        //     shell->in_double_quote = !(shell->in_double_quote);
+        //     // finalize_token(shell, current_token, &shell->token_count);
+        //     // (*i)++;
+        // }
+    }
     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
     {
 		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
@@ -132,9 +156,9 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             while(j < str_len)
             {
                 *current_token = str_append(*current_token, id_as_str[j]);
-                free(id_as_str);
                 j++;
             }
+            free(id_as_str);
             (*i) += 2;
             while(input[*i] == '$')
             {
@@ -153,9 +177,9 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			while(itoaed_str[j])
 			{
 				*current_token = str_append(*current_token, itoaed_str[j]);
-                // free(itoaed_str);
 				j++;
 			}
+            free(itoaed_str);
 
 			(*i)++;
             // while (input[*i] && !strchr(" ", input[*i + 1])) //echo $?
@@ -187,8 +211,8 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 				j = 0;
 				while (env_value[j])
 					*current_token = str_append(*current_token, env_value[j++]);
+                free(env_value);
 			}
-            free(env_value);
 		}
     }
     else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
@@ -226,6 +250,56 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
 }
 
+// void check_before_final(t_shell *shell, char **current_token)
+// {
+//     int i;
+//     char *token_copy;
+//     char *new_token = NULL;
+
+//     token_copy = *current_token;
+
+//     printf("copy: %s\n", token_copy);
+
+//     i = 0;
+//     if (ft_strchr(token_copy, '\'') || ft_strchr(token_copy, '"'))
+//     {
+//         if (token_copy[i] == '\'' && !(shell->in_double_quote))
+//         {
+//             printf("fuck\n");
+//             shell->in_single_quote = !(shell->in_single_quote); //flip
+//             i++;
+//             while (token_copy[i] != '\'' && token_copy[i] != '\0')  // Handle end of single quote or end of input
+//             {
+//                 printf("should not \n");
+//                 new_token = str_append(new_token, token_copy[i]);
+//                 i++;
+//             }
+//             if (token_copy[i] == '\'')
+//             {
+//                 shell->in_single_quote = !(shell->in_single_quote);
+//             }
+//             printf("new tok: %s\n", new_token);
+//         }
+//         else if (token_copy[i] == '"' && !(shell->in_single_quote))
+//         {
+//             shell->in_double_quote = !(shell->in_double_quote);
+//             i++;
+//             while (token_copy[i] != '"' && token_copy[i] != '\0')  // Handle end of double quote or end of input
+//             {
+//                 new_token = str_append(new_token, token_copy[i]);
+//                 i++;
+//             }
+//             if (token_copy[i] == '"')
+//             {
+//                 shell->in_double_quote = !(shell->in_double_quote);
+//             }
+//         }
+//         printf("new_token: %s\n", new_token);
+//         *current_token = new_token;
+//         // printf("current_token became: %s\n", *current_token);
+//     }
+// }
+
 void parse_input_fragment(char *input, t_shell *shell)
 {
     char *current_token = NULL;
@@ -238,6 +312,7 @@ void parse_input_fragment(char *input, t_shell *shell)
         i++;
     }
     //fuck
+    // check_before_final(shell, &current_token);
     finalize_token(shell, &current_token, &shell->token_count);
     //if the last parsed char is one of the below
 	while(strchr(WHITESPACE, input[i]))

@@ -45,7 +45,7 @@ int contains_str(char **tokens, char *str)
 // {
 //     int token_i;
 //     int j;
-
+//
 //     token_i = 0;
 //     while (shell->tokens[token_i])
 //     {
@@ -67,6 +67,106 @@ int contains_str(char **tokens, char *str)
 //     }
 // }
 
+// void final_check(t_shell *shell)
+// {
+//     int i = 0;
+//     int j = 0;
+//     int s_count = 0;
+//     int d_count = 0;
+//     char *str = NULL;
+//     int original_len = 0;
+//     int sign_location = 0;
+
+//     while (shell->tokens[i])
+//     {
+//         if (ft_strchr(shell->tokens[i], '$')) //has sign
+//         {
+//             while (shell->tokens[i][j] != '$')
+//             {
+//                 if (shell->tokens[i][j] == '\'')
+//                     s_count++;
+//                 else if (shell->tokens[i][j] == '"')
+//                     d_count++;
+//                 j++;
+//             }
+//             original_len = ft_strlen(shell->tokens[i]);
+//             sign_location = i;
+//             break ;
+//         }
+//         else
+//             return ;
+//         i++;
+//     }
+//      if (s_count % 2 == 0 && d_count % 2 == 0)
+//     {
+//         if (sign_location >= 0 && shell->tokens[sign_location])  // Check valid token
+//         {
+//             str = shell->tokens[sign_location] + j + 1;  // Skip the '$' sign
+//             if (str == NULL)  // Check if str is valid
+//             {
+//                 fprintf(stderr, "Error: invalid string at str\n");
+//                 return;
+//             }
+
+//             // Find the length of the variable name
+//             int name_len = 0;
+//             while (str[name_len] != '\0' && str[name_len] != '\'' && str[name_len] != '"'
+//                    && (isalnum(str[name_len]) || str[name_len] == '_'))
+//             {
+//                 name_len++;
+//             }
+
+//             // Allocate memory for the variable name
+//             char *name = malloc(name_len + 1);
+//             if (name == NULL)
+//             {
+//                 perror("malloc");
+//                 return;
+//             }
+
+//             // Copy the variable name
+//             ft_strlcpy(name, str, name_len + 1);
+
+//             // Look up the environment variable
+//             char *value = ft_getenv(name, shell);
+//             if (value)
+//             {
+//                 int value_len = ft_strlen(value);
+
+//                 // Allocate memory for the expanded string (original part + value + remaining part)
+//                 int expanded_len = (original_len - (j + 1)) + value_len + 1;
+//                 char *expanded_str = malloc(expanded_len);
+//                 if (expanded_str == NULL)
+//                 {
+//                     perror("malloc");
+//                     free(name);
+//                     return;
+//                 }
+
+//                 // Copy the part of the string before the variable
+//                 strncpy(expanded_str, shell->tokens[sign_location], j);
+
+//                 // Copy the value of the environment variable
+//                 strcpy(expanded_str + j, value);
+
+//                 // Copy the part of the string after the variable name
+//                 strcpy(expanded_str + j + value_len, str + name_len);
+
+//                 // Update the token with the expanded string
+//                 free(shell->tokens[sign_location]);
+//                 shell->tokens[sign_location] = expanded_str;
+//             }
+
+//             // Free the name after use
+//             free(name);
+//         }
+//         else
+//         {
+//             fprintf(stderr, "Error: invalid sign_location or token\n");
+//         }
+//     }
+// }
+
 void parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
@@ -74,9 +174,9 @@ void parse(t_shell *shell)
 	// if (shell->tokens)
     //     print_tokens(shell->tokens);
 
-    // extra_care_for_dollar(shell);
+    // final_check(shell);
 
-	// if (shell->tokens)
+    // if (shell->tokens)
     //     print_tokens(shell->tokens);
 
     if (!shell->err_code && shell->tokens)

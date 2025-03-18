@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 15:32:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:38:31 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ char *get_env_value(char *env_name, t_shell *shell)
 	if (!env_value)
 		return (NULL);
 		// return ("");
-	return (ft_strdup(env_value));
+	// return (ft_strdup(env_value));
+	return (env_value);
 }
 
 int ft_arraylen(char **tokens)
