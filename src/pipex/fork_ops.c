@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:40:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:19:25 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,14 @@ void	in_child(t_pipex *pipex)
 		exit(0);
 	}
 	// TODO: only do if not builtin?
-	get_command(pipex);
+/*	get_command(pipex);
 	command = pipex->command[pipex->current_command];
 	if (get_builtin_type(command))
+*/
+	if (get_builtin_type(pipex->command[pipex->current_command]))
 	{
-		file_red_result = handle_builtin(command);
+		//file_red_result = handle_builtin(command);
+		file_red_result = handle_builtin(pipex->command[pipex->current_command]);
 /*
 		cleanup
 */
@@ -174,6 +177,8 @@ void	in_child(t_pipex *pipex)
 	}
 	else
 	{
+	get_command(pipex);
+	command = pipex->command[pipex->current_command];
 		execve(command.path, command.argv, command.env);
 		if (errno == ENOENT)
 //			error_and_exit(pipex, CMD_FILE_NOT_FOUND);
