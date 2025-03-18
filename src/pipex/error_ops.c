@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:48:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:07:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,21 +224,14 @@ void	error_and_exit(t_pipex *pipex, t_error error)
 	t_perrtypes errtype;
 
 	errtype = error.errtype;
-//TODO: rethink, rewrite
 	print_error_message(error);
 	shell = 0;
-	
-//	perror("PIPEX ERROR");
 	if (pipex)
 	{
 		shell = (t_shell *)pipex->shell;
-//		if (shell->pipex != pipex)
-//			ft_printf("problem with pipex pointer\nshell-pipex: %p\npipex: %p\n", shell->pipex, pipex);
-		// add wait all logic to ft_free_all?
 		ft_free_all(shell);
 		shell->pipex = 0;
 	}
-//	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
 

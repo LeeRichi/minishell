@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 15:19:25 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:12:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ t_builtin_type get_builtin_type(t_cmd cmd)
 	return (NOT_BUILTIN);
 }
 
-
-// TODO: add shell as parameter, for some builtins
 int handle_builtin(t_cmd command)
 {
 	t_builtin_type type;
@@ -55,29 +53,19 @@ int handle_builtin(t_cmd command)
 	type = get_builtin_type(command);
 	if (type == IS_CD)
 	{
-		return handle_cd(command.arg, shell);
-//		ft_printf("cd builtin\n");
-		// return (0);
+		return (handle_cd(command.arg, shell));
 	}
 	if (type == IS_ECHO)
 	{
-		
-		//handle_echo(shell->tokens, shell);
-		return handle_echo(command.arg, shell);
-	//	ft_printf("echo builtin\n");
-		// return (0);
+		return (handle_echo(command.arg, shell));
 	}
 	if (type == IS_PWD)
 	{
 		return handle_pwd(shell);
-		//ft_printf("pwd builtin\n");
-		// return (0);
 	}
 	if (type == IS_EXIT)
 	{
 		return handle_exit(shell, command.arg);
-//		ft_printf("exit builtin\n");
-		// return (0);
 	}
 	if (type == IS_EXPORT)
 	{
@@ -85,16 +73,11 @@ int handle_builtin(t_cmd command)
 	}
 	if (type == IS_UNSET)
 	{
-		// handle_unset(shell, command.arg[0]); //old
- 		return handle_unset(shell); //new
-		//ft_printf("unset builtin\n");
-		// return (0);
+ 		return handle_unset(shell);
 	}
 	if (type == IS_ENV)
 	{
-		return handle_env(shell->envp); // Pass environment variables
-		//ft_printf("env builtin\n");
-		// return (0);
+		return handle_env(shell->envp);
 	}
 	return (1);
 }
@@ -149,39 +132,26 @@ void	in_child(t_pipex *pipex)
 	file_red_result = process_file_redirections(pipex->command + pipex->current_command);
 	if (file_red_result)
 	{
-	// clean up
-// TODO: redo with error and exit
 		ft_free_all(shell);
 		exit(1);
 	}
 	if (!pipex->command[pipex->current_command].cmd_name)
 	{
-//TODO: clean up and exit success
 		ft_free_all(shell);
 		exit(0);
 	}
-	// TODO: only do if not builtin?
-/*	get_command(pipex);
-	command = pipex->command[pipex->current_command];
-	if (get_builtin_type(command))
-*/
 	if (get_builtin_type(pipex->command[pipex->current_command]))
 	{
-		//file_red_result = handle_builtin(command);
 		file_red_result = handle_builtin(pipex->command[pipex->current_command]);
-/*
-		cleanup
-*/
 		ft_free_all(shell);
 		exit(file_red_result);
 	}
 	else
 	{
-	get_command(pipex);
-	command = pipex->command[pipex->current_command];
+		get_command(pipex);
+		command = pipex->command[pipex->current_command];
 		execve(command.path, command.argv, command.env);
 		if (errno == ENOENT)
-//			error_and_exit(pipex, CMD_FILE_NOT_FOUND);
 			error_and_exit(pipex, error_init(CMD_FILE_NOT_FOUND, 0, command.argv[0]));
 		error_and_exit(pipex, error_init(EXECVE_FAIL, 0, command.argv[0]));
 	}

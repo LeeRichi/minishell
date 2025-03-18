@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:39:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:07:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,25 +106,9 @@ static void	resolve_command_path(t_pipex *pipex)
 
 void	get_command(t_pipex *pipex)
 {
-// TODO: handled outside, remove input_arg logic from here
-	//pipex->command->input_arg = argv[pipex->current_command];
-// handled outside
-// TODO: combine arg array with first param
-// free internals somewhere
 	pipex->command[pipex->current_command].argv = get_command_argv(pipex->command[pipex->current_command]);
 	if (!pipex->command[pipex->current_command].argv)
 		error_and_exit(pipex, error_init(MALLOC_FAIL, 0, 0));
-//  TODO: special case, needs handling?
-
-/*	if (*(pipex->command->argv) == 0)
-	{
-		free_split(pipex->command->argv);
-		pipex->command->argv = get_alt_argv(argv[pipex->current_command]);
-		if (pipex->command->argv == NULL)
-			error_and_exit(pipex, MALLOC_FAIL);
-	}
-*/
-// TODO: OK????
 	resolve_command_path(pipex);
 	pipex->command[pipex->current_command].env = pipex->env;
 }

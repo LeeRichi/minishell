@@ -32,9 +32,9 @@ void handle_sigquit(int code)
 	signal(SIGQUIT, SIG_IGN);
 	// err_code = ft_itoa(code);
 
-	g_sig.sigquit = 1;
+//	g_sig.sigquit = 1;
 }
-
+/*
 void init_sig(void)
 {
 	g_sig.sigint = 0;
@@ -42,3 +42,4 @@ void init_sig(void)
 	// g_sig.pid = 0;
 	// g_sig.exit_status = 0;
 }
+*/

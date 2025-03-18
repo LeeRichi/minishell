@@ -6,23 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:50:51 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:09:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-/*
-	TODO: rewrite to account for multiple redirections and no pipes
-	TODO: think through the usage with builtins
-static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
-{
-	printf("%s, %d", fname, line);
-	error_and_exit(pipex, errtype);
-}
-#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
-*/
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
@@ -99,8 +89,6 @@ char *get_redir_str(int index, t_cmd cmd)
 		return (*infiles);
 	return (*outfiles);
 }
-
-//TODO: think cleanup strategy, consider adding shell and pipex pointers to cmd, just because its easy
 
 int handle_infile(char *name)
 {

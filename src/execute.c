@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:43:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:06:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void restore_fds_and_error_exit(t_shell *shell)
 	redirection_result = restore_fds(shell);
 	if (redirection_result == -1)
 	{
-		perror("restoring stdandard out and in fail");
+		perror("Restoring stdandard out and in fail");
 		ft_free_all(shell);
 		exit(1);
 	}
