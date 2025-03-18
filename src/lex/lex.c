@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 20:34:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 21:53:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 
     // printf("input[%d]: %c\n", *i, input[*i]);
 
+    // printf("*current_token: %s\n", *current_token);
+
     //put an empty str into token
     // if ((input[*i] == '"' && input[*i + 1] == '"'))
     if ((input[*i] == '"' && input[*i + 1] == '"') || (input[*i] == '\'' && input[*i + 1] == '\''))
@@ -61,7 +63,6 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 	else if (input[*i] == '\'' && !(shell->in_double_quote))
     {
         shell->in_single_quote = !(shell->in_single_quote); //flip
-
         //Mar 16 late
         (*i)++;
         while (input[*i] != '\'' && input[*i] != '\0')  // Handle end of single quote or end of input
@@ -75,46 +76,73 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
             // finalize_token(shell, current_token, &shell->token_count);
             // (*i)++;
         }
-        //Mar 16
-        // (*i)++;
-        // // if (input[*i] == '"')
-        // {
-        //     while (input[*i] != '\'')
-        //     {
-        //         if (input[*i] == '$' && input[*i + 1] == '?')
-        //         {
-        //             printf("fuck\n");
-        //             char *code = ft_itoa(shell->exit_code);
-        //             while (*code)
-        //             {
-        //                 *current_token = str_append(*current_token, *code);
-        //                 code++;
-        //             }
-        //             (*i)++;
-        //         }
-        //         else
-        //         {
-        //             *current_token = str_append(*current_token, input[*i]);
-        //             (*i)++;
-        //         }
-        //     }
-        // }
+        // printf("ct: %s\n", *current_token);
+        if (ft_strcmp(*current_token, ">") == 0 || ft_strcmp(*current_token, ">>") == 0 || ft_strcmp(*current_token, "<") == 0)
+        {
+            // printf("put this shit to cmd_name.\n");
+            shell->has_quotes++;
+        }
     }
     else if (input[*i] == '"' && !(shell->in_single_quote))
     {
         shell->in_double_quote = !(shell->in_double_quote);
-        // (*i)++;
-        // while (input[*i] != '"' && input[*i] != '\0')  // Handle end of double quote or end of input
-        // {
-        //     *current_token = str_append(*current_token, input[*i]);
-        //     (*i)++;
-        // }
-        // if (input[*i] == '"')
-        // {
-        //     shell->in_double_quote = !(shell->in_double_quote);
-        //     // finalize_token(shell, current_token, &shell->token_count);
-        //     // (*i)++;
-        // }
+        (*i)++;
+        while (input[*i] != '"' && input[*i] != '\0')
+        {
+            if (strchr("$", input[*i]))
+            {
+                if (input[*i + 1] == '?')
+                {
+                    itoaed_str = ft_itoa(shell->exit_code);
+                    // printf("ft_strlen(itoaed_str): %zu\n", ft_strlen(itoaed_str));
+
+                    j = 0;
+                    while(itoaed_str[j])
+                    {
+                        *current_token = str_append(*current_token, itoaed_str[j]);
+                        j++;
+                    }
+                    // printf("*current_token: %s\n", *current_token);
+                    free(itoaed_str);
+                    // printf("len: %zu\n", ft_strlen(itoaed_str));
+                    // (*i) += (ft_strlen(itoaed_str));
+                    (*i)++;
+                }
+                else
+                {
+                    env_value = handle_dollar_sign(shell, input, i);
+                    // printf("env_v: %s\n", env_value);
+                    if (!env_value)
+                    {
+                        *current_token = str_append(*current_token, input[*i]);
+                        // return ;
+                    }
+                    else
+                    {
+                        j = 0;
+                        while (env_value[j])
+                            *current_token = str_append(*current_token, env_value[j++]);
+                        free(env_value);
+                    }
+                }
+            }
+            else
+            {
+                *current_token = str_append(*current_token, input[*i]);
+            }
+            (*i)++;
+        }
+        if (input[*i] == '"')
+        {
+            shell->in_double_quote = !(shell->in_double_quote);
+            // finalize_token(shell, current_token, &shell->token_count);
+            // (*i)++;
+        }
+        if (ft_strcmp(*current_token, ">") == 0 || ft_strcmp(*current_token, ">>") == 0 || ft_strcmp(*current_token, "<") == 0)
+        {
+            // printf("put this shit to cmd_name.\n");
+            shell->has_quotes++;
+        }
     }
     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
     {
@@ -215,25 +243,26 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 			}
 		}
     }
-    else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
-	{
-        if (input[*i] == '|')
-            shell->last_token_type = 1;
-        else if (input[*i] == '>' || input[*i] == '<')
-            shell->last_token_type = 2;
-        else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
-        {
-            shell->last_token_type = 3;
-            // handle_heredoc(shell, extract_delimiter(input, i));
-            //do i need a break here??
-            return ;
-        }
-        else
-            shell->last_token_type = 0;
-		shell->current_index = *i;
-		handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
-		*i = shell->current_index;
-	}
+    // else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
+	// {
+    //     if (input[*i] == '|')
+    //         shell->last_token_type = 1;
+    //     else if (input[*i] == '>' || input[*i] == '<')
+    //         shell->last_token_type = 2;
+    //     else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
+    //     {
+    //         shell->last_token_type = 3;
+    //         // handle_heredoc(shell, extract_delimiter(input, i));
+    //         //do i need a break here??
+    //         return ;
+    //     }
+    //     else
+    //         shell->last_token_type = 0;
+	// 	shell->current_index = *i;
+	// 	handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
+    //     printf("ct: %s\n", *current_token);
+	// 	*i = shell->current_index;
+	// }
     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
     {
         finalize_token(shell, current_token, &shell->token_count);

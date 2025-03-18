@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 20:06:17 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 20:40:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,15 @@ char **ft_add_to_array(char **array, const char *new_element)
     new_array = malloc(sizeof(char *) * (len + 2));
     if (!new_array)
     {
-        perror("malloc failed");
+        // perror("malloc failed");
+        print_error_message(error_init(MALLOC_FAIL, 0, 0));
         return NULL;
     }
 	i = 0;
 	while (i < len)
 	{
 		new_array[i] = ft_strdup(array[i]); // Duplicate each string
+        //fuck ?
       	// if (!new_array[i]) {
         //     perror("strdup failed while copying array element");
 		// 	free_matrix(new_array);
@@ -79,7 +81,8 @@ char **ft_add_to_array(char **array, const char *new_element)
 	new_array[i] = ft_strdup(new_element);
     if (!new_array[i])
     {
-        perror("strdup failed while adding to new_array");
+        // perror("strdup failed while adding to new_array");
+        print_error_message(error_init(MALLOC_FAIL, 0, 0));
         free_matrix(new_array);
         return NULL;
     }
@@ -118,7 +121,8 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
     *new_cmd = malloc(sizeof(t_cmd));
     if (!(*new_cmd))
     {
-        perror("malloc failed for new_cmd");
+        // perror("malloc failed for new_cmd");
+        print_error_message(error_init(MALLOC_FAIL, 0, 0));
         exit(EXIT_FAILURE);
     }
     ft_nullize_struct(*new_cmd);
@@ -128,7 +132,8 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
     if (!(*new_cmd)->redirect_type || !(*new_cmd)->outfiles || !(*new_cmd)->infiles)
 	// if (!(*new_cmd)->redirect_type || !(*new_cmd)->outfiles)
     {
-        perror("malloc failed for redirect_type || intfiles || outfiles");
+        // perror("malloc failed for redirect_type || intfiles || outfiles");
+        print_error_message(error_init(MALLOC_FAIL, 0, 0));
         exit(EXIT_FAILURE);
     }
     memset((*new_cmd)->redirect_type, 0, sizeof(t_redirect_type) * count_redirections(shell->tokens));
@@ -144,7 +149,6 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
     }
     *current_cmd = *new_cmd;
 }
-
 
 void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 {
@@ -174,7 +178,6 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 	current_cmd->redirection_index = i + 1;
 }
 
-
 void ft_structlize(t_shell *shell)
 {
     int i = 0;
@@ -186,19 +189,25 @@ void ft_structlize(t_shell *shell)
         if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
         {
             allocate_nodes(&current_cmd, &new_cmd, shell);
+            // if (current_cmd == NULL) {
+            //     ft_printf_fd(STDERR, "Memory allocation failed for new command\n");
+            //     return;
+            // }
             if (strcmp(shell->tokens[i], "|") == 0)
                 i++;
         }
         if (strcmp(shell->tokens[i], "<<") == 0 || strcmp(shell->tokens[i], ">>") == 0 ||
             strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
-            if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
+            // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
+            if (shell->tokens[i + 1] != NULL && ft_start_with_specials(shell->tokens[i + 1]))
             {
                 ft_printf_fd(STDERR, "minishell: syntax error\n");
                 shell->exit_code = STDERR;
                 return ;
             }
-            if (shell->tokens[i + 1][0] == '\0')
+            // if (shell->tokens[i + 1][0] == '\0')
+            if (shell->tokens[i + 1] != NULL && shell->tokens[i + 1][0] == '\0')
             {
                 // printf("found consecutive redir, plz put a flag to this node, which tell the executor - dont exe it.\n");
                 current_cmd->ambiguous_flag_node = 1;
@@ -212,7 +221,17 @@ void ft_structlize(t_shell *shell)
             if (current_cmd != NULL)
             {
 				//can i write malloc for infiles and outfiles here?
-			    handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
+                if (shell->has_quotes)
+                {
+				    current_cmd->cmd_name = strdup(shell->tokens[i]);
+                    if (current_cmd->cmd_name == NULL) {
+                        ft_printf_fd(STDERR, "Memory allocation failed for command name\n");
+                        return;
+                    }
+                    shell->has_quotes = 0;
+                }
+                else
+			        handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
             }
             else
                 ft_printf_fd(STDERR, "Error: Redirection without a command\n");

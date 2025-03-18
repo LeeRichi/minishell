@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 14:51:00 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:24:45 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ typedef struct s_shell
 	t_pipex		*pipex;
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
+
+  int has_quotes;
 } t_shell;
 
 /* PIPEX */

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/12 21:40:20 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:54:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char *ft_strncpy(char *str, size_t n)
 		res = malloc((n + 1) * sizeof(char));
 	if (!res)
 	{
-		perror("malloc failed on res");
+		// perror("malloc failed on res");
+		print_error_message(error_init(MALLOC_FAIL, 0, 0));
 		return (NULL);
 	}
 	len = 0;
@@ -51,7 +52,8 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 	new_envp = malloc((total) * sizeof(char *));
 	if (!new_envp)
 	{
-		perror("malloc failed on new_envp");
+		// perror("malloc failed on new_envp");
+		print_error_message(error_init(MALLOC_FAIL, 0, 0));
         return ;
 	}
 	i = 0;
@@ -93,7 +95,8 @@ int handle_unset(t_shell *shell)
 	v_names = malloc((og_total_len + 1) * sizeof(char *));
 	if (!v_names)
 	{
-		perror("malloc failed on v_names");
+		// perror("malloc failed on v_names");
+		print_error_message(error_init(MALLOC_FAIL, 0, 0));
 		shell->exit_code = ERROR;
         return (ERROR);
 	}

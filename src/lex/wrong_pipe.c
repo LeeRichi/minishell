@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 11:12:59 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 21:53:46 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ static void handle_token(t_shell *shell, char **current_token, int *token_count)
         shell->tokens = ft_realloc(shell->tokens, sizeof(char *) * ((*token_count) + 2));
         if (!shell->tokens)
         {
-            perror("realloc");
+            // perror("realloc");
+            // fuck? realloc
+            print_error_message(error_init(MALLOC_FAIL, 0, 0));
             exit(EXIT_FAILURE);
         }
         shell->tokens[(*token_count)++] = *current_token;
@@ -116,6 +118,7 @@ void handle_wrong_pipes(t_shell *shell, char **current_token, int *token_count, 
     new_tokens[(*token_count)++] = *current_token;
     new_tokens[*token_count] = NULL;
     shell->tokens = new_tokens;
+    
     *current_token = NULL;
     shell->last_token_type = (c == '|') ? 1 : 2;
 }

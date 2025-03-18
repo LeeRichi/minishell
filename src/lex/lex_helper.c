@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 20:38:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:54:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char *str_append(char *str, char c)
     char *new_str = malloc(len + 2);
     if (!new_str)
     {
-        perror("malloc");
+        // perror("malloc");
+		print_error_message(error_init(MALLOC_FAIL, 0, 0));
         exit(EXIT_FAILURE);
     }
     if (str)

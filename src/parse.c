@@ -1,31 +1,31 @@
 #include "../includes/minishell.h"
 
-//exe part
-void execute_external_command(char **tokens)
-{
-    pid_t pid = fork();
+//exe part //old
+// void execute_external_command(char **tokens)
+// {
+//     pid_t pid = fork();
 
-	if (pid == -1)
-    {
-        perror("fork");
-        return;
-    }
+// 	if (pid == -1)
+//     {
+//         perror("fork");
+//         return;
+//     }
 
-    if (pid == 0)
-    {
-        // Child process: execute external command
-        if (execvp(tokens[0], tokens) == -1)
-        {
-            perror(tokens[0]);
-            exit(1);
-        }
-    }
-    else
-    {
-        // Parent process: wait for child to finish
-        wait(NULL);
-    }
-}
+//     if (pid == 0)
+//     {
+//         // Child process: execute external command
+//         if (execvp(tokens[0], tokens) == -1)
+//         {
+//             perror(tokens[0]);
+//             exit(1);
+//         }
+//     }
+//     else
+//     {
+//         // Parent process: wait for child to finish
+//         wait(NULL);
+//     }
+// }
 
 int contains_str(char **tokens, char *str)
 {

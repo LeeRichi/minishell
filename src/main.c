@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 19:54:08 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 18:52:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void shell_init(char **envp, t_shell *shell)
 	shell->stdin_fd = -1;
 	shell->stdout_fd = -1;
 	shell->pipex = 0;
+
+	shell->has_quotes = 0;
 	shell_level_ctrl(shell);
 }
 

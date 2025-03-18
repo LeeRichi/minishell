@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 18:14:49 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:53:27 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,9 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 			// add_key_value_pair(&head, args[i], equal_pos + 1);
 			if (!arg_name_checker(args[i]))
 			{
-				perror(" not a valid identifier\n");
+				// perror(" not a valid identifier\n");
+				ft_printf_fd(STDERR, " not a valid identifier\n");
+
 				shell->exit_code = 1;
 				return (1);
 			}
@@ -242,7 +244,8 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 		{
 			if (!arg_name_checker(args[i]))
 			{
-				perror(" not a valid identifier\n");
+				// perror(" not a valid identifier\n");
+				ft_printf_fd(STDERR, " not a valid identifier\n");
 				shell->exit_code = 1;
 				return (1);
 			}

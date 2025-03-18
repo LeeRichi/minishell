@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/10 16:52:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:52:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ int handle_cd(char **args, t_shell *shell)
 	{
 		if (args [1])
 		{
-			perror(" too many arguments");
+			// perror(" too many arguments");
+			ft_printf_fd(STDERR, " too many arguments\n");
 			shell->exit_code = 1;
 			return (1);
 		}
 		if (chdir(args[0]) != 0)
 		{
-			perror("cd");
+			// perror("cd");
+			ft_printf_fd(STDERR, " cd\n");
 			shell->exit_code = 1;
 			return (1);
 		}
