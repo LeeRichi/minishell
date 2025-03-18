@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/10 20:33:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:39:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ static void	handle_command(char **path_split, t_pipex *pipex)
 
 	command_tmp = ft_strjoin("/", pipex->command[pipex->current_command].argv[0]);
 	if (!command_tmp)
-		error_and_exit(pipex, MALLOC_FAIL);
+		error_and_exit(pipex, error_init(MALLOC_FAIL, 0, 0));
 	pipex->command[pipex->current_command].path = get_command_path(command_tmp, path_split);
 	free(command_tmp);
 	if (!pipex->command[pipex->current_command].path && errno == ENOMEM)
-		error_and_exit(pipex, MALLOC_FAIL);
+		error_and_exit(pipex, error_init(MALLOC_FAIL, 0, 0));
 	else if (!pipex->command[pipex->current_command].path)
-		error_and_exit(pipex, CMD_NOT_FOUND);
+		error_and_exit(pipex, error_init(CMD_NOT_FOUND, 0, pipex->command[pipex->current_command].cmd_name));
 }
 
 //TODO: look into argv[0]==0, potential error and exit on its == to 0
@@ -81,13 +81,13 @@ static void	resolve_command_path(t_pipex *pipex)
 	{
 		pipex->command[pipex->current_command].path = 0;
 		pipex->command[pipex->current_command].argv = 0;
-			error_and_exit(pipex, PROG_FILE_IS_DIR);
+			error_and_exit(pipex, error_init(PROG_FILE_IS_DIR, 0, pipex->command[pipex->current_command].cmd_name));
 	}
 	if (ft_strchr(pipex->command[pipex->current_command].argv[0], '/'))
 	{
 		pipex->command[pipex->current_command].path = pipex->command[pipex->current_command].argv[0];
 		if (!check_exists_and_not_dir(pipex->command[pipex->current_command].path) && !errno)
-			error_and_exit(pipex, PROG_FILE_IS_DIR);
+			error_and_exit(pipex, error_init(PROG_FILE_IS_DIR, 0, pipex->command[pipex->current_command].cmd_name));
 	}
 	else
 	{
@@ -99,7 +99,7 @@ static void	resolve_command_path(t_pipex *pipex)
 		}
 		pipex->path_split = get_path_split(pipex->env, (size_t)ind);
 		if (!pipex->path_split)
-			error_and_exit(pipex, MALLOC_FAIL);
+			error_and_exit(pipex, error_init(MALLOC_FAIL, 0, 0));
 		handle_command(pipex->path_split, pipex);
 	}
 }
@@ -113,7 +113,7 @@ void	get_command(t_pipex *pipex)
 // free internals somewhere
 	pipex->command[pipex->current_command].argv = get_command_argv(pipex->command[pipex->current_command]);
 	if (!pipex->command[pipex->current_command].argv)
-		error_and_exit(pipex, MALLOC_FAIL);
+		error_and_exit(pipex, error_init(MALLOC_FAIL, 0, 0));
 //  TODO: special case, needs handling?
 
 /*	if (*(pipex->command->argv) == 0)

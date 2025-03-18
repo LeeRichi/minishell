@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/28 19:15:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:50:51 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
 	if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO) == -1)
-		error_and_exit(pipex, DUP_FAIL);
+		error_and_exit(pipex, error_init(DUP_FAIL, 0, 0));
 	return (dup2_and_close(&pipex->pipe[1], STDOUT_FILENO));
 }
 
@@ -41,7 +41,7 @@ void	before_fork(t_pipex *pipex)
 	if (pipex->current_command < pipex->command_count - 1)
 	{
 		if (pipe(pipex->pipe) == -1)
-			error_and_exit(pipex, PIPE_FAIL);
+			error_and_exit(pipex, error_init(PIPE_FAIL, 0, 0));
 	}
 }
 
@@ -182,6 +182,7 @@ int process_file_redirections(t_cmd *cmd)
 			if (handle_infile(get_redir_str(count, *cmd)) == -1)
 			{
 				//TODO: print error
+				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
 				return (1);
 			}
 		}
@@ -191,6 +192,7 @@ int process_file_redirections(t_cmd *cmd)
 			if (handle_outfile(get_redir_str(count, *cmd)) == -1)
 			{
 				//TODO: print error
+				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
 				return (1);
 			}
 		}
@@ -201,6 +203,7 @@ int process_file_redirections(t_cmd *cmd)
 				handle_heredoc_child(&cmd->heredoc_fd) == -1)
 			{
 				//TODO: print error
+				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
 				return (1);
 			}
 		}
@@ -210,6 +213,7 @@ int process_file_redirections(t_cmd *cmd)
 			if (handle_append(get_redir_str(count, *cmd)) == -1)
 			{
 				//TODO: print error
+				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
 				return (1);
 			}
 		}
@@ -224,7 +228,7 @@ void 	redirect_fds(t_pipex *pipex)
 	{
 		ft_close(&pipex->pipe[0]);
 		if (dup2_and_close(&pipex->pipe[1], STDOUT_FILENO) == -1)
-			error_and_exit(pipex, DUP_FAIL);
+			error_and_exit(pipex, error_init(DUP_FAIL, 0, 0));
 	}
 	else if (pipex->current_command == (pipex->command_count - 1))
 	{
@@ -232,9 +236,9 @@ void 	redirect_fds(t_pipex *pipex)
 		if (pipex->current_command)
 		{
 			if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO) == -1)
-				error_and_exit(pipex, DUP_FAIL);
+				error_and_exit(pipex, error_init(DUP_FAIL, 0 , 0));
 		}
 	}
 	else if (process_normal_pipe(pipex) == -1)
-		error_and_exit(pipex, DUP_FAIL);
+		error_and_exit(pipex, error_init(DUP_FAIL, 0 , 0));
 }

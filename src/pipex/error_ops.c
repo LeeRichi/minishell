@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/14 17:37:32 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:48:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,153 @@ static void	print_error_message(t_error error)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 }
 */
+
+t_error error_init(t_perrtypes errtype, char *file_name, char *command_name)
+{
+	t_error error;
+
+//	ft_bzero(&error, sizeof(t_error));
+	error.errtype = errtype;
+	error.file_name = file_name;
+	error.command_name = command_name;
+	return (error);
+}
+
+/*static void	print_error_message(char *str1, char *str2, char *str3, char *str4)
+{
+	char *arr[4];
+
+	arr[0] = str1;
+	arr[1] = str2;
+	arr[2] = str3;
+	arr[3] = str4;
+	
+}
+*/
+char	*get_error_message(char *str1, char *str2, char *str3)
+{
+	char *arr[4];
+	char *sep = ": ";
+
+	arr[0] = str1;
+	arr[1] = str2;
+	arr[2] = str3;
+//	arr[3] = str4;
+	
+	return ft_split_join(arr, sep);
+	
+}
+
+//wip 
+void	print_error_message(t_error error)
+{
+	char *error_message;
+
+	error_message = 0;
+	if (error.errtype == CMD_NOT_FOUND)
+	{
+		error_message = get_error_message(error.command_name, "command not found", 0);
+		//command_name: command not found
+	}
+	else if (error.errtype == PERMISSION_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EACCES));
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == FILE_NOT_FOUND)
+	{
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(ENOENT));
+		//bash: file name: No such file	or directory
+	}
+	else if(error.errtype == MALLOC_FAIL)
+	{
+		//bash: file name: Permission denied
+		perror("Malloc fail");
+	}
+	else if (error.errtype == PROG_FILE_IS_DIR)
+	{
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EISDIR));
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == DUP_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, "dup fail", strerror(errno));
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == PIPE_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, "pipe fail", strerror(errno));
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == EXECVE_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, error.command_name, strerror(errno));
+/*
+	could be different c
+*/
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == CMD_FILE_NOT_FOUND)
+	{
+		error_message = get_error_message(SHELL_NAME, error.command_name, strerror(ENOENT));
+/*
+	could be different c
+*/
+		//bash: file name: Permission denied
+	}
+	else if (error.errtype == FILE_REDIR_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(errno));
+	}
+	else if (error.errtype == FORK_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, "fork fail", strerror(errno));
+		//bash: file name: Permission denied
+	}
+	else
+	{
+		perror("Unspecified error");
+	}
+	if (error_message)
+	{
+		ft_putendl_fd(error_message, 2);
+		free(error_message);
+	}
+	//	ft_putstr_fd("pipex: ", STDERR_FILENO);
+}
+
+void	error_and_exit(t_pipex *pipex, t_error error)
+{
+	t_shell	*shell;
+	t_perrtypes errtype;
+
+	errtype = error.errtype;
+//TODO: rethink, rewrite
+	print_error_message(error);
+	shell = 0;
+	
+//	perror("PIPEX ERROR");
+	if (pipex)
+	{
+		shell = (t_shell *)pipex->shell;
+//		if (shell->pipex != pipex)
+//			ft_printf("problem with pipex pointer\nshell-pipex: %p\npipex: %p\n", shell->pipex, pipex);
+		// add wait all logic to ft_free_all?
+		ft_free_all(shell);
+		shell->pipex = 0;
+	}
+//	clear_cmds(shell);
+	resolve_exit_code(errtype);
+}
+
+
+
+
+/*
 void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
-//void	error_and_exit(t_pipex *pipex, t_perrtypes errtype, t_error error)
 {
 	t_shell	*shell;
 //TODO: rethink, rewrite
-/*
-	print_error_message(*pipex, errtype);
-*/
 //	print_error_message(error);
 	shell = 0;
 	perror("PIPEX ERROR");
@@ -125,3 +264,4 @@ void	error_and_exit(t_pipex *pipex, t_perrtypes errtype)
 //	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
+*/

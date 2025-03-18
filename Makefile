@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/10 15:19:31 by chlee2           ###   ########.fr        #
+#    Updated: 2025/03/17 19:26:41 by mbutuzov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS = src/main.c \
 		src/pipex/heredoc.c \
 		src/utils/production_print.c \
 		src/utils/lvl_handler.c \
+		src/utils/ft_split_join.c \
 		src/execute.c \
 		src/ft_getenv.c \
 

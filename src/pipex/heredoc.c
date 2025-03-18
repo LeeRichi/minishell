@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/14 18:26:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:27:41 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 			exit(1);
 		}
 		write(0, "> ", 2);
-		errno = 0;
 		line = get_next_line(0);
 //		if (!line)
 //			perror("line is EOF");
@@ -170,7 +169,8 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 		}
 		if (!proper_exit)
 		{
-//			bash: warning: here-document at line 2 delimited by end-of-file (wanted `wow')
+//			bash: warning: here-document at some line delimited by end-of-file (wanted `wow')
+//TODO: adjust to be correct error message
 			ft_putendl_fd("heredoc EOF stoped", 2);
 		}
 //		free(fineof);
