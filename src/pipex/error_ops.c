@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/17 20:42:49 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:04:51 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,22 +140,22 @@ char	*get_error_message(char *str1, char *str2, char *str3)
 //wip 
 static void	print_error_message(t_error error)
 {
-	char error_message;
+	char *error_message;
 
 	error_message = 0;
 	if (error.errtype == CMD_NOT_FOUND)
 	{
-		error_message = get_error_message(error->command_name, "command not found", 0);
+		error_message = get_error_message(error.command_name, "command not found", 0);
 		//command_name: command not found
 	}
 	else if (error.errtype == PERMISSION_FAIL)
 	{
-		error_message = get_error_message(SHELL_NAME, error->file_name, strerror(EACCES));
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EACCES));
 		//bash: file name: Permission denied
 	}
 	else if (error.errtype == FILE_NOT_FOUND)
 	{
-		error_message = get_error_message(SHELL_NAME, error->file_name, strerror(ENOENT));
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(ENOENT));
 		//bash: file name: No such file	or directory
 	}
 	else if(error.errtype == MALLOC_FAIL)
@@ -164,7 +164,7 @@ static void	print_error_message(t_error error)
 	}
 	else if (error.errtype == PROG_FILE_IS_DIR)
 	{
-		error_message = get_error_message(SHELL_NAME, error->file_name, strerror(EISDIR));
+		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EISDIR));
 		//bash: file name: Permission denied
 	}
 	else if (error.errtype == DUP_FAIL)
@@ -186,7 +186,7 @@ static void	print_error_message(t_error error)
 	}
 	else if (error.errtype == CMD_FILE_NOT_FOUND)
 	{
-		error_message = get_error_message(SHELL_NAME, error->command_name, strerror(ENOENT))
+		error_message = get_error_message(SHELL_NAME, error.command_name, strerror(ENOENT));
 /*
 	could be different c
 */
@@ -209,10 +209,12 @@ static void	print_error_message(t_error error)
 	//	ft_putstr_fd("pipex: ", STDERR_FILENO);
 }
 
-/*
 void	error_and_exit(t_pipex *pipex, t_error error)
 {
 	t_shell	*shell;
+	t_perrtypes errtype;
+
+	errtype = error.errtype;
 //TODO: rethink, rewrite
 //	print_error_message(error);
 	shell = 0;
@@ -228,7 +230,6 @@ void	error_and_exit(t_pipex *pipex, t_error error)
 //	clear_cmds(shell);
 	resolve_exit_code(errtype);
 }
-*/
 
 
 

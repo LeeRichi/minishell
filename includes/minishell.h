@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 19:52:56 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:01:30 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # ifndef SHELL_NAME
 # define SHELL_NAME "bash"
+# endif
 # include "../lib/libft/libft.h"
 
 # include <sys/wait.h>
