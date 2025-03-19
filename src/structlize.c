@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 20:40:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:35:08 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void ft_structlize(t_shell *shell)
             if (current_cmd != NULL)
             {
 				//can i write malloc for infiles and outfiles here?
-                if (shell->has_quotes)
+                if (shell->has_quotes) //fuck
                 {
 				    current_cmd->cmd_name = strdup(shell->tokens[i]);
                     if (current_cmd->cmd_name == NULL) {

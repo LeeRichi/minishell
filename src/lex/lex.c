@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 21:53:05 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:44:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
                     if (!env_value)
                     {
                         *current_token = str_append(*current_token, input[*i]);
+                        // *current_token = str_append(*current_token, "");
+
                         // return ;
                     }
                     else
@@ -175,6 +177,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     }
     else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
     {
+        // shell->has_quotes++;
 	    if (strchr("$", input[*i + 1]) && input[*i + 1] != '\0') //consecutive dollar sign //todo
         {
             // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
@@ -273,8 +276,21 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         else
             shell->last_token_type = 0;
     }
+    else if (input[*i] == '>' || input[*i] == '<')
+    {
+        if (input[*i + 1] != '\0' && input[*i + 1] == '>')
+        {
+            *current_token = str_append(*current_token, input[*i]);
+            *current_token = str_append(*current_token, input[*i + 1]);
+            (*i)++;
+        }
+        else
+            *current_token = str_append(*current_token, input[*i]);
+        finalize_token(shell, current_token, &shell->token_count);
+    }
     else
     {
+        // printf("fuck: %c\n", input[*i]);
         *current_token = str_append(*current_token, input[*i]);
     }
 }

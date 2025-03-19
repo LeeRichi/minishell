@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 21:51:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:04:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int handle_echo(char **cmd_args, t_shell *shell)
     // if (cmd_args[0] && (ft_strcmp(cmd_args[0], "-n")) == 0)
     if (cmd_args[i] && cmd_args[i][0] =='-')
     {
-        while(cmd_args[i])
+        while(cmd_args[i]) //loop each string
         {
             int j = 1;
             while (cmd_args[i][j])
             {
                 if (cmd_args[i][j] != 'n')
                 {
+					
 					int temp = i;
-					// printf("temp: %d\n", temp);
 					while (cmd_args[temp])
 					{
 						printf("%s", cmd_args[temp]);
@@ -48,7 +48,8 @@ int handle_echo(char **cmd_args, t_shell *shell)
 						temp++;
 					}
                 }
-                newline = 0;
+				else
+					newline = 0;
                 j++;
             }
             i++;
