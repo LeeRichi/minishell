@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/17 20:27:41 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:10:41 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,19 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 		close(fds[0]);
 		return (-1);
 	}
+/*
 	if (waitpid(fork_res, 0, 0) == fork_res)
 		return (fds[0]);
+*/
+	int wait_status;
+	if (wait(&wait_status) == fork_res)
+	{
+		if (WIFEXITED(wait_status))
+			shell->exit_code = WEXITSTATUS(wait_status);
+		else if (WIFSIGNALED(wait_status))
+			shell->exit_code = 128 + WTERMSIG(wait_status);
+		return (fds[0]);
+	}
 	close(fds[0]);
 	return (-1);
 }
