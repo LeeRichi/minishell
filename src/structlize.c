@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 13:35:08 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 19:55:24 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,11 @@ void ft_structlize(t_shell *shell)
             // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
             if (shell->tokens[i + 1] != NULL && ft_start_with_specials(shell->tokens[i + 1]))
             {
+                // printf("fuck\n");
                 ft_printf_fd(STDERR, "minishell: syntax error\n");
-                shell->exit_code = STDERR;
-                return ;
+                shell->err_code = 2;
+                shell->exit_code = 2;
+                // return ;
             }
             // if (shell->tokens[i + 1][0] == '\0')
             if (shell->tokens[i + 1] != NULL && shell->tokens[i + 1][0] == '\0')
@@ -214,9 +216,12 @@ void ft_structlize(t_shell *shell)
             }
             if (shell->tokens[i + 1] == NULL)
             {
+                // printf("fuck2\n");
                 // fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
                 ft_printf_fd(STDERR, "minishell: syntax error\n");
-                return; // Avoid accessing out-of-bounds memory
+                shell->err_code = 2;
+                shell->exit_code = 2;
+                // return; // Avoid accessing out-of-bounds memory
             }
             if (current_cmd != NULL)
             {
@@ -244,6 +249,12 @@ void ft_structlize(t_shell *shell)
                 while (shell->tokens[i][0] == '\0' && shell->tokens[i + 1]) //skip empty tokens
                     i++;
 				current_cmd->cmd_name = strdup(shell->tokens[i]);
+
+                //new
+                // if (current_cmd->cmd_name == NULL) {
+                //     ft_printf_fd(STDERR, "Memory allocation failed for command name\n");
+                //     return; // Ensure you return here to avoid further memory accesses.
+                // }
             }
 			else
 				current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
@@ -252,4 +263,14 @@ void ft_structlize(t_shell *shell)
     }
 	if (current_cmd)
         current_cmd->redirection_index = 0;
+
+    //fuck temp
+
+    // printf("err_code: %d\n", shell->err_code);
+    if (shell->err_code == 2)
+    {
+        // printf("checker !!!!!!!!!!!!!11\n");
+        clear_cmds(shell);
+        shell->exit_code = 2;
+    }
 }

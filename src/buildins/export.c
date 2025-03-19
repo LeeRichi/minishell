@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 16:53:27 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 20:26:31 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,26 @@ void from_pair_to_arr(t_shell *shell)
         count++;
         temp = temp->next;
     }
+
+	//new
+	if (shell->envp)
+    {
+        int i = 0;
+        while (shell->envp[i])  // Free each string in the array
+        {
+            free(shell->envp[i]);
+            i++;
+        }
+        free(shell->envp);  // Free the array itself
+    }
+
+	shell->envp = malloc((count + 1) * sizeof(char *));
+    if (!shell->envp)
+    {
+        // Handle memory allocation failure
+        printf("malloc failed for shell->envp\n");
+        return;
+    }
     temp = shell->envp_value_pair;
 	i = 0;
 	while (temp)
@@ -115,11 +135,21 @@ void from_pair_to_arr(t_shell *shell)
         //     return;
         // }
 		shell->envp[i] = ft_strjoin(temp->key, "=");
+
+
+		char *temp_str = shell->envp[i];  // Save the first part in a temporary variable
 		shell->envp[i] = ft_strjoin(shell->envp[i], temp->value);
+		free(temp_str);
+		// old
+		// shell->envp[i] = ft_strjoin(shell->envp[i], temp->value);
+		// printf("fuck: %d: %s\n", i, shell->envp[i]);
 		temp = temp->next;
 		i++;
 	}
+	// print_tokens(shell->envp);
+	// shell->envp[i] = realloc(shell->envp[i], (count + 1) * sizeof(*(shell->envp)));
 	shell->envp[count] = NULL;
+	free_key_value_list(shell->envp_value_pair);
 }
 
 void add_or_update_value_in_env(t_shell *shell, char *key, char *value)
@@ -133,9 +163,14 @@ void add_or_update_value_in_env(t_shell *shell, char *key, char *value)
     {
         if (strcmp(temp->key, key) == 0) //found
         {
-            free(temp->value);
-            temp->value = ft_strdup(value);
+			if (temp->value)
+				free(temp->value);
+			temp->value = ft_strdup(value);
 			from_pair_to_arr(shell);
+
+			//new
+			// if (temp->value)
+			// 	free(temp->value);
             return;
         }
         temp = temp->next;
@@ -238,7 +273,17 @@ int handle_export(t_shell *shell, char **args) //two loops //first check which t
 				shell->exit_code = 1;
 				return (1);
 			}
-			add_or_update_value_in_env(shell, args[i], equal_pos + 1);
+			//old
+			// add_or_update_value_in_env(shell, args[i], equal_pos + 1);
+
+			if (equal_pos[1] != '\0')
+			{
+				add_or_update_value_in_env(shell, args[i], equal_pos + 1);
+			}
+			else
+			{
+				add_or_update_value_in_env(shell, args[i], "");  // or handle it as you see fit
+			}
 		}
 		else
 		{

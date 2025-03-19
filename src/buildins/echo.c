@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 15:04:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:26:37 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,3 +135,63 @@ int handle_echo(char **cmd_args, t_shell *shell)
 
 //     return (0);
 // }
+
+
+//v3
+// int handle_echo(char **cmd_args, t_shell *shell)
+// {
+//     //printf("hi\n");
+    
+//     (void)shell;
+//     int i = 0;
+//     int newline = 1;
+
+// 	int invalid = 0;
+
+//     if (!cmd_args)
+//     {
+//         printf("\n");
+//         return (0);
+//     }
+	
+//     // if (cmd_args[0] && (ft_strcmp(cmd_args[0], "-n")) == 0)
+//     if (cmd_args[0] && cmd_args[0][0] =='-')
+//     {
+// 		int j = 1;
+// 		while (cmd_args[0][j] && cmd_args[0][j] != ' ')
+// 		{
+// 			// printf("fuck: %c\n", cmd_args[0][j]);
+// 			if (cmd_args[0][j] != 'n')
+// 			{
+// 				invalid = 1;
+// 			}
+// 			else
+// 				newline = 0;
+// 			j++;
+// 		}
+//     }
+
+// 	printf("invalid value: %d\n", invalid);
+// 	if (!invalid)
+// 	{
+// 		i = 0;
+// 		while (cmd_args[0][i] && cmd_args[0][i] != ' ')
+// 			i++;
+// 	}
+// 	else
+// 		i = 0;
+
+// 	while (cmd_args[0][i])
+// 	{
+// 		printf("%c", cmd_args[0][i]);
+// 		// if (cmd_args[i + 1])
+// 		// 	printf(" ");
+// 		i++;
+// 	}
+
+//     if (newline)
+//         printf("\n");
+
+//     return (0);
+// }
+

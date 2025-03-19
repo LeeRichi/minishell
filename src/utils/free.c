@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/14 18:02:14 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:47:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void free_tokens(char **tokens)
 
 	//temp
 	if (!tokens)
+    {
 		return ;
+    }
 	while (tokens[i])
 	{
 //        if (i  >= 22 && i <=24)
@@ -53,6 +55,8 @@ void clear_tokens(t_shell *shell)
 
 void clear_envp(t_shell *shell)
 {
+    // printf("fuck: \n");
+    // print_tokens(shell->envp);
     if (shell->envp)
     {
         free_tokens(shell->envp);

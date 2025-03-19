@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 18:52:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:57:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void shell_init(char **envp, t_shell *shell)
 	if (!ft_cpy_tab(shell->envp, envp, split_count))
 	{
 		shell->exit_code = 1;
+		//fuck 
 		free(shell->envp);
+		//free_tokens(shell->envp);
 		return ;
 	}
 //	print_tokens(shell->envp);

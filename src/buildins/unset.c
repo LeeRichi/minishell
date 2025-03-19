@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 16:54:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:09:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 		i++;
 	}
 	// printf("og: %zu\n", found_index);
-
+	free(shell->envp[found_index]);
 //	while (found_index < total)
 	while (found_index < total - 1)
 	{
@@ -71,10 +71,11 @@ void ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 		found_index++;
 		i++;
 	}
-	new_envp[i] = NULL; // Null-terminate the new array
+	new_envp[i] = 0; // Null-terminate the new array
 
 	// free(shell->envp); // Free old envp
 	// printf("new_enp[%zu]: %s\n", i, new_envp[i]);
+	free(shell->envp);
 	shell->envp = new_envp;
 }
 

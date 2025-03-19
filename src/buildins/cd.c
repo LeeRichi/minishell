@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 16:52:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/19 20:10:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int handle_cd(char **args, t_shell *shell)
 {
 	char *home;
 	
-	if (!args)
+	if (!args || ft_strcmp(args[0], "--") == 0)
 	{
 		home = ft_getenv("HOME", shell);
 		if (home)
@@ -39,10 +39,17 @@ int handle_cd(char **args, t_shell *shell)
 		}
 		if (chdir(args[0]) != 0)
 		{
+			if (ft_strcmp(args[0], "-") == 0)
+			{				
+				return (0);
+			}
 			// perror("cd");
-			ft_printf_fd(STDERR, " cd\n");
-			shell->exit_code = 1;
-			return (1);
+			else
+			{
+				ft_printf_fd(STDERR, " cd\n");
+				shell->exit_code = 1;
+				return (1);
+			}
 		}
 	}
 	return (0);
