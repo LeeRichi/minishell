@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/19 19:10:41 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:52:43 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,10 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 		line = get_next_line(0);
 //		if (!line)
 //			perror("line is EOF");
+/*
+TODO: add input +  ctrl-d check
+*/
+
 		while (line)
 		{
 			if (is_eof_with_nl(line, eof))
@@ -171,7 +175,7 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 		{
 //			bash: warning: here-document at some line delimited by end-of-file (wanted `wow')
 //TODO: adjust to be correct error message
-			ft_putendl_fd("heredoc EOF stoped", 2);
+			ft_putstr_fd("\nheredoc EOF stoped\n", 2);
 		}
 //		free(fineof);
 		get_next_line(-1);
