@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 17:12:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:08:57 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,32 @@ int	after_fork(pid_t fork_result, t_pipex *pipex)
 	return (0);
 }
 
+// TODO: use alt_wait_all in place of wait?
+/*
+int	alt_wait_all(int pid)
+{
+	int	wait_status;
+	int	wait_return;
+	int	exit_status;
+
+	wait_status = 0;
+	exit_status = EXIT_FAILURE;
+	while (1)
+	{
+		wait_return = wait(&wait_status);
+		if (wait_return == -1)
+			break ;
+		if (wait_return == pid)
+		{
+			if (WIFEXITED(wait_status))
+				exit_status = WEXITSTATUS(wait_status);
+			else if (WIFSIGNALED(wait_status))
+				exit_status = 128 + WTERMSIG(wait_status);
+		}
+	}
+	return (exit_status);
+}
+*/
 int	wait_all(t_pipex pipex)
 {
 	int	wstatus;
@@ -188,6 +214,13 @@ int	wait_all(t_pipex pipex)
 				exit_status = WEXITSTATUS(wstatus);
 			else if (WIFSIGNALED(wstatus))
 				exit_status = 128 + WTERMSIG(wstatus);
+/*
+	different logic if fd is a tty
+*/
+
+			if (exit_status == 131)
+				ft_putstr_fd("Quit (Core dumped)\n", 2);
+//			else if (exit_)
 		}
 	}
 	return (exit_status);

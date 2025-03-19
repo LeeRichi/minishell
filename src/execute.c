@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 17:06:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:42:12 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void execute(t_shell *shell)
 	}
 	else
 	{
-		
 		shell->cmds->shell = shell;
 		preserve_fds_and_error_exit(shell);
 		resolve_heredoc_cmds(shell->cmds, 1);

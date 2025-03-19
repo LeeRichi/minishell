@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 17:07:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:03:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ static void	handle_command(char **path_split, t_pipex *pipex)
 		error_and_exit(pipex, error_init(CMD_NOT_FOUND, 0, pipex->command[pipex->current_command].cmd_name));
 }
 
-//TODO: look into argv[0]==0, potential error and exit on its == to 0
-
-//WIP
 static void	resolve_command_path(t_pipex *pipex)
 {
 	ssize_t	ind;
