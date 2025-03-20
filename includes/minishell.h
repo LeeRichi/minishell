@@ -46,6 +46,8 @@
 #define RESET "\033[0m"
 #define GREEN "\033[32m"
 
+typedef struct sigaction t_sigaction;
+
 typedef struct s_sig
 {
 	int sigint;

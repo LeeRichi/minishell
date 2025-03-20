@@ -46,10 +46,31 @@ void handle_sigquit(int code)
 //	g_sig.sigquit = 1;
 }
 
-void set_sigquit_default()
+//ctrl+\/
+
+void set_sigquit(t_sigaction new_action)
 {
-	signal(SIGQUIT, SIG_IGN);
+	//static t_sigaction reserved_action;
+	sigaction(SIGQUIT, &new_action, 0);
+	
+// sigaction
+//	signal(SIGQUIT, SIG_IGN);
 }
+// TODO: figure out sigaddset
+int restore_signal(int signum)
+{
+	t_sigaction action;
+	int emptyset_return;
+
+	action.sa_handler = SIG_DFL;
+	emptyset_return = sigemptyset(action.sa_mask);
+	if (emptyset_return)
+		return (-1);
+	return (sigaction(SIGQUIT, action, 0))
+}
+
+
+
 /*
 void set_sigquit_before_child()
 {
