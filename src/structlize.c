@@ -184,7 +184,9 @@ void ft_structlize(t_shell *shell)
     t_cmd *current_cmd = NULL;
     t_cmd *new_cmd = NULL;
 
-	while (shell->tokens[i])
+	// printf("has quote??? %d\n", shell->has_quotes);
+
+	while (shell->tokens[i])	
 	{
         if (current_cmd == NULL || strcmp(shell->tokens[i], "|") == 0)
         {
@@ -202,28 +204,42 @@ void ft_structlize(t_shell *shell)
             // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
             if (shell->tokens[i + 1] != NULL && ft_start_with_specials(shell->tokens[i + 1]))
             {
-                // printf("fuck\n");
+                // printf("has_quote: %d\n", shell->has_quotes);
                 ft_printf_fd(STDERR, "minishell: syntax error\n");
                 shell->err_code = 2;
                 shell->exit_code = 2;
                 // return ;
             }
             // if (shell->tokens[i + 1][0] == '\0')
-            if (shell->tokens[i + 1] != NULL && shell->tokens[i + 1][0] == '\0')
+            else if (shell->tokens[i + 1] != NULL && shell->tokens[i + 1][0] == '\0')
             {
                 // printf("found consecutive redir, plz put a flag to this node, which tell the executor - dont exe it.\n");
                 current_cmd->ambiguous_flag_node = 1;
             }
-            if (shell->tokens[i + 1] == NULL)
+			else if (shell->tokens[i + 1] != NULL)
+			{
+				handle_redirection(current_cmd, shell->tokens[i], shell->tokens[i + 1]);
+				i++;
+			}
+            else if (shell->tokens[i + 1] == NULL) //quotes as last token
             {
-                // printf("fuck2\n");
+				// ft_printf_fd(STDERR, "minishell: syntax error\n");
+				// shell->err_code = 2;
+				// shell->exit_code = 2;
+                if (shell->has_quotes)
+                {
+					current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
+                }
+				else
+				{
+					ft_printf_fd(STDERR, "minishell: syntax error\n");
+					shell->err_code = 2;
+					shell->exit_code = 2;
+				}
                 // fprintf(stderr, "Syntax error: missing file after '%s'\n", shell->tokens[i]);
-                ft_printf_fd(STDERR, "minishell: syntax error\n");
-                shell->err_code = 2;
-                shell->exit_code = 2;
                 // return; // Avoid accessing out-of-bounds memory
             }
-            if (current_cmd != NULL)
+            else if (current_cmd != NULL)
             {
 				//can i write malloc for infiles and outfiles here?
                 if (shell->has_quotes) //fuck
@@ -240,12 +256,31 @@ void ft_structlize(t_shell *shell)
             }
             else
                 ft_printf_fd(STDERR, "Error: Redirection without a command\n");
-			i++;
+			// i++;
 		}
+		// else
+		// {
+		// 	printf("fuckkkkk\n");
+		// 	if (current_cmd != NULL && current_cmd->cmd_name == NULL)
+		// 	{
+		// 		while (i < shell->token_count && shell->tokens[i][0] == '\0' && shell->tokens[i + 1]) // skip empty tokens
+		// 			i++;
+		// 		if (i < shell->token_count && shell->tokens[i] != NULL && )
+		// 			current_cmd->cmd_name = strdup(shell->tokens[i]);
+		// 	}
+		// 	else
+		// 	{
+		// 		if (i < shell->token_count && shell->tokens[i] != NULL)
+		// 			current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
+		// 	}
+		// 	// i++;
+		// }
+
+		//old
 		else
 		{
-			if (current_cmd->cmd_name == NULL)
-            {
+			if (current_cmd != NULL && current_cmd->cmd_name == NULL)
+            {				
                 while (shell->tokens[i][0] == '\0' && shell->tokens[i + 1]) //skip empty tokens
                     i++;
 				current_cmd->cmd_name = strdup(shell->tokens[i]);

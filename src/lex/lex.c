@@ -517,6 +517,9 @@ void tokenize_input(char *input, t_shell *shell)
     
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 
+    if (input)
+		add_history(input);
+
     // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
     // {
     //     free(input);

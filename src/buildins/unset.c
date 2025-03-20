@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 17:09:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/20 19:13:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ int handle_unset(t_shell *shell)
         v_names[i] = ft_strncpy(shell->envp[i], j);
         i++;
     }
+
 	i = 0;
 	// j = len;
+	size_t temp = og_total_len;
 	while (i < og_total_len)
     {
 		j = 0;
@@ -119,9 +121,12 @@ int handle_unset(t_shell *shell)
 		{
 			if (ft_strcmp(v_names[i], shell->cmds->arg[j]) == 0)
 			{
+				// printf("fuck\n");
 				// Remove the matching var_name from the environment
 				ft_cpy2envp(i, og_total_len, shell);
-				break;
+				og_total_len--;
+				i = 0;
+				// break;
 			}
 			j++;
 		}
@@ -142,7 +147,7 @@ int handle_unset(t_shell *shell)
 	// 	i++;
 	// }
 
-	for (i = 0; i < og_total_len; i++)
+	for (i = 0; i < temp; i++)
         free(v_names[i]);
     free(v_names);
 

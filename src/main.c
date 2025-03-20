@@ -219,8 +219,8 @@ int	main(int ac, char **av, char **envp)
             break;
         }
 
-		if (*shell.input)
-			add_history(shell.input);
+		// if (*shell.input)
+		// 	add_history(shell.input);
 		if (*shell.input)
 			parse(&shell);
 		else
@@ -237,6 +237,9 @@ int	main(int ac, char **av, char **envp)
 	}
 
 	ft_free_all(&shell);
+
+	// do we need it?
+	// clear_history(shell.input);
 
 	//exit
 	return (shell.exit_code);

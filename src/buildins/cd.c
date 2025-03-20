@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 20:10:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/20 18:52:35 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int handle_cd(char **args, t_shell *shell)
 	{
 		home = ft_getenv("HOME", shell);
 		if (home)
+		{
 			chdir(home);
+			free(home);
+		}
 		else
 		{
 			printf("HOME not set.\n");
