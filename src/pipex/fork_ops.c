@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/19 20:08:57 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:50:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	in_child(t_pipex *pipex)
 	int	file_red_result;
 	t_shell	*shell;
 
+	set_child_signal();
 	shell = (t_shell *)pipex->shell;
 	if (pipex->command_count > 1)
 		redirect_fds(pipex);

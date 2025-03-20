@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/19 20:52:43 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:53:37 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,11 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 //	char *fineof;
 	if (pipe(fds) == -1)
 		return (-1);
+	before_child_process_signal();
 	fork_res = fork();
 	if (!fork_res)
 	{
+		set_heredoc_signal();
 		dup_res = dup2(fds[1], 1);
 		close_pipe_safe(fds);
 		if (dup_res == -1)
@@ -198,10 +200,17 @@ TODO: add input +  ctrl-d check
 	int wait_status;
 	if (wait(&wait_status) == fork_res)
 	{
+		set_minishell_signal();
 		if (WIFEXITED(wait_status))
 			shell->exit_code = WEXITSTATUS(wait_status);
 		else if (WIFSIGNALED(wait_status))
 			shell->exit_code = 128 + WTERMSIG(wait_status);
+		if (shell->exit_code == 130)
+		{
+			shell->err_code = 1;
+			close(fds[0]);
+			return (-1);
+		}
 		return (fds[0]);
 	}
 	close(fds[0]);

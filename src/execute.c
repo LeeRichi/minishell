@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/19 15:42:12 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:09:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,23 @@ void execute(t_shell *shell)
 	{
 		shell->cmds->shell = shell;
 		preserve_fds_and_error_exit(shell);
-		resolve_heredoc_cmds(shell->cmds, 1);
+		if (!resolve_heredoc_cmds(shell->cmds, 1))
+		{
+			if (shell->err_code)
+			{
+			/*
+				TODO: add to separate function
+			*/
+				shell->err_code = 0;
+				return ;
+			}
+			else
+			{
+				print_error_message(error_init(HEREDOC_FAIL, 0, 0));
+				ft_free_all(shell);
+				exit(1);
+			}
+		}
 		redirection_result = process_file_redirections(shell->cmds);
 		if (redirection_result)
 		{

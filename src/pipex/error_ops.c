@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/19 16:05:15 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:05:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,10 @@ void	print_error_message(t_error error)
 	else if (error.errtype == FORK_FAIL)
 	{
 		error_message = get_error_message(SHELL_NAME, "fork fail", strerror(errno));
+	}
+	else if (error.errtype == HEREDOC_FAIL)
+	{
+		error_message = get_error_message(SHELL_NAME, "heredoc fail", strerror(errno));
 	}
 	else
 	{
