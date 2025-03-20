@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 20:47:48 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:18:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,13 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     //     printf("ct: %s\n", *current_token);
 	// 	*i = shell->current_index;
 	// }
+    //fuck here
+    // else if (ft_strchr("|", input[*i]) == 0)
+    // {
+    //     *current_token = str_append(*current_token, '|');
+    //     finalize_token(shell, current_token, &shell->token_count);
+    //     (*i)++;
+    // }
     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
     {
         finalize_token(shell, current_token, &shell->token_count);
@@ -464,8 +471,8 @@ int empty_between_checker(t_shell *shell)
 		// if (ft_start_with_specials_v2(shell->tokens[i]) ||
     	// 	(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
 
-        // if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
-        if (is_operator(shell->tokens[i]) && is_operator(shell->tokens[i + 1]))
+        // if (is_operator(shell->tokens[i]) && is_operator(shell->tokens[i + 1]))
+        if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
 		{
             // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
             if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
@@ -503,17 +510,17 @@ void tokenize_input(char *input, t_shell *shell)
 
     // if (ft_strcmp("", shell->input) != 0) //removed this line to avoid invalid read
     parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
-
-    
-    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-    // {
-    //     printf("fuck1\n");
-    //     free(input);
-    //     shell->err_code = STDERR;
-    //     shell->exit_code = STDERR;
-    //     clear_tokens(shell);
-    //     return;
-    // }
+    //fuck
+    // print_tokens(shell->tokens);
+    //temp fuck
+    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    {
+        free(input);
+        shell->err_code = STDERR;
+        shell->exit_code = STDERR;
+        clear_tokens(shell);
+        return;
+    }
     
     process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
 

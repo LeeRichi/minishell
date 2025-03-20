@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/16 19:01:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/20 21:57:23 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,26 @@ int handle_exit(t_shell *shell, char **args)
 	
     //fuck temp
     // ft_putstr_fd("exit\n", STDOUT);
-    if (args && args[0] && args[1])
-    {
-		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
-        shell->exit_code = ERROR;
-        /*TODO: cleanup*/
-        //temp_cleanup(shell);
-        ft_free_all(shell);
-        exit(ERROR);
-    }
-    else if (args && args[0] && !atoied_value)
+    if (args && args[0] && !atoied_value)
     {
         ft_putstr_fd("minishell: exit: ", STDERR);
 		ft_putstr_fd(args[0], STDERR);
 		ft_putendl_fd(": numeric argument required", STDERR);
-        shell->exit_code = STDERR;
+        shell->exit_code = 2;
         /*TODO: cleanup*/
         //temp_cleanup(shell);
         ft_free_all(shell);
-        exit(STDERR);
+        exit(2);
+    }
+    else if (args && args[0] && args[1])
+    {
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
+        shell->exit_code = 1;
+        return (1);
+        /*TODO: cleanup*/
+        //temp_cleanup(shell);
+        // ft_free_all(shell);
+        // exit(ERROR); //?
     }
     else if (args && args[0]) //valid //with exit and 1 numeric arg
     {

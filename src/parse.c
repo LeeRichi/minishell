@@ -176,18 +176,18 @@ void parse(t_shell *shell)
 
     // final_check(shell);
 
-    // if (shell->tokens)
-    //     print_tokens(shell->tokens);
+    if (shell->tokens)
+        print_tokens(shell->tokens);
 
     if (!shell->err_code && shell->tokens)
     {
 		ft_structlize(shell);
     }
-	// if (!shell->err_code)
-	// {
-	// 	print_cmd_struct(shell->cmds);
-	// 	//pipex_launch(shell->cmds, shell->envp);
-	// }
+	if (!shell->err_code)
+	{
+		print_cmd_struct(shell->cmds);
+		//pipex_launch(shell->cmds, shell->envp);
+	}
 
 	// else
     //     shell->err_code = 0;
