@@ -6,12 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/20 22:18:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 20:41:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+// TODO: clear up and exit on malloc
 void finalize_token(t_shell *shell, char **current_token, int *token_count)
 {
     size_t new_size;
@@ -39,6 +39,7 @@ void finalize_token(t_shell *shell, char **current_token, int *token_count)
     }
 }
 
+//TODO: check all mallocs and free and exit if the do
 void parse_input_character(t_shell *shell, char **current_token, int *i, char *input)
 {
     char *env_value;
@@ -114,7 +115,31 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
                     // printf("env_v: %s\n", env_value);
                     if (!env_value)
                     {
-                        *current_token = str_append(*current_token, input[*i]);
+                        // i is at $ postion
+                        // if (!(ft_strchr("\'", input[*i]) || ft_strchr("\"", input[*i])))
+                        //     (*i)++;
+                        // printf("fuck\n");
+                        // if (!(ft_strchr("\'", input[*i + 1]) || ft_strchr("\"", input[*i + 1]) || ft_strchr(" ", input[*i + 1])))
+                        // {
+                        //     (*i)++;
+                        //     while (!ft_strchr(" ", input[*i]) && !ft_strchr("$", input[*i]))
+                        //     {
+                        //         // *current_token = str_append(*current_token, input[*i]);
+                        //         (*i)++;                            
+                        //     }
+                        // }
+                            
+                        // }
+                        // else
+                        // while (!ft_strchr(" ", input[*i]))
+                        // {
+                        //     printf("fuck: %c\n", input[*i]);
+                        //     // *current_token = str_append(*current_token, input[*i]);
+                        //     (*i)++; 
+                        // }
+
+                            *current_token = str_append(*current_token, input[*i]);
+
                         // *current_token = str_append(*current_token, "");
 
                         // return ;
@@ -252,7 +277,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
     // else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
 	// {
     //     if (input[*i] == '|')
-    //         shell->last_token_type = 1;
+    // finalize_token       shell->last_token_type = 1;
     //     else if (input[*i] == '>' || input[*i] == '<')
     //         shell->last_token_type = 2;
     //     else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
@@ -381,6 +406,7 @@ void parse_input_fragment(char *input, t_shell *shell)
 		shell->last_token_type = 0;
 }
 
+//TODO: check strjoins
 static void append_additional_input(char **input, char *additional_input)
 {
     char *spaced_input = ft_strjoin(*input, " ");
@@ -391,6 +417,7 @@ static void append_additional_input(char **input, char *additional_input)
 }
 
 //needs to add more
+//TODO: free all before exit
 void handle_unexpected_eof(t_shell *shell, char *input, char *additional_input)
 {
     if (shell->last_token_type == 2)
@@ -414,8 +441,9 @@ void process_additional_input(t_shell *shell, char **input)
     {
     //     printf("what is the **input: %c\n", **input);
     //     printf("last token ty: %d\n", shell->last_token_type);
-        printf("> ");
-        additional_input = readline(NULL);
+        //printf("> ");
+        //additional_input = readline(NULL);
+        additional_input = readline("> ");
         if (!additional_input || ft_start_with(additional_input, '|'))
             handle_unexpected_eof(shell, *input, additional_input);
 		append_additional_input(input, additional_input);

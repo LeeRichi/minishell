@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/20 21:06:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 21:07:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int count_redirections(char **tokens)
 	}
 	return count;
 }
+
+//TODO: check ft_strdup
 char **ft_add_to_array(char **array, const char *new_element)
 {
 	int i;
@@ -112,7 +114,8 @@ void ft_add_redirection(char ***array, char *file)
     *array = ft_add_to_array(*array, file);
     // ft_print_array(*array);
 }
-
+//TODO: free all before exit
+// multiple malloc check, free possible successful allocs
 void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
 {
     // printf("fuck\n");
@@ -149,7 +152,7 @@ void allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell)
     }
     *current_cmd = *new_cmd;
 }
-
+//TODO: check that the infiles outfiles are not 0 after add redirection
 void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 {
 	int i;
@@ -178,6 +181,7 @@ void handle_redirection(t_cmd *current_cmd, char *operator, char *file)
 	current_cmd->redirection_index = i + 1;
 }
 
+//TODO: check mallocs
 void ft_structlize(t_shell *shell)
 {
     int i = 0;
@@ -202,13 +206,13 @@ void ft_structlize(t_shell *shell)
             strcmp(shell->tokens[i], ">") == 0 || strcmp(shell->tokens[i], "<") == 0)
         {
             // dump
-            // if (shell->has_quotes)
-            // {
-            //     printf("fuck\n");
-            //     current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
-            // }
+            if (shell->has_quotes)
+            {
+                // printf("fuckkkkk\n");
+                current_cmd->arg = ft_add_to_array(current_cmd->arg, shell->tokens[i]);
+            }
             // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]))
-            if (shell->tokens[i + 1] != NULL && ft_start_with_specials(shell->tokens[i + 1]))
+            else if (shell->tokens[i + 1] != NULL && ft_start_with_specials(shell->tokens[i + 1]))
             {
                 // printf("has_quote: %d\n", shell->has_quotes);
                 ft_printf_fd(STDERR, "minishell: syntax error\n");

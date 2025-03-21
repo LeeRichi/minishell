@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 15:41:29 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 20:04:49 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void replace_env_var(char **envp, char *key, char *new_entry)
 {
 	int i;
 	char *formatted_key;
-
+//TODO:check
 	formatted_key = ft_strjoin(key, "=");
 	i = 0;
 	while(envp[i])
@@ -41,6 +41,7 @@ void shell_level_ctrl(t_shell *shell)
 	char *temp_str;
 
 	new_shlvl_entry = NULL;
+	//TODO: check
 	shlvl_str = ft_getenv("SHLVL", shell);
 	if (shlvl_str)
 	{
@@ -50,10 +51,13 @@ void shell_level_ctrl(t_shell *shell)
 		shlvl = 1;
 	
 	temp_str = shlvl_str;
+	//TODO: check
 	shlvl_str = ft_itoa(shlvl);
+	
 	if (shlvl_str)
 	{
 		//setenv("SHLVL", shlvl_str, 1);
+		//TODO: check
 		new_shlvl_entry = ft_strjoin("SHLVL=", shlvl_str);
 		free(shlvl_str);
 	}

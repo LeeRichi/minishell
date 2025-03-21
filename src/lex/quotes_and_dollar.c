@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 20:30:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 20:30:26 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int is_c_num(char c)
 		return (1);
 	return (0);
 }
-
+//TODO: returns 0 on malloc fail or on env not containing the variable
 char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 {
 	(void)shell;
@@ -27,6 +27,9 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 	int len;
 	char *temp = NULL;
 	// int local_flag = 0;
+	// int og_index = *index;
+	
+	// printf("og_index: %d\n", og_index);
 
 	len = 0;
 	(*index)++; //to skip $
@@ -55,6 +58,7 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index)
 	// 	local_flag = 1;
 	if (!result)
     {
+		// *index = og_index;
 		if (temp)
 			return (temp);
 		return (NULL);
@@ -89,14 +93,16 @@ void handle_unbalanced_quotes(char **input)
 {
     while (!check_balanced_quotes(*input))
     {
-        printf("> ");
-        char *additional_input = readline(NULL);
+        //printf("> ");
+        char *additional_input = readline("> ");
+		//TODO: rethink
         if (!additional_input)
         {
             fprintf(stderr, "minishell: unexpected EOF while looking for matching quotes\n");
             free(*input);
             exit(EXIT_FAILURE);
         }
+		//TODO: check
         char *new_input = ft_strjoin(*input, additional_input);
         free(*input);
         free(additional_input);

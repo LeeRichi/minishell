@@ -6,12 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 16:54:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 20:56:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+//TODO: free before exit
 char *str_append(char *str, char c)
 {
     size_t len = str ? strlen(str) : 0;
