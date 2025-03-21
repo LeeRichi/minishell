@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/20 22:08:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:02:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 				
 			*/
 			shell->err_code = 0;
+			shell->pipex = 0;
 			return shell->exit_code;
 		}
 		else

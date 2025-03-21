@@ -6,28 +6,11 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/20 21:53:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:37:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "libft.h"
 #include "../../includes/minishell.h"
-#include "sys/wait.h"
-#include "stdio.h"
-//wip
-/*
-int ft_strcmp(const char *s1, const char *s2)
-{
-	int s1_length;
-	int s2_length;
-
-	s1_length = ft_strlen(s1);
-	s2_length = ft_strlen(s2);
-	if (s1_length > s2_length)
-		return (ft_strncmp(s1, s2, s1_length));
-	return (ft_strncmp(s1, s2, s2_length));
-}
-*/
 void	close_fd_safe(int *fd)
 {
 	if (*fd != -1)
@@ -132,9 +115,10 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 	int fds[2];
 	int fork_res;
 	char *line;
-	int dup_res;
+//	int dup_res;
 	int proper_exit;
 
+	line = 0;
 	proper_exit = 0;
 //	char *fineof;
 	if (pipe(fds) == -1)
@@ -144,16 +128,20 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 	if (!fork_res)
 	{
 		set_heredoc_signal();
-		dup_res = dup2(fds[1], 1);
+//		dup_res = dup2(fds[1], 1);
 		close_pipe_safe(fds);
-		if (dup_res == -1)
+/*		if (dup_res == -1)
 		{
 			perror("dup error");
 			ft_free_all(shell);
 			exit(1);
 		}
-		write(0, "> ", 2);
-		line = get_next_line(0);
+*/
+//		write(0, "> ", 2);
+//		line = get_next_line(0);
+//		ft_putendl_fd("here1", 2);
+		line = readline("> ");
+//		ft_putendl_fd("here2", 2);
 //		if (!line)
 //			perror("line is EOF");
 /*
@@ -168,10 +156,19 @@ TODO: add input +  ctrl-d check
 				free(line);
 				break ;
 			}
-			ft_printf("%s", line);
-			write(0, "> ", 2);
+			ft_putstr_fd(line, fds[1]);
+//			ft_printf("%s", line);
+//			write(0, "> ", 2);
 			free(line);
-			line = get_next_line(0);
+//			line = get_next_line(0);
+			line = readline("> ");
+//			ft_putendl_fd("here3", 2);
+		}
+		if (g_sig == 1)
+		{
+//			get_next_line(-1);
+			ft_free_all(shell);
+			exit(130);
 		}
 		if (!proper_exit)
 		{
@@ -180,7 +177,7 @@ TODO: add input +  ctrl-d check
 			ft_putstr_fd("\nheredoc EOF stoped\n", 2);
 		}
 //		free(fineof);
-		get_next_line(-1);
+//		get_next_line(-1);
 		ft_free_all(shell);
 /*
 		TODO: cleanup everything
@@ -207,6 +204,7 @@ TODO: add input +  ctrl-d check
 			shell->exit_code = 128 + WTERMSIG(wait_status);
 		if (shell->exit_code == 130)
 		{
+			write(2, "\n", 1);
 			shell->err_code = 1;
 			close(fds[0]);
 			return (-1);

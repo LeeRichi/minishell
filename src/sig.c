@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/20 21:40:52 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:00:06 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,26 +90,8 @@ int restore_signal(int signum)
 	return (sigaction(signum, &action, 0));
 }
 
-/*
-void set_sigquit_before_child()
-{
-	
-}
-*/
-
-
 void set_minishell_signal(void)
 {
-/*	t_sigaction quit_action;
-	t_sigaction int_action;
-
-	ft_bzero(&quit_action, sizeof(t_sigaction));
-	ft_bzero(&int_action, sizeof(t_sigaction));
-	quit_action.sa_handler = SIG_IGN;
-	int_action.sa_handler = &handle_sigint;
-*/
-	
-//	printf("in parent restoringg signal\n");
 	if (set_signal(SIGQUIT, SIG_IGN))
 		ft_putstr_fd("set signal error\n", 2);
 		
@@ -119,37 +101,25 @@ void set_minishell_signal(void)
 
 void before_child_process_signal(void)
 {
-/*	t_sigaction quit_action;
-	t_sigaction int_action;
-
-	ft_bzero(&quit_action, sizeof(t_sigaction));
-	ft_bzero(&int_action, sizeof(t_sigaction));
-	quit_action.sa_handler = SIG_IGN;
-	int_action.sa_handler = SIG_IGN;
-*/
-/*	if (set_signal(SIGQUIT, SIG_IGN) == -1)
-		ft_putstr_fd("set signal error\n", 2);
-	if (set_signal(SIGINT, SIG_IGN) == -1)
-		ft_putstr_fd("set signal error\n", 2);
-*/
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-//	printf("in parent ignoring signal\n");
-
 }
 
 void child_quit_beh(int asd)
 {
 	(void)asd;
-	ft_putstr_fd("c q b\n", 2);
-//	printf("c q b\n", 2);
-	exit(255);
+	//ft_putstr_fd("c q b\n", 2);
+	exit(131);
 }
-void child_int_beh(int asd)
+void heredoc_int_beh(int asd)
 {
 	(void)asd;
-	ft_putstr_fd("c i b\n", 2);
-	exit(130);
+//	ft_putstr_fd("c i b\n", 2);
+	g_sig = 1;
+	if (close(0) == -1)
+		perror("Can't close heredoc standard input");
+//	free(asd)
+//	exit(130);
 }
 
 void set_child_signal(void)
@@ -188,7 +158,7 @@ void set_heredoc_signal(void)
 //	set_signal(SIGQUIT, quit_action);
 //	set_signal(SIGINT, int_action);
 	set_signal(SIGQUIT, SIG_IGN);
-	set_signal(SIGINT, child_int_beh);
+	set_signal(SIGINT, heredoc_int_beh);
 }
 
 /*

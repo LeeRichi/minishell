@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/20 22:09:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:05:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void execute(t_shell *shell)
 	}
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
 	{
-		
 		exec_result = pipex_launch(shell->cmds, shell->envp, shell);
 	}
 	else
@@ -109,6 +108,7 @@ void execute(t_shell *shell)
 				TODO: add to separate function
 			*/
 				shell->err_code = 0;
+				restore_fds_and_error_exit(shell);
 				return ;
 			}
 			else

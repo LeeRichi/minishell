@@ -3,112 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 11:15:57 by chlee2            #+#    #+#             */
-/*   Updated: 2024/09/05 22:24:56 by chlee2           ###   ########.fr       */
+/*   Created: 2024/05/28 16:57:51 by mbutuzov          #+#    #+#             */
+/*   Updated: 2025/03/21 18:19:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
-char	*jump_to_next_line(char *content)
+static int	check_nl(char *s)
 {
-	char	*new_content;
-	size_t	len;
+	char	*ptr;
 
-	len = 0;
-	while (content[len] && content[len] != '\n')
-		len++;
-	if (content[len] == '\n')
-		len++;
-	if (content[len] == '\0')
+	ptr = s;
+	while (s && *s)
 	{
-		free(content);
-		return (NULL);
+		if (*s == '\n')
+			return (s - ptr + 1);
+		s++;
 	}
-	new_content = substr(content, len, gnl_strlen(content) - len);
-	free(content);
-	return (new_content);
+	return (0);
 }
 
-char	*check_line(char *content)
+static char	*ft_free(char **ptr)
 {
-	char	*new_line;
-	size_t	len;
-
-	len = 0;
-	while (content[len] && content[len] != '\n')
-		len++;
-	if (content[len] == '\n')
-		len++;
-	new_line = substr(content, 0, len);
-	if (!new_line)
-		return (NULL);
-	return (new_line);
-}
-
-char	*free_or_join(char *content, char *buf)
-{
-	char	*res;
-
-	res = gnl_strjoin(content, buf);
-	if (!res)
+	if (*ptr)
 	{
-		free(buf);
-		buf = NULL;
-		content = NULL;
-		return (NULL);
+		free(*ptr);
+		*ptr = 0;
 	}
-	buf = NULL;
-	return (res);
+	return (0);
 }
 
-char	*read_content(int fd, char *content)
+static char	*fill_tb(char *total_buffer, char *buffer, int fd)
 {
-	char	*content_buf;
-	ssize_t	bytes;
+	int		read_bytes;
+	char	*tmp;
 
-	bytes = 1;
-	content_buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!content_buf)
-		return (ft_free(&content));
-	while ((content && !ft_strchar(content, '\n') && bytes > 0) || !content)
+	while (!check_nl(total_buffer))
 	{
-		bytes = read(fd, content_buf, BUFFER_SIZE);
-		if (bytes < 0)
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes < 0)
 		{
-			free(content_buf);
-			return (ft_free(&content_buf));
+			ft_free(&total_buffer);
+			return (0);
 		}
-		if (bytes == 0)
+		if (read_bytes == 0)
 			break ;
-		content_buf[bytes] = '\0';
-		content = free_or_join(content, content_buf);
-		if (!content)
-			return (NULL);
+		buffer[read_bytes] = 0;
+		tmp = total_buffer;
+		if (total_buffer == 0)
+			total_buffer = "";
+		total_buffer = ft_strjoin(total_buffer, buffer);
+		ft_free(&tmp);
 	}
-	free(content_buf);
-	return (content);
+	return (total_buffer);
+}
+
+static char	*get_result(char **total_buffer)
+{
+	int		end;
+	char	*tmp;
+	char	*result;
+
+	end = ft_strlen(*total_buffer);
+	result = ft_substr(*total_buffer, 0, check_nl(*total_buffer));
+	if (result == 0)
+	{
+		ft_free(total_buffer);
+		return (0);
+	}
+	tmp = *total_buffer;
+	*total_buffer = ft_substr(*total_buffer, check_nl(*total_buffer), end);
+	ft_free(&tmp);
+	if (total_buffer == 0)
+	{
+		ft_free(&result);
+		return (0);
+	}
+	tmp = 0;
+	return (result);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*content;
-	char		*line;
+	static char		*total_buffer = 0;
+	char			buffer[BUFFER_SIZE + 1];
+	char			*result;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
+	result = 0;
+	total_buffer = fill_tb(total_buffer, buffer, fd);
+	if (check_nl(total_buffer))
+		result = get_result(&total_buffer);
+	else
 	{
-		free (content);
-		content = NULL;
-		return (NULL);
+		if (total_buffer && *total_buffer)
+		{
+			result = ft_strdup(total_buffer);
+			ft_free(&total_buffer);
+			if (!result)
+				return (0);
+		}
+		else if (total_buffer && !*total_buffer)
+			result = ft_free(&total_buffer);
+		else
+			result = 0;
 	}
-	content = read_content(fd, content);
-	if (!content)
-		return (NULL);
-	line = check_line(content);
-	if (!line)
-		return (ft_free(&content));
-	content = jump_to_next_line(content);
-	return (line);
+	return (result);
 }

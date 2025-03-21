@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/20 18:46:06 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:06:23 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//t_sig	g_sig;
+int	g_sig;
 
 int ft_cpy_tab(char **dest, char **src, int length)
 {
@@ -144,6 +144,7 @@ int	main(int ac, char **av, char **envp)
 	// sigaction()
 	// env = ft_getenv(envp);
 	shell_init(envp, &shell);
+	g_sig = 0;
 
 	//cmd out when running tester
 	// pf_banner();
