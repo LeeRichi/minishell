@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:45:13 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 20:26:54 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:40:37 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ size_t	ft_strlcat(char *dst,
 			const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst,
 			const char *src, size_t dstsize);
+size_t	ft_strcpy(char *dst, const char *src);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	*ft_memmove(void *dst, const void *src, size_t n);
 int		ft_atoi(char *str);

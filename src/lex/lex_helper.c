@@ -6,85 +6,69 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:28:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 20:56:57 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 15:17:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //TODO: free before exit
-char *str_append(char *str, char c)
+char	*str_append(t_shell *shell, char *str, char c)
 {
-    size_t len = str ? strlen(str) : 0;
-    char *new_str = malloc(len + 2);
-    if (!new_str)
-    {
-        // perror("malloc");
-		print_error_message(error_init(MALLOC_FAIL, 0, 0));
-        exit(EXIT_FAILURE);
-    }
-    if (str)
-    {
-        strcpy(new_str, str);
-        free(str);
-    }
-    new_str[len] = c;
-    new_str[len + 1] = '\0';
-    return new_str;
+	size_t	len;
+	char	*new_str;
+
+	if (str)
+		len = ft_strlen(str);
+	else
+		len = 0;
+	new_str = malloc(len + 2);
+	if (!new_str)
+		malloc_fail_clean_exit(shell);
+	if (str)
+	{
+		ft_strcpy(new_str, str);
+		free(str);
+	}
+	new_str[len] = c;
+	new_str[len + 1] = '\0';
+	return (new_str);
 }
 
-// char *ft_getenv(char *env_name, char **envp)
-// {
-		
-// }
-
-char *get_env_value(char *env_name, t_shell *shell)
+char	*get_env_value(char *env_name, t_shell *shell)
 {
-	char *env_value;
+	char	*env_value;
 
 	env_value = ft_getenv(env_name, shell);
 	if (!env_value)
 		return (NULL);
-		// return ("");
-	// return (ft_strdup(env_value));
 	return (env_value);
 }
 
-int ft_arraylen(char **tokens)
+int	ft_start_with(char *str, char c)
 {
-	int len;
+	int	i;
 
-	len = 0;
-	if (!tokens)
-		return (0);
-	while (tokens[len] != NULL)
-        	len++;
-	return (len);
-}
-
-int ft_start_with(char *str, char c)
-{
-    int i = 0;
-
-    while (str[i])
-    {
-        while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-        	i++;
-        if (str[i] != c)
-            return (0);
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+			i++;
+		if (str[i] != c)
+			return (0);
 		else
 			return (1);
-        i++;
-    }
-    return (0);
+		i++;
+	}
+	return (0);
 }
 
-char *ft_start_with_specials(char *str) //includes pipe
+char	*ft_start_with_specials(char *str)
 {
-	int i;
-	int j;
-	size_t len;;
-	const char **special_chars;
+	const char	**special_chars;
+	int			i;
+	int			j;
+	size_t		len;
 
 	special_chars = (const char *[]){">>", "<<", ">", "<", "|", NULL};
 	i = 0;
@@ -94,19 +78,16 @@ char *ft_start_with_specials(char *str) //includes pipe
 	while (special_chars[j] != NULL)
 	{
 		len = strlen(special_chars[j]);
-		if (strncmp(&str[i], special_chars[j], len) == 0)
+		if (ft_strncmp(&str[i], special_chars[j], len) == 0)
 			return ((char *)special_chars[j]);
-        j++;
-    }
-
-    return NULL;
+		j++;
+	}
+	return (NULL);
 }
 
-
-int ft_end_with(char *str, char c)
+int	ft_end_with(char *str, char c)
 {
-    // int i = 0;
-	int len;
+	int	len;
 
 	len = ft_strlen(str);
 	while (len > 0)
@@ -114,11 +95,11 @@ int ft_end_with(char *str, char c)
 		len--;
 		while (str[len] == ' ' || str[len] == '\t' || str[len] == '\n')
 			len--;
-        if (str[len] == c)
+		if (str[len] == c)
 			return (1);
 		else
 			return (0);
-        len--;
-    }
-    return (0);
+		len--;
+	}
+	return (0);
 }

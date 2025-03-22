@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   production_print.c                                 :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 16:34:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 16:37:05 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/22 12:39:23 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/22 12:39:38 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void pf_banner()
+size_t	ft_strcpy(char *dst, const char *src)
 {
-	printf(
-"█░█ ▄▀█ █▀█ █▀█ █▄█   █▀ █░█ █▀▀ █░░ █░░\n"
-"█▀█ █▀█ █▀▀ █▀▀ ░█░   ▄█ █▀█ ██▄ █▄▄ █▄▄\n");
+	size_t	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	i = 0;
+	while (src[i])
+		i++;
+	return (i);
 }

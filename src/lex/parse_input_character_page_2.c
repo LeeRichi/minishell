@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   parse_input_character_page_2.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 18:55:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/22 12:39:33 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/22 16:41:28 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/22 16:47:04 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	if (dstsize == 0)
-	{
-		i = 0;
-		while (src[i])
-			i++;
-		return (i);
-	}
-	i = 0;
-	while (i < dstsize - 1 && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	i = 0;
-	while (src[i])
-		i++;
-	return (i);
-}
+// void	handle_empty_token_strdup(t_shell *shell, char **current_token, int *i)
+// {
+// 	if (*current_token == NULL)
+// 	{
+// 		*current_token = ft_strdup("");
+// 		if (*current_token == NULL)
+// 			malloc_fail_clean_exit(shell);
+// 	}
+// 	(*i)++;
+// }

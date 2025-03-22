@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 17:24:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 16:53:35 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,24 +238,41 @@ void shell_level_ctrl(t_shell *shell);
 
 //lex
 void tokenize_input(char *input, t_shell *shell);
+
+//lex/parse_input_fragment.c
+void finalize_token(t_shell *shell, char **current_token, int *token_count);
+
+//lex/checkers.c
 int empty_between_checker(t_shell *shell);
-char *ft_start_with_specials_v2(char *str);
-char *str_append(char *str, char c);
-//lex/wrong_pipe.c
 int empty_pipe_checker(char *input, t_shell *shell);
+//lex/parse_input_character.c
+void parse_input_character(t_shell *shell, char **current_token, int *i, char *input);
+//lex/parse_input_character_page_2.c
+void	handle_empty_token_strdup(t_shell *shell, char **current_token,  int *i);
+//lex/parse_input_fragment.c
+void parse_input_fragment(char *input, t_shell *shell);
+//lex/massive_dollar_sign_handler.c
+void massive_dollar_sign_handler(t_shell *shell, char **current_token, int *i, char *input);
+//lex/handle_double_quote.c
+void handle_double_quote(t_shell *shell, char **current_token, int *i, char *input);
+//lex/handle_single_quote.c
+void handle_single_quote(t_shell *shell, char **current_token, int *i, char *input);
+
+//lex/wrong_pipe.c
 void handle_wrong_pipes(t_shell *shell, char **current_token, int *token_count, char c);
-//lex/wrong_quotes.c
-char *handle_dollar_sign(t_shell *shell, char *s, int *index);
+//lex/handle_dollar_sign.c
 bool check_balanced_quotes(const char *input);
-void handle_unbalanced_quotes(char **input);
+void handle_unbalanced_quotes(t_shell *shell, char **input);
+char *handle_dollar_sign(t_shell *shell, char *s, int *index);
 
 //lex/lex_helper.c
-char *str_append(char *str, char c);
+char *str_append(t_shell *shell, char *str, char c);
 char *get_env_value(char *env_name, t_shell *shell);
-int ft_arraylen(char **tokens);
 int ft_start_with(char *str, char c);
 char *ft_start_with_specials(char *str);
 int ft_end_with(char *str, char c);
+
+void handle_consecutive_redir(t_shell *shell, char **current_token, int *i, char *input);
 
 //utils
 //free.c
@@ -264,11 +281,10 @@ void clear_tokens(t_shell *shell);
 void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
+void malloc_fail_clean_exit(t_shell *shell);
 // test_print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
-// production_print.c
-void pf_banner();
 
 //lex/heredoc.c
 char *extract_delimiter(char *input, int *i);
@@ -277,16 +293,12 @@ void handle_heredoc(t_shell *shell, char *delimiter);
 //structlize.c
 void ft_structlize(t_shell *shell);
 
-//exit.c
-int ft_isNum(char *s);
-
 // ft_getenv.c
 char *ft_getenv(char *env_name, t_shell *shell);
 
 //export.c
 t_key_value *arr_to_key_value(t_shell *shell);
 void free_key_value_list(t_key_value *head);
-
 
 extern t_sig g_sig;
 #endif

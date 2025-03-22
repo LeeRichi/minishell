@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 20:26:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:54:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,20 @@ t_key_value *arr_to_key_value(t_shell *shell)
         new_node = malloc(sizeof(t_key_value));
         if (!new_node)
         {
-            printf("malloc failed at arr_to_key_value()\n");
-            return NULL;
+			malloc_fail_clean_exit(shell);
+            // printf("malloc failed at arr_to_key_value()\n");
+            // return NULL;
         }
-        delimiter = strchr(shell->envp[i], '=');
+        delimiter = ft_strchr(shell->envp[i], '=');
         if (delimiter)
         {
             *delimiter = '\0';
             new_node->key = ft_strdup(shell->envp[i]);
+			if (!new_node->key)
+				malloc_fail_clean_exit(shell);
             new_node->value = ft_strdup(delimiter + 1);
+			if (!new_node->value)
+				malloc_fail_clean_exit(shell);
             *delimiter = '=';
         }
         // else
@@ -109,7 +114,7 @@ void from_pair_to_arr(t_shell *shell)
 	if (shell->envp)
     {
         int i = 0;
-        while (shell->envp[i])  // Free each string in the array
+        while (shell->envp[i]) // Free each string in the array
         {
             free(shell->envp[i]);
             i++;
@@ -121,8 +126,9 @@ void from_pair_to_arr(t_shell *shell)
     if (!shell->envp)
     {
         // Handle memory allocation failure
-        printf("malloc failed for shell->envp\n");
-        return;
+		malloc_fail_clean_exit(shell);
+        // printf("malloc failed for shell->envp\n");
+        // return;
     }
     temp = shell->envp_value_pair;
 	i = 0;

@@ -6,404 +6,167 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/22 09:40:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 16:12:45 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 // TODO: clear up and exit on malloc
-void finalize_token(t_shell *shell, char **current_token, int *token_count)
-{
-    size_t new_size;
-    int i;
-	char **new_tokens;
-
-    if (*current_token)
-    {
-        new_size = sizeof(char *) * (*token_count + 2);
-        new_tokens = malloc(new_size);
-        if (!new_tokens)
-            return;
-        i = 0;
-        while (i < *token_count)
-		{
-            new_tokens[i] = shell->tokens[i];
-            i++;
-        }
-        new_tokens[*token_count] = *current_token;
-        new_tokens[*token_count + 1] = NULL;
-        free(shell->tokens);
-        shell->tokens = new_tokens;
-        (*token_count)++;
-        *current_token = NULL;
-    }
-}
-
-//TODO: check all mallocs and free and exit if the do
-void parse_input_character(t_shell *shell, char **current_token, int *i, char *input)
-{
-    char *env_value;
-    int j;
-    char *id_as_str;
-    int str_len;
-	char *itoaed_str;
-
-    // printf("input[%d]: %c\n", *i, input[*i]);
-
-    // printf("*current_token: %s\n", *current_token);
-
-    //put an empty str into token
-    // if ((input[*i] == '"' && input[*i + 1] == '"'))
-    if ((input[*i] == '"' && input[*i + 1] == '"') || (input[*i] == '\'' && input[*i + 1] == '\''))
-    {
-        // printf("Caught empty string inside double quotes!\n");
-        if (*current_token == NULL)
-            *current_token = ft_strdup("");
-        (*i)++;
-    }
-	else if (input[*i] == '\'' && !(shell->in_double_quote))
-    {
-        shell->in_single_quote = !(shell->in_single_quote); //flip
-        //Mar 16 late
-        (*i)++;
-        while (input[*i] != '\'' && input[*i] != '\0')  // Handle end of single quote or end of input
-        {
-            *current_token = str_append(*current_token, input[*i]);
-            (*i)++;
-        }
-        if (input[*i] == '\'')
-        {
-            shell->in_single_quote = !(shell->in_single_quote);
-            // finalize_token(shell, current_token, &shell->token_count);
-            // (*i)++;
-        }
-        // printf("ct: %s\n", *current_token);
-        if (ft_strcmp(*current_token, ">") == 0 || ft_strcmp(*current_token, ">>") == 0 || ft_strcmp(*current_token, "<") == 0)
-        {
-            // printf("put this shit to cmd_name.\n");
-            shell->has_quotes++;
-        }
-    }
-    else if (input[*i] == '"' && !(shell->in_single_quote))
-    {
-        shell->in_double_quote = !(shell->in_double_quote);
-        (*i)++;
-        while (input[*i] != '"' && input[*i] != '\0')
-        {
-            if (strchr("$", input[*i]))
-            {
-                if (input[*i + 1] == '?')
-                {
-                    itoaed_str = ft_itoa(shell->exit_code);
-                    // printf("ft_strlen(itoaed_str): %zu\n", ft_strlen(itoaed_str));
-
-                    j = 0;
-                    while(itoaed_str[j])
-                    {
-                        *current_token = str_append(*current_token, itoaed_str[j]);
-                        j++;
-                    }
-                    // printf("*current_token: %s\n", *current_token);
-                    free(itoaed_str);
-                    // printf("len: %zu\n", ft_strlen(itoaed_str));
-                    // (*i) += (ft_strlen(itoaed_str));
-                    (*i)++;
-                }
-                else
-                {
-                    env_value = handle_dollar_sign(shell, input, i);
-                    // printf("env_v: %s\n", env_value);
-                    if (!env_value)
-                    {
-                        // i is at $ postion
-                        // if (!(ft_strchr("\'", input[*i]) || ft_strchr("\"", input[*i])))
-                        //     (*i)++;
-                        // printf("fuck\n");
-                        // if (!(ft_strchr("\'", input[*i + 1]) || ft_strchr("\"", input[*i + 1]) || ft_strchr(" ", input[*i + 1])))
-                        // {
-                        //     (*i)++;
-                        //     while (!ft_strchr(" ", input[*i]) && !ft_strchr("$", input[*i]))
-                        //     {
-                        //         // *current_token = str_append(*current_token, input[*i]);
-                        //         (*i)++;                            
-                        //     }
-                        // }
-                            
-                        // }
-                        // else
-                        // while (!ft_strchr(" ", input[*i]))
-                        // {
-                        //     printf("fuck: %c\n", input[*i]);
-                        //     // *current_token = str_append(*current_token, input[*i]);
-                        //     (*i)++; 
-                        // }
-
-                            *current_token = str_append(*current_token, input[*i]);
-
-                        // *current_token = str_append(*current_token, "");
-
-                        // return ;
-                    }
-                    else
-                    {
-                        j = 0;
-                        while (env_value[j])
-                            *current_token = str_append(*current_token, env_value[j++]);
-                        free(env_value);
-                    }
-                }
-            }
-            else
-            {
-                *current_token = str_append(*current_token, input[*i]);
-            }
-            (*i)++;
-        }
-        if (input[*i] == '"')
-        {
-            shell->in_double_quote = !(shell->in_double_quote);
-            // finalize_token(shell, current_token, &shell->token_count);
-            // (*i)++;
-        }
-        if (ft_strcmp(*current_token, ">") == 0 || ft_strcmp(*current_token, ">>") == 0 || ft_strcmp(*current_token, "<") == 0)
-        {
-            // printf("put this shit to cmd_name.\n");
-            // printf("fuck\n");
-            shell->has_quotes++;
-        }
-    }
-    else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote)) //later write into it's own helper function. ex: handle_wave_sign()
-    {
-		if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
-		{
-			// const char *home_dir = ft_getenv("HOME", shell);
-            char *home_dir = ft_getenv("HOME", shell);
-			if (home_dir != NULL)
-			{
-				j = 0;
-				while (home_dir[j++])
-					*current_token = str_append(*current_token, home_dir[j-1]);
-                free(home_dir);
-			}
-			// (*i)++;
-            if (input[*i] == '/')
-            {
-                while (input[*i] != ' ' && input[*i])
-                {
-                    *current_token = str_append(*current_token, input[*i]);
-                    (*i)++;
-                }
-            }
-			return ;
-		}
-		while (input[*i] == '~')
-		{
-			*current_token = str_append(*current_token, '~');
-			(*i)++;
-		}
-        *current_token = str_append(*current_token, input[*i]);
-    }
-    else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
-    {
-        // shell->has_quotes++;
-	    if (strchr("$", input[*i + 1]) && input[*i + 1] != '\0') //consecutive dollar sign //todo
-        {
-            // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
-            id_as_str = ft_itoa(shell->shell_id);
-            str_len = ft_strlen(id_as_str);
-            j = 0;
-            while(j < str_len)
-            {
-                *current_token = str_append(*current_token, id_as_str[j]);
-                j++;
-            }
-            free(id_as_str);
-            (*i) += 2;
-            while(input[*i] == '$')
-            {
-                *current_token = str_append(*current_token, '$');
-                (*i)++;
-            }
-        }
-        else if (strchr("?", input[*i + 1]))
-        {
-            // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
-            // printf("hi: %d", shell->exit_code);
-			itoaed_str = ft_itoa(shell->exit_code);
-
-			int j = 0;
-			while(itoaed_str[j])
-			{
-				*current_token = str_append(*current_token, itoaed_str[j]);
-				j++;
-			}
-            free(itoaed_str);
-			(*i)++;
-        }
-        else if ((strchr("\'", input[*i + 1]) && shell->in_single_quote) || (strchr("\"", input[*i + 1]) && shell->in_double_quote)) //if it's consecutive, then we should avoid the $ feature
-        {
-			*current_token = str_append(*current_token, '$');
-            // printf("ignored dollar sign.\n"); //throw to the water
-			return ;
-        }
-		else if (strchr(" ", input[*i + 1]))
-        {
-            *current_token = str_append(*current_token, '$');
-        }
-        else
-		{
-			env_value = handle_dollar_sign(shell, input, i);
-			if (!env_value) //asign '\0' for the tokens who does have value
-            {
-				return ;
-				// *current_token = str_append(*current_token, '\0');
-            }
-			else
-			{
-				j = 0;
-				while (env_value[j])
-					*current_token = str_append(*current_token, env_value[j++]);
-                free(env_value);
-			}
-		}
-    }
-    // else if (strchr("|<>", input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
-	// {
-    //     if (input[*i] == '|')
-    // finalize_token       shell->last_token_type = 1;
-    //     else if (input[*i] == '>' || input[*i] == '<')
-    //         shell->last_token_type = 2;
-    //     else if (input[*i] == '<' && input[*i + 1] == '<') //valid //but maybe here should not be handle here?? figure out later
-    //     {
-    //         shell->last_token_type = 3;
-    //         // handle_heredoc(shell, extract_delimiter(input, i));
-    //         //do i need a break here??
-    //         return ;
-    //     }
-    //     else
-    //         shell->last_token_type = 0;
-	// 	shell->current_index = *i;
-	// 	handle_wrong_pipes(shell, current_token, &shell->token_count, input[*i]);
-    //     printf("ct: %s\n", *current_token);
-	// 	*i = shell->current_index;
-	// }
-    //fuck here
-    // else if (ft_strchr("|", input[*i]) == 0)
-    // {
-    //     *current_token = str_append(*current_token, '|');
-    //     finalize_token(shell, current_token, &shell->token_count);
-    //     (*i)++;
-    // }
-    else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
-    {
-        finalize_token(shell, current_token, &shell->token_count);
-        if (input[*i - 1] == '|')
-            shell->last_token_type = 1;
-        else if (input[*i - 1] == '>' || input[*i - 1] == '<')
-            shell->last_token_type = 2;
-        else
-            shell->last_token_type = 0;
-    }
-    else if (input[*i] == '>' || input[*i] == '<')
-    {
-        if (input[*i + 1] != '\0' && input[*i + 1] == '>')
-        {
-            *current_token = str_append(*current_token, input[*i]);
-            *current_token = str_append(*current_token, input[*i + 1]);
-            (*i)++;
-        }
-        else
-            *current_token = str_append(*current_token, input[*i]);
-        finalize_token(shell, current_token, &shell->token_count);
-    }
-    else
-    {
-        // printf("fuck: %c\n", input[*i]);
-        *current_token = str_append(*current_token, input[*i]);
-    }
-}
-
-// void check_before_final(t_shell *shell, char **current_token)
+// void finalize_token(t_shell *shell, char **current_token, int *token_count)
 // {
+//     size_t new_size;
 //     int i;
-//     char *token_copy;
-//     char *new_token = NULL;
+// 	char **new_tokens;
 
-//     token_copy = *current_token;
-
-//     printf("copy: %s\n", token_copy);
-
-//     i = 0;
-//     if (ft_strchr(token_copy, '\'') || ft_strchr(token_copy, '"'))
+//     if (*current_token)
 //     {
-//         if (token_copy[i] == '\'' && !(shell->in_double_quote))
-//         {
-//             printf("fuck\n");
-//             shell->in_single_quote = !(shell->in_single_quote); //flip
+//         new_size = sizeof(char *) * (*token_count + 2);
+//         new_tokens = malloc(new_size);
+//         if (!new_tokens)
+// 			malloc_fail_clean_exit(shell);
+//         i = 0;
+//         while (i < *token_count)
+// 		{
+//             new_tokens[i] = shell->tokens[i];
 //             i++;
-//             while (token_copy[i] != '\'' && token_copy[i] != '\0')  // Handle end of single quote or end of input
-//             {
-//                 printf("should not \n");
-//                 new_token = str_append(new_token, token_copy[i]);
-//                 i++;
-//             }
-//             if (token_copy[i] == '\'')
-//             {
-//                 shell->in_single_quote = !(shell->in_single_quote);
-//             }
-//             printf("new tok: %s\n", new_token);
 //         }
-//         else if (token_copy[i] == '"' && !(shell->in_single_quote))
-//         {
-//             shell->in_double_quote = !(shell->in_double_quote);
-//             i++;
-//             while (token_copy[i] != '"' && token_copy[i] != '\0')  // Handle end of double quote or end of input
-//             {
-//                 new_token = str_append(new_token, token_copy[i]);
-//                 i++;
-//             }
-//             if (token_copy[i] == '"')
-//             {
-//                 shell->in_double_quote = !(shell->in_double_quote);
-//             }
-//         }
-//         printf("new_token: %s\n", new_token);
-//         *current_token = new_token;
-//         // printf("current_token became: %s\n", *current_token);
+//         new_tokens[*token_count] = *current_token;
+//         new_tokens[*token_count + 1] = NULL;
+//         free(shell->tokens);
+//         shell->tokens = new_tokens;
+//         (*token_count)++;
+//         *current_token = NULL;
 //     }
 // }
 
-void parse_input_fragment(char *input, t_shell *shell)
-{
-    char *current_token = NULL;
-    int i = 0;
-	shell->token_count = shell->tokens ? ft_arraylen(shell->tokens) : 0;
+// void handle_empty_token_strdup(t_shell *shell, char **current_token,  int *i)
+// {	
+// 	if (*current_token == NULL)
+// 	{
+// 		*current_token = ft_strdup("");
+// 		if (*current_token == NULL)
+// 			malloc_fail_clean_exit(shell);
+// 	}
+// 	(*i)++;
+// }
 
-    while (input[i] != '\0')
-    {
-        parse_input_character(shell, &current_token, &i, input);
-        i++;
-    }
+// void handle_wave(t_shell *shell, char **current_token, int *i, char *input)
+// {
+// 	int j;
 
-    //fuck
-    // check_before_final(shell, &current_token);
-    finalize_token(shell, &current_token, &shell->token_count);
-    // if the last parsed char is one of the below
-	while(strchr(WHITESPACE, input[i]))
-		i--;
-	if (input[i] == '|')
-		shell->last_token_type = 1;
-	else if (input[i] == '>' || input[i] == '<')
-		shell->last_token_type = 2;
-	else
-		shell->last_token_type = 0;
-}
+// 	if (input[*i + 1] == '|' || input[*i + 1] == '\0' || input[*i + 1] == ' ' || input[*i + 1] == '/')
+// 	{
+// 		char *home_dir = ft_getenv("HOME", shell);
+// 		if (home_dir != NULL)
+// 		{
+// 			j = 0;
+// 			while (home_dir[j++])
+// 				*current_token = str_append(shell, *current_token, home_dir[j-1]);
+// 			free(home_dir);
+// 		}
+// 		if (input[*i] == '/')
+// 		{
+// 			while (input[*i] != ' ' && input[*i])
+// 			{
+// 				*current_token = str_append(shell, *current_token, input[*i]);
+// 				(*i)++;
+// 			}
+// 		}
+// 		return ;
+// 	}
+// 	while (input[*i] == '~')
+// 	{
+// 		*current_token = str_append(shell, *current_token, '~');
+// 		(*i)++;
+// 	}
+// 	*current_token = str_append(shell, *current_token, input[*i]);
+// }
+
+// void white_space_found_without_quote(t_shell *shell, char **current_token, int *i, char *input)
+// {
+// 	finalize_token(shell, current_token, &shell->token_count);
+// 	if (input[*i - 1] == '|')
+// 		shell->last_token_type = 1;
+// 	else if (input[*i - 1] == '>' || input[*i - 1] == '<')
+// 		shell->last_token_type = 2;
+// 	else
+// 		shell->last_token_type = 0;
+// }
+
+// void handle_consecutive_redir(t_shell *shell, char **current_token, int *i, char *input)
+// {
+// 	if (input[*i + 1] != '\0' && input[*i + 1] == '>')
+// 	{
+// 		*current_token = str_append(shell, *current_token, input[*i]);
+// 		*current_token = str_append(shell, *current_token, input[*i + 1]);
+// 		(*i)++;
+// 	}
+// 	else
+// 		*current_token = str_append(shell, *current_token, input[*i]);
+// 	finalize_token(shell, current_token, &shell->token_count);
+// }
+
+//TODO: check all mallocs and free and exit if the do
+// void parse_input_character(t_shell *shell, char **current_token, int *i, char *input)
+// {
+//     if ((input[*i] == '"' && input[*i + 1] == '"') || (input[*i] == '\'' && input[*i + 1] == '\''))
+//     	handle_empty_token_strdup(shell, current_token, i);
+// 	else if (input[*i] == '\'' && !(shell->in_double_quote))
+// 		handle_single_quote(shell, current_token, i, input);
+//     else if (input[*i] == '"' && !(shell->in_single_quote))
+// 		handle_double_quote(shell, current_token, i, input);
+//     else if (input[*i] == '~' && !(shell->in_single_quote) && !(shell->in_double_quote))
+// 		handle_wave(shell, current_token, i, input);
+//     else if (!(shell->in_single_quote) && input[*i] == '$' && input[*i + 1] != '\0')
+// 		massive_dollar_sign_handler(shell, current_token, i, input);
+//     else if (strchr(WHITESPACE, input[*i]) && !(shell->in_single_quote) && !(shell->in_double_quote))
+// 		white_space_found_without_quote(shell, current_token, i, input);
+//     else if (input[*i] == '>' || input[*i] == '<')
+// 		handle_consecutive_redir(shell, current_token, i, input);
+//     else
+//         *current_token = str_append(shell, *current_token, input[*i]);
+// }
+
+// void parse_input_fragment(char *input, t_shell *shell)
+// {
+//     char *current_token;
+//     int i;
+	
+// 	i = 0;
+// 	current_token = NULL;
+// 	if (shell->tokens)
+// 		shell->token_count = count_split(shell->tokens);
+// 	else
+// 		shell->token_count = 0;
+//     while (input[i] != '\0')
+//     {
+//         parse_input_character(shell, &current_token, &i, input);
+//         i++;
+//     }
+//     finalize_token(shell, &current_token, &shell->token_count);
+// 	while(ft_strchr(WHITESPACE, input[i]))
+// 		i--;
+// 	if (input[i] == '|')
+// 		shell->last_token_type = 1;
+// 	else if (input[i] == '>' || input[i] == '<')
+// 		shell->last_token_type = 2;
+// 	else
+// 		shell->last_token_type = 0;
+// }
 
 //TODO: check strjoins
-static void append_additional_input(char **input, char *additional_input)
+static void append_additional_input(t_shell *shell, char **input, char *additional_input)
 {
-    char *spaced_input = ft_strjoin(*input, " ");
-    char *new_input = ft_strjoin(spaced_input, additional_input);
+    char *spaced_input;
+    char *new_input;
+	
+	spaced_input = ft_strjoin(*input, " ");
+	if (!spaced_input)
+		malloc_fail_clean_exit(shell);
+	new_input = ft_strjoin(spaced_input, additional_input);
+	if (!spaced_input)
+		malloc_fail_clean_exit(shell);
     free(*input);
     free(spaced_input);
     *input = new_input;
@@ -414,9 +177,9 @@ static void append_additional_input(char **input, char *additional_input)
 void handle_unexpected_eof(t_shell *shell, char *input, char *additional_input)
 {
     if (shell->last_token_type == 2)
-        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n", "|");
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%s`\n", "|");
     else
-        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n", "|");
+        ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `%s`\n", "|");
     free(input);
     free(additional_input);
     exit(EXIT_FAILURE);
@@ -426,88 +189,15 @@ void process_additional_input(t_shell *shell, char **input)
 {
     char *additional_input;
 
-    // printf("WTF last token ty: %d\n", shell->last_token_type);
-
-	// while (shell->last_token_type == 1 || shell->last_token_type == 2)
-    // while ((shell->last_token_type == 1 || shell->last_token_type == 2) && **input)
     while (shell->last_token_type == 1 && **input)
     {
-    //     printf("what is the **input: %c\n", **input);
-    //     printf("last token ty: %d\n", shell->last_token_type);
-        //printf("> ");
-        //additional_input = readline(NULL);
         additional_input = readline("> ");
         if (!additional_input || ft_start_with(additional_input, '|'))
             handle_unexpected_eof(shell, *input, additional_input);
-		append_additional_input(input, additional_input);
+		append_additional_input(shell, input, additional_input);
         parse_input_fragment(additional_input, shell);
         free(additional_input);
     }
-}
-
-//removed "|" from the sets
-char *ft_start_with_specials_v2(char *str) //pipe is excluded
-{
-	int i;
-	int j;
-	size_t len;;
-	const char **special_chars;
-
-	special_chars = (const char *[]){">>", "<<", ">", "<", NULL};
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-		i++;
-	j = 0;
-	while (special_chars[j] != NULL)
-	{
-		len = strlen(special_chars[j]);
-		if (strncmp(&str[i], special_chars[j], len) == 0)
-			return ((char *)special_chars[j]);
-        j++;
-    }
-
-    return NULL;
-}
-
-int is_operator(const char *token) {
-    return (strcmp(token, "|") == 0 || strcmp(token, ">") == 0 ||
-            strcmp(token, ">>") == 0 || strcmp(token, "<") == 0 ||
-            strcmp(token, "<<") == 0);
-}
-
-int empty_between_checker(t_shell *shell)
-{
-	int i;
-
-    // if(shell->tokens)
-    //     print_tokens(shell->tokens);
-
-    if(!shell->tokens)
-    {
-        return (1);
-    }
-	i = 0;
-	while (shell->tokens[i])
-	{
-		// if (ft_start_with_specials_v2(shell->tokens[i]) ||
-    	// 	(strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
-
-        // if (is_operator(shell->tokens[i]) && is_operator(shell->tokens[i + 1]))
-        if ((strcmp(shell->tokens[i], "|") == 0 && strcmp(shell->tokens[i + 1], "|") == 0))
-		{
-            // if (shell->tokens[i + 1] && ft_start_with_specials(shell->tokens[i + 1]) && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
-            if (shell->tokens[i + 1] && shell->ambiguous_flag != 1) //if flag = 1 that means we dont print syntax err, but try to handle ambiguous flag for that current node
-			{
-                ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `fuck`\n");
-                // shell->exit_code = 
-				return (1);
-			}
-            // ft_printf_fd(STDERR, "minishell: syntax error near unexpected token `hi`\n");
-            // return (STDERR);
-		}
-		i++;
-	}
-	return (0);
 }
 
 void tokenize_input(char *input, t_shell *shell)
@@ -515,51 +205,27 @@ void tokenize_input(char *input, t_shell *shell)
 	shell->in_single_quote = 0;
 	shell->in_double_quote = 0;
 	clear_tokens(shell);
-    // if (!input)
-    // {
-    //     printf("There is no input!!!!\n");
-    //     return;
-    // }
-
-  	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
+  	if (empty_pipe_checker(input, shell))
     {
 		free(input);
         shell->exit_code = STDERR;
         shell->err_code = 258;
         return;
 	}
-	handle_unbalanced_quotes(&input); //checking case like '''
-
-    // if (ft_strcmp("", shell->input) != 0) //removed this line to avoid invalid read
-    parse_input_fragment(input, shell); //checking Complex scenarios with quotes, special characters, and whitespace. finally parse it to token(s)
-    //fuck
-    // print_tokens(shell->tokens);
-    //temp fuck
+	handle_unbalanced_quotes(shell, &input);
+    parse_input_fragment(input, shell);
     if (!shell->tokens)
         return;
-    if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
+    if (empty_between_checker(shell))
     {
         free(input);
-        shell->err_code = STDERR;
+		shell->err_code = STDERR;
         shell->exit_code = STDERR;
         clear_tokens(shell);
         return;
     }
-    
-    process_additional_input(shell, &input); //checking if there's un-finish quote or pipe, if yes, parse into new token(s)
-
+    process_additional_input(shell, &input);
     if (input)
 		add_history(input);
-
-    // if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
-    // {
-    //     free(input);
-    //     shell->err_code = STDERR;
-    //     shell->exit_code = STDERR;
-    //     clear_tokens(shell);
-    //     return;
-    // }
-
-    // shell->last_token_type = 0;
     free(input);
 }
