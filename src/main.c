@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 20:06:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 09:43:24 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,122 +125,124 @@ t_shell *get_set_shell(t_shell *shell)
 	return (shell_storage);
 }
 */
+
+
 // real one
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
-	// char **env;
-	// shell.shell_id = ft_getpid();
-	(void)av;
-	if (ac != 1)
-	{
-		printf("We only handle 1 argument.\n");
-		exit(EXIT_FAILURE);
-	}
-
-	//push it before playing signal
-	//get_set_shell(&shell);
-
-	signal(SIGINT, &handle_sigint);
-	signal(SIGQUIT, &handle_sigquit);
-
-	// sigaction()
-	// env = ft_getenv(envp);
-	shell_init(envp, &shell);
-
-	//cmd out when running tester
-	// pf_banner();
-	while (1)
-	{
-		shell.input = readline("$ ");
-
-		// printf("fuck: %d\n", shell.exit_code);
-		// if (strcmp(shell.input, "") == 0) //true
-		// 	printf("test fuck\n");
-		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
-        {
-            break;
-        }
-		if (*shell.input)
-			add_history(shell.input);
-		if (*shell.input)
-			parse(&shell);
-		else
-			free(shell.input);
-		// TODO: check here / check inside
-		//ft_free_all(&shell);
-
-		execute(&shell);
-
-		//fuck
-		//printf("fuck: %d\n", shell.exit_code);
-		//free(shell.input);
-		//shell.input = 0;
-		//cleanup shell cmds
-		if (shell.tokens)
-		{
-			free_tokens(shell.tokens);
-			shell.tokens = 0;
-		}
-
-		clear_cmds(&shell);
-		// shell.cmds = 0;
-	}
-	ft_free_all(&shell);
-
-	return (shell.exit_code);
-}
-
-//42 big tester main
 // int	main(int ac, char **av, char **envp)
 // {
-// 	t_shell shell;
-// 	char *line = NULL;
+// 	t_shell	shell;
+// 	// char **env;
+// 	// shell.shell_id = ft_getpid();
 // 	(void)av;
-// 	(void)ac;
+// 	if (ac != 1)
+// 	{
+// 		printf("We only handle 1 argument.\n");
+// 		exit(EXIT_FAILURE);
+// 	}
 
+// 	//push it before playing signal
+// 	//get_set_shell(&shell);
+
+// 	signal(SIGINT, &handle_sigint);
+// 	signal(SIGQUIT, &handle_sigquit);
+
+// 	// sigaction()
+// 	// env = ft_getenv(envp);
 // 	shell_init(envp, &shell);
 
+// 	//cmd out when running tester
+// 	// pf_banner();
 // 	while (1)
 // 	{
-// 		if (isatty(fileno(stdin)))
-// 			shell.input = readline("");
-// 		else
-// 		{
-// 			line = get_next_line(fileno(stdin));
-// 			shell.input = ft_strtrim(line, "\n");
-// 			free(line);
-// 		}
-// 		// if (!line)
-// 		// 	break;
+// 		shell.input = readline("$ ");
 
+// 		// printf("fuck: %d\n", shell.exit_code);
+// 		// if (strcmp(shell.input, "") == 0) //true
+// 		// 	printf("test fuck\n");
 // 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
 //         {
 //             break;
 //         }
-
-// 		// if (*shell.input)
-// 		// 	add_history(shell.input);
+// 		if (*shell.input)
+// 			add_history(shell.input);
 // 		if (*shell.input)
 // 			parse(&shell);
 // 		else
 // 			free(shell.input);
+// 		// TODO: check here / check inside
+// 		//ft_free_all(&shell);
 
 // 		execute(&shell);
 
+// 		//fuck
+// 		//printf("fuck: %d\n", shell.exit_code);
+// 		//free(shell.input);
+// 		//shell.input = 0;
+// 		//cleanup shell cmds
 // 		if (shell.tokens)
 // 		{
 // 			free_tokens(shell.tokens);
 // 			shell.tokens = 0;
 // 		}
-// 		clear_cmds(&shell);
-// 	}
 
+// 		clear_cmds(&shell);
+// 		// shell.cmds = 0;
+// 	}
 // 	ft_free_all(&shell);
 
-// 	// do we need it?
-// 	// clear_history(shell.input);
-
-// 	//exit
 // 	return (shell.exit_code);
 // }
+
+//42 big tester main
+int	main(int ac, char **av, char **envp)
+{
+	t_shell shell;
+	char *line = NULL;
+	(void)av;
+	(void)ac;
+
+	shell_init(envp, &shell);
+
+	while (1)
+	{
+		if (isatty(fileno(stdin)))
+			shell.input = readline("");
+		else
+		{
+			line = get_next_line(fileno(stdin));
+			shell.input = ft_strtrim(line, "\n");
+			free(line);
+		}
+		// if (!line)
+		// 	break;
+
+		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
+        {
+            break;
+        }
+
+		// if (*shell.input)
+		// 	add_history(shell.input);
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
+
+		execute(&shell);
+
+		if (shell.tokens)
+		{
+			free_tokens(shell.tokens);
+			shell.tokens = 0;
+		}
+		clear_cmds(&shell);
+	}
+
+	ft_free_all(&shell);
+
+	// do we need it?
+	// clear_history(shell.input);
+
+	//exit
+	return (shell.exit_code);
+}

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 20:41:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/22 09:40:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,6 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
         {
             // printf("input[*i]: %c, input[*i + 1]: %c\n", input[*i], input[*i + 1]);
             // printf("hi: %d", shell->exit_code);
-
 			itoaed_str = ft_itoa(shell->exit_code);
 
 			int j = 0;
@@ -239,13 +238,7 @@ void parse_input_character(t_shell *shell, char **current_token, int *i, char *i
 				j++;
 			}
             free(itoaed_str);
-
 			(*i)++;
-            // while (input[*i] && !strchr(" ", input[*i + 1])) //echo $?
-			// {
-			// 	printf("hiiiii\n");
-			// 	(*i)++;
-			// }
         }
         else if ((strchr("\'", input[*i + 1]) && shell->in_single_quote) || (strchr("\"", input[*i + 1]) && shell->in_double_quote)) //if it's consecutive, then we should avoid the $ feature
         {
@@ -527,6 +520,7 @@ void tokenize_input(char *input, t_shell *shell)
     //     printf("There is no input!!!!\n");
     //     return;
     // }
+
   	if (empty_pipe_checker(input, shell)) //checking case like "$ | |"
     {
 		free(input);
@@ -541,6 +535,8 @@ void tokenize_input(char *input, t_shell *shell)
     //fuck
     // print_tokens(shell->tokens);
     //temp fuck
+    if (!shell->tokens)
+        return;
     if (empty_between_checker(shell)) //checking case like 1 | 2 | (linebreak) |    ----this is not allowed
     {
         free(input);
