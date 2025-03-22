@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/21 19:37:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:00:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,18 @@ int get_cmd_heredoc(t_cmd cmd)
 	return (fd);
 }
 
+void print_line_ascii(char *line)
+{
+	if (!line)
+		return ;
+	while(*line)
+	{
+		ft_putnbr_fd(*line, 2);
+		write(2, "\n", 1);
+		line++;
+	}
+}
+
 int get_here_doc_fd(char *eof, t_shell *shell)
 {
 	//int fork_res;
@@ -150,7 +162,9 @@ TODO: add input +  ctrl-d check
 
 		while (line)
 		{
-			if (is_eof_with_nl(line, eof))
+//			print_line_ascii(line);
+//			if (is_eof_with_nl(line, eof))
+			if (!ft_strcmp(line, eof))
 			{
 				proper_exit = 1;
 				free(line);
