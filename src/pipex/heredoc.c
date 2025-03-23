@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/22 17:00:21 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:30:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,52 +135,28 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 //	char *fineof;
 	if (pipe(fds) == -1)
 		return (-1);
-	before_child_process_signal();
+//	before_child_process_signal();
+	before_heredoc_process_signal();
 	fork_res = fork();
 	if (!fork_res)
 	{
 		set_heredoc_signal();
-//		dup_res = dup2(fds[1], 1);
-		close_pipe_safe(fds);
-/*		if (dup_res == -1)
-		{
-			perror("dup error");
-			ft_free_all(shell);
-			exit(1);
-		}
-*/
-//		write(0, "> ", 2);
-//		line = get_next_line(0);
-//		ft_putendl_fd("here1", 2);
 		line = readline("> ");
-//		ft_putendl_fd("here2", 2);
-//		if (!line)
-//			perror("line is EOF");
-/*
-TODO: add input +  ctrl-d check
-*/
-
 		while (line)
 		{
-//			print_line_ascii(line);
-//			if (is_eof_with_nl(line, eof))
 			if (!ft_strcmp(line, eof))
 			{
 				proper_exit = 1;
 				free(line);
 				break ;
 			}
-			ft_putstr_fd(line, fds[1]);
-//			ft_printf("%s", line);
-//			write(0, "> ", 2);
+			ft_putendl_fd(line, fds[1]);
 			free(line);
-//			line = get_next_line(0);
 			line = readline("> ");
-//			ft_putendl_fd("here3", 2);
 		}
+		close_pipe_safe(fds);
 		if (g_sig == 1)
 		{
-//			get_next_line(-1);
 			ft_free_all(shell);
 			exit(130);
 		}
@@ -188,14 +164,11 @@ TODO: add input +  ctrl-d check
 		{
 //			bash: warning: here-document at some line delimited by end-of-file (wanted `wow')
 //TODO: adjust to be correct error message
-			ft_putstr_fd("\nheredoc EOF stoped\n", 2);
+//			ft_putstr_fd("\nheredoc EOF stoped\n", 2);
+			dup2(2, 1);
+			printf("%s: warning: here-document at some line delimited by end-of-file (wanted '%s')\n", SHELL_NAME, eof);
 		}
-//		free(fineof);
-//		get_next_line(-1);
 		ft_free_all(shell);
-/*
-		TODO: cleanup everything
-*/
 		exit(0);
 	}
 	close(fds[1]);
