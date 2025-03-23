@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 18:00:06 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:06:03 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ void handle_sigint(int code)
 	printf("\n");
 	
 	ft_putstr_fd("$ ", STDERR);
+//	ft_putstr_fd("parent sigint handler\n", STDERR);
+	
+}
+
+// TODO: continue figuring out correct behaviour of a child process wth signal
+void handle_sigint_parent_command(int code)
+{
+	(void)code;
+//	ft_putendl_fd("\n", 2);
+//	ft_putstr_fd("$ ", STDERR);
 //	ft_putstr_fd("parent sigint handler\n", STDERR);
 	
 }
@@ -101,6 +111,16 @@ void set_minishell_signal(void)
 
 void before_child_process_signal(void)
 {
+//	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
+	if (set_signal(SIGINT, handle_sigint_parent_command))
+		ft_putstr_fd("set signal error\n", 2);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+
+void before_heredoc_process_signal(void)
+{
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -114,12 +134,9 @@ void child_quit_beh(int asd)
 void heredoc_int_beh(int asd)
 {
 	(void)asd;
-//	ft_putstr_fd("c i b\n", 2);
 	g_sig = 1;
 	if (close(0) == -1)
 		perror("Can't close heredoc standard input");
-//	free(asd)
-//	exit(130);
 }
 
 void set_child_signal(void)

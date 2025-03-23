@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 17:38:20 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:57:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ void set_minishell_signal(void);
 void before_child_process_signal(void);
 void set_child_signal(void);
 void set_heredoc_signal(void);
+void	before_heredoc_process_signal(void);
 
 //builtins
 int handle_echo(char **tokens, t_shell *shell);
