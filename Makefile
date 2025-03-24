@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/17 19:26:41 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/03/22 16:42:10 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +36,7 @@ SRCS = src/main.c \
 		src/lex/wrong_pipe.c \
 		src/utils/free.c \
 		src/utils/print.c \
-		src/lex/quotes_and_dollar.c \
 		src/lex/lex_helper.c \
-		src/lex/heredoc.c \
 		src/structlize.c \
 		src/pipex/command_ops.c \
 		src/pipex/error_ops.c \
@@ -49,12 +47,18 @@ SRCS = src/main.c \
 		src/pipex/pipex_utils.c \
 		src/pipex/utils.c \
 		src/pipex/heredoc.c \
-		src/utils/production_print.c \
 		src/utils/lvl_handler.c \
 		src/utils/ft_split_join.c \
 		src/execute.c \
 		src/ft_getenv.c \
-
+		src/lex/checkers.c \
+		src/lex/parse_input_character.c \
+		src/lex/parse_input_character_page_2.c \
+		src/lex/parse_input_fragment.c \
+		src/lex/massive_dollar_sign_handler.c \
+		src/lex/handle_single_quote.c \
+		src/lex/handle_double_quote.c \
+		src/lex/handle_dollar_sign.c \
 
 OBJS = $(SRCS:.c=.o)
 

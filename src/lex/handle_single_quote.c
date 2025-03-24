@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   handle_single_quote.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 19:45:07 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/19 18:32:16 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/22 15:48:00 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/24 12:24:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int handle_env(char **envp)
+void	handle_single_quote(t_shell *shell, char **ct, int *i, char *input)
 {
-    int i;
-
-    i = 0;
-    while (envp[i])
-    {
-        printf("%s\n", envp[i]);
-        i++;
-    }
-    // if (envp)
-    //     print_tokens(envp);
-    return (SUCCESS);
+	shell->in_single_quote = !(shell->in_single_quote);
+	(*i)++;
+	while (input[*i] != '\'' && input[*i] != '\0')
+	{
+		*ct = str_append(shell, *ct, input[*i]);
+		(*i)++;
+	}
+	if (input[*i] == '\'')
+		shell->in_single_quote = !(shell->in_single_quote);
+	if (ft_strcmp(*ct, ">") == 0 || ft_strcmp(*ct, ">>") == 0
+		|| ft_strcmp(*ct, "<") == 0)
+		shell->has_quotes++;
 }
