@@ -28,9 +28,10 @@ void handle_sigint(int code)
 {
 	(void)code;
 	ft_putstr_fd("\n", STDERR);
+	//TODO: fully explore
 	rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }
 
 int set_signal(int signum, void (*handler_func)(int))

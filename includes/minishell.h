@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef SHELL_NAME
-# define SHELL_NAME "bash"
+# define SHELL_NAME "wow"
 # endif
 # include "../lib/libft/libft.h"
 
@@ -45,7 +45,7 @@
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
 #define GREEN "\033[32m"
-
+// TODO: change it back
 typedef struct sigaction t_sigaction;
 /*
 typedef struct s_sig

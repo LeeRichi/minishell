@@ -13,7 +13,12 @@
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_error error)
+{
+	printf("%s, %d", fname, line);
+	error_and_exit(pipex, error);
+}
+#define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
 /*
 TODO: set
 
@@ -64,6 +69,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	{
 		//TODO: handle malloc fail error
 		perror("pipex alloc fail");
+		//TODO: malloc_fail_clean_exit
 		return 0; ///asdassdas
 	}
 	shell->pipex = &pipex;

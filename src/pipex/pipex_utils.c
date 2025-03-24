@@ -132,18 +132,6 @@ t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count, t_shell *shell)
 	{
 		arr[i] = *cmds;
 		arr[i].shell = (void *)shell;
-/*
-		if (check_heredoc(*cmds))
-		{
-			arr[i].heredoc_fd = get_cmd_heredoc(*cmds);
-			if (arr[i].heredoc_fd == -1)
-			{
-				TODO: error handle, array cleanup? list cleanup separately
-			}
-		}
-		else
-			arr[i].heredoc_fd = -1;
-*/
 		cmds = cmds->next;
 		i++;
 	}

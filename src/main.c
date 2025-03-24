@@ -59,6 +59,7 @@ void shell_init_helper(char **envp, t_shell *shell)
 void shell_init(char **envp, t_shell *shell)
 {
     shell->exit_code = 0;
+	// TODO: use malloc_fail_clean_exit
 	shell_init_helper(envp, shell);
 	if (shell->exit_code)
 		return;

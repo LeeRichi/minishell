@@ -13,14 +13,14 @@
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-/*
-static void err_and_exit(char *fname, int line, t_pipex *pipex, t_perrtypes errtype)
+
+static void err_and_exit(char *fname, int line, t_pipex *pipex, t_error error)
 {
 	printf("%s, %d", fname, line);
-	error_and_exit(pipex, errtype);
+	error_and_exit(pipex, error);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
-*/
+
 static ssize_t	get_path_index(char **envp)
 {
 	ssize_t	i;

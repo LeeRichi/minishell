@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 16:10:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 21:47:47 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	print_error_message(t_error error)
 	char *error_message;
 
 	error_message = 0;
+	// TODO: a.out permission denied
 	if (error.errtype == CMD_NOT_FOUND)
 	{
 		error_message = get_error_message(error.command_name, "command not found", 0);

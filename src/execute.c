@@ -84,12 +84,8 @@ void execute(t_shell *shell)
 	int	redirection_result;
 	int	exec_result;
 	
-	//ft_printf("%p\n", shell->cmds);
-	//printf("in mainin mainin mainin mainin mainin mainin mainin mainin mainin mainin mainin main\n");
-	// printf("shell cmds %p\n", shell->cmds);
 	if (!shell->cmds)
 	{
-		// printf("fuck yoyo: %d\n", shell->exit_code);
 		return ;
 	}
 	if (shell->cmds->next || !get_builtin_type(*(shell->cmds)))
