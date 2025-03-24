@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 21:32:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 21:54:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 
 void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
 {
-	while (input[*i] != ' ')
+	while (input[*i] != ' ' && input[*i])
 	{
 		*ct = str_append(shell, *ct, input[*i]);
 		(*i)++;
 	}
 	(*i)--;
+	shell->hd_flag--;
 }
-
 
 void	massive_dollar_sign_handler(t_shell *shell, char **ct, int *i, char *s)
 {
