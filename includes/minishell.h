@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 16:10:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 21:18:35 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct s_shell
 	t_pipex		*pipex;
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
+  int hd_flag;
 
   int has_quotes;
 } t_shell;
@@ -208,6 +209,7 @@ char		**get_path_split(char **envp, size_t ind);
 //char		**get_command_argv(char *arg);
 char		**get_command_argv(t_cmd cmd);
 char	*ft_split_join(char **tab, char *sep);
+int		syntax_err_print(t_shell *shell);
 /* PIPEX END */
 
 
@@ -297,8 +299,18 @@ void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
 char *extract_delimiter(char *input, int *i);
 void handle_heredoc(t_shell *shell, char *delimiter);
 
+//structlize
 //structlize.c
 void ft_structlize(t_shell *shell);
+//structlize_p2.c
+char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element);
+void	ft_nullize_struct(t_cmd *new_cmd);
+void	ft_add_redirection(t_shell *shell, char ***array, char *file);
+int cs(char **tokens, char *nid);
+int cr(char **tokens);
+//structlize_p3.c
+void	allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell);
+void struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
 
 // ft_getenv.c
 char *ft_getenv(char *env_name, t_shell *shell);
