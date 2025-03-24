@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 15:10:47 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:58:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,9 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 		return (fds[0]);
 */
 	int wait_status;
-	if (wait(&wait_status) == fork_res)
+	int wait_asd  = wait(&wait_status);
+//	if (wait(&wait_status) == fork_res)
+	if (wait_asd == fork_res)
 	{
 		set_minishell_signal();
 		if (WIFEXITED(wait_status))

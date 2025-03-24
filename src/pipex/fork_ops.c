@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 15:24:49 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:49:24 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ int	wait_all(t_pipex pipex)
 	int	exit_status;
 	int	sig_int_child;
 	int	exit_status_tmp;
+	int	wait_res;
 
 	sig_int_child = 0;
 	wstatus = 0;
@@ -212,13 +213,17 @@ int	wait_all(t_pipex pipex)
 //TODO: check wait return -1
 	while (pipex.current_command--)
 	{
-		if (wait(&wstatus) == pipex.last_pid)
+		wait_res = wait(&wstatus);
+		if (wait_res == -1)
+			break;
+		if (wait_res == pipex.last_pid)
 		{
 			if (WIFEXITED(wstatus))
 				exit_status = WEXITSTATUS(wstatus);
 			else if (WIFSIGNALED(wstatus))
 				exit_status = 128 + WTERMSIG(wstatus);
-
+			if (exit_status == 130)
+				sig_int_child = 1;
 			if (exit_status == 131)
 				ft_putstr_fd("Quit (Core dumped)\n", 2);
 		}
@@ -228,10 +233,11 @@ int	wait_all(t_pipex pipex)
 				exit_status_tmp = WEXITSTATUS(wstatus);
 			else if (WIFSIGNALED(wstatus))
 				exit_status_tmp = 128 + WTERMSIG(wstatus);
-
-	//		if (exit_status_tmp == 130)
-	//			ft_putstr_fd("\n", 2);
+			if (exit_status_tmp == 130)
+				sig_int_child = 1;
 		}
 	}
+	if (sig_int_child)
+		ft_putstr_fd("\n", 2);
 	return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 15:46:16 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:34:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	/*
 		clean up command list
 	*/
+	before_child_process_signal();
 	while (pipex.current_command < pipex.command_count)
 	{
 		//TODO: change logic of error and exit in before fork, as you should not exit from minishell, or should you?
 		before_fork(&pipex);
-		before_child_process_signal();
 		pid = fork();
 		if (pid != -1)
 			pipex.last_pid = pid;
