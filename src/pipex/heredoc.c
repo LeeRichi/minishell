@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:03:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/23 19:30:52 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:10:47 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	close_pipe_safe(int fds[2])
 	close_fd_safe(fds);
 	close_fd_safe(fds + 1);
 }
-
+/*
 
 int is_eof_with_nl(char *line, char *eof)
 {
@@ -39,6 +39,7 @@ int is_eof_with_nl(char *line, char *eof)
 	return (0);
 }
 
+*/
 int check_heredoc(t_cmd cmd)
 {
 	size_t infile_count;
@@ -165,8 +166,8 @@ int get_here_doc_fd(char *eof, t_shell *shell)
 //			bash: warning: here-document at some line delimited by end-of-file (wanted `wow')
 //TODO: adjust to be correct error message
 //			ft_putstr_fd("\nheredoc EOF stoped\n", 2);
-			dup2(2, 1);
-			printf("%s: warning: here-document at some line delimited by end-of-file (wanted '%s')\n", SHELL_NAME, eof);
+			if (!dup2(2, 1))
+				printf("%s: warning: here-document at some line delimited by end-of-file (wanted '%s')\n", SHELL_NAME, eof);
 		}
 		ft_free_all(shell);
 		exit(0);

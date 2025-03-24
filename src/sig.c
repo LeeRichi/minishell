@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/23 20:06:03 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:44:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ void before_heredoc_process_signal(void)
 void child_quit_beh(int asd)
 {
 	(void)asd;
-	//ft_putstr_fd("c q b\n", 2);
 	exit(131);
 }
 void heredoc_int_beh(int asd)
@@ -141,39 +140,12 @@ void heredoc_int_beh(int asd)
 
 void set_child_signal(void)
 {
-	/*t_sigaction quit_action;
-	t_sigaction int_action;
-
-	ft_bzero(&quit_action, sizeof(t_sigaction));
-	ft_bzero(&int_action, sizeof(t_sigaction));
-	quit_action.sa_handler = &child_quit_beh;
-	int_action.sa_handler = &child_int_beh;
-*/
-	//set_signal(SIGQUIT, quit_action);
-//	set_signal(SIGINT, int_action);
-//	ft_putstr_fd("in child, setting signal", 2);
 	restore_signal(SIGQUIT);
 	restore_signal(SIGINT);
-/*
-	if (set_signal(SIGQUIT, child_quit_beh))
-		ft_putstr_fd("set signal error\n", 2);
-	if (set_signal(SIGINT, child_int_beh))
-		ft_putstr_fd("set signal error\n", 2);
-*/
 }
 
 void set_heredoc_signal(void)
 {
-/*	t_sigaction quit_action;
-	t_sigaction int_action;
-
-	ft_bzero(&quit_action, sizeof(t_sigaction));
-	ft_bzero(&int_action, sizeof(t_sigaction));
-	quit_action.sa_handler = SIG_IGN;
-	int_action.sa_handler = &child_int_beh;
-*/
-//	set_signal(SIGQUIT, quit_action);
-//	set_signal(SIGINT, int_action);
 	set_signal(SIGQUIT, SIG_IGN);
 	set_signal(SIGINT, heredoc_int_beh);
 }

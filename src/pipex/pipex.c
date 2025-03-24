@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/23 17:46:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:46:16 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 			return shell->exit_code;
 		}
 		else
+		{
+	//		ft_putnbr_fd(shell->err_code, 2);
 			error_and_exit(&pipex, error_init(HEREDOC_FAIL, 0, 0));
+		}
 	}
 	/*
 		clean up command list

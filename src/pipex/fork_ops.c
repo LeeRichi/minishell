@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/20 18:50:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:24:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,10 @@ int	wait_all(t_pipex pipex)
 {
 	int	wstatus;
 	int	exit_status;
+	int	sig_int_child;
+	int	exit_status_tmp;
 
+	sig_int_child = 0;
 	wstatus = 0;
 	exit_status = EXIT_FAILURE;
 //TODO: consider using waitpid,	double check the intended behaviour
@@ -215,13 +218,19 @@ int	wait_all(t_pipex pipex)
 				exit_status = WEXITSTATUS(wstatus);
 			else if (WIFSIGNALED(wstatus))
 				exit_status = 128 + WTERMSIG(wstatus);
-/*
-	different logic if fd is a tty
-*/
 
 			if (exit_status == 131)
 				ft_putstr_fd("Quit (Core dumped)\n", 2);
-//			else if (exit_)
+		}
+		else
+		{
+			if (WIFEXITED(wstatus))
+				exit_status_tmp = WEXITSTATUS(wstatus);
+			else if (WIFSIGNALED(wstatus))
+				exit_status_tmp = 128 + WTERMSIG(wstatus);
+
+	//		if (exit_status_tmp == 130)
+	//			ft_putstr_fd("\n", 2);
 		}
 	}
 	return (exit_status);
