@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/22 15:32:13 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:45:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,12 @@ void	handle_unbalanced_quotes(t_shell *shell, char **input)
 	while (!check_balanced_quotes(*input))
 	{
 		additional_input = readline("> ");
-		//TODO: rethink
 		if (!additional_input)
 		{
 			ft_printf_fd(STDERR, "minishell: EOF while waiting for quotes\n");
 			free(*input);
 			exit(EXIT_FAILURE);
 		}
-		//TODO: check
 		new_input = ft_strjoin(*input, additional_input);
 		if (!new_input)
 			malloc_fail_clean_exit(shell);
