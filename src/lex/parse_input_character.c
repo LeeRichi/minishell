@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 12:40:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:09:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ void	white_space_found_no_quote(t_shell *s, char **ct, int *i, char *input)
 void	handle_consecutive_redir(t_shell *shell, char **ct, int *i, char *input)
 {
 	if (input[*i + 1] != '\0' && input[*i + 1] == '>')
+	{
+		*ct = str_append(shell, *ct, input[*i]);
+		*ct = str_append(shell, *ct, input[*i + 1]);
+		(*i)++;
+	}
+	else if (input[*i + 1] != '\0' && input[*i] == '<' && input[*i + 1] == '<')
 	{
 		*ct = str_append(shell, *ct, input[*i]);
 		*ct = str_append(shell, *ct, input[*i + 1]);
