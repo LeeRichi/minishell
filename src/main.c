@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/17 19:54:08 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/21 18:06:23 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_sig	g_sig;
+int	g_sig;
 
 int ft_cpy_tab(char **dest, char **src, int length)
 {
@@ -136,13 +136,15 @@ int	main(int ac, char **av, char **envp)
 
 	//push it before playing signal
 	//get_set_shell(&shell);
-
+/*
 	signal(SIGINT, &handle_sigint);
 	signal(SIGQUIT, &handle_sigquit);
-
+*/
+	set_minishell_signal();
 	// sigaction()
 	// env = ft_getenv(envp);
 	shell_init(envp, &shell);
+	g_sig = 0;
 
 	//cmd out when running tester
 	// pf_banner();

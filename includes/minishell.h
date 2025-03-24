@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/18 14:51:00 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:57:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@
 #define RESET "\033[0m"
 #define GREEN "\033[32m"
 
+typedef struct sigaction t_sigaction;
+/*
 typedef struct s_sig
 {
 	int sigint;
   	int sigquit;
 }	t_sig;
-
+*/
 typedef enum e_token_type {
     TOKEN_WORD,
     TOKEN_PIPE,
@@ -218,9 +220,14 @@ t_builtin_type get_builtin_type(t_cmd cmd);
 void parse(t_shell *shell);
 
 //sig.c
-void handle_sigint(int code);
-void handle_sigquit(int code);
-void init_sig(void);
+//void handle_sigint(int code);
+//void handle_sigquit(int code);
+//void init_sig(void);
+void set_minishell_signal(void);
+void before_child_process_signal(void);
+void set_child_signal(void);
+void set_heredoc_signal(void);
+void	before_heredoc_process_signal(void);
 
 //builtins
 int handle_echo(char **tokens, t_shell *shell);
@@ -286,5 +293,5 @@ t_key_value *arr_to_key_value(t_shell *shell);
 void free_key_value_list(t_key_value *head);
 
 
-extern t_sig g_sig;
+extern int g_sig;
 #endif

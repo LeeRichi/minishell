@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/10 15:48:51 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:46:16 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,6 @@ adapt to t_cmd:
 
 
 */
-/*
-int	main(int argc, char **argv, char **env)
-{
-	t_pipex	pipex;
-	pid_t	pid;
-	int		wait_all_return;
-
-	if (argc != 5)
-	{
-		ft_putendl_fd("Provide 4 arguments", 2);
-		return (EXIT_FAILURE);
-	}
-	pipex = get_pipex(argc, argv, env);
-	while (pipex.current_command < pipex.command_count)
-	{
-		before_fork(&pipex);
-		pid = fork();
-		if (pid != -1)
-			pipex.last_pid = pid;
-		after_fork(pid, &pipex);
-		pipex.current_command++;
-	}
-	ft_close(&pipex.pipe[0]);
-	ft_close(&pipex.pipe[1]);
-	wait_all_return = wait_all(pipex);
-	free_pipex(pipex);
-	return (wait_all_return);
-}
-*/
-
 // TODO: replace argv with t_cmd * list
 
 int	t_cmd_list_count(t_cmd *head)
@@ -97,7 +67,23 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 		return 0; ///asdassdas
 	}
 	shell->pipex = &pipex;
-	resolve_heredoc_cmds(pipex.command, command_count);
+	if (!resolve_heredoc_cmds(pipex.command, command_count))
+	{
+		if (shell->err_code)
+		{
+			/*
+				
+			*/
+			shell->err_code = 0;
+			shell->pipex = 0;
+			return shell->exit_code;
+		}
+		else
+		{
+	//		ft_putnbr_fd(shell->err_code, 2);
+			error_and_exit(&pipex, error_init(HEREDOC_FAIL, 0, 0));
+		}
+	}
 	/*
 		clean up command list
 	*/
@@ -105,6 +91,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	{
 		//TODO: change logic of error and exit in before fork, as you should not exit from minishell, or should you?
 		before_fork(&pipex);
+		before_child_process_signal();
 		pid = fork();
 		if (pid != -1)
 			pipex.last_pid = pid;
@@ -116,6 +103,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	ft_close(&pipex.pipe[1]);
 // TODO: wait fails considiration?
 	wait_all_return = wait_all(pipex);
+	set_minishell_signal();
 //TODO:  adjust free_pipex
 	free_pipex(pipex);
 	shell->pipex = 0;
