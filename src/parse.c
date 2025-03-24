@@ -20,7 +20,6 @@ void parse(t_shell *shell)
 	// else
     //     shell->err_code = 0;
 
-
     //try to alway call this so it doesnt affect the next input
  	shell->err_code = 0;
 	shell->ambiguous_flag = 0;

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 17:09:39 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 21:19:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	handle_consecutive_redir(t_shell *shell, char **ct, int *i, char *input)
 		*ct = str_append(shell, *ct, input[*i]);
 		*ct = str_append(shell, *ct, input[*i + 1]);
 		(*i)++;
+		shell->hd_flag = 1;
 	}
 	else
 		*ct = str_append(shell, *ct, input[*i]);
