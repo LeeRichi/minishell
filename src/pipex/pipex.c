@@ -6,19 +6,21 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 18:34:56 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:33:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
+/*
 static void err_and_exit(char *fname, int line, t_pipex *pipex, t_error error)
 {
 	printf("%s, %d", fname, line);
 	error_and_exit(pipex, error);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
+*/
 /*
 TODO: set
 

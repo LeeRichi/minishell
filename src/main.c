@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 19:58:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:29:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void shell_init(char **envp, t_shell *shell)
 }
 
 // real one
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -138,9 +139,9 @@ int	main(int ac, char **av, char **envp)
 	ft_free_all(&shell);
 	return (shell.exit_code);
 }
+*/
 
 //42 big tester main
-/*
 int	main(int ac, char **av, char **envp)
 {
 	t_shell shell;
@@ -189,4 +190,3 @@ int	main(int ac, char **av, char **envp)
 	//exit
 	return (shell.exit_code);
 }
-*/

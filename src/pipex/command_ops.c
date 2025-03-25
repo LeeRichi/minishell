@@ -6,21 +6,21 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:23:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 16:10:26 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:32:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "pipex.h"
 //#include "minishell.h"
 #include "../../includes/minishell.h"
-
+/*
 static void err_and_exit(char *fname, int line, t_pipex *pipex, t_error error)
 {
 	printf("%s, %d", fname, line);
 	error_and_exit(pipex, error);
 }
 #define error_and_exit(x, y) err_and_exit(__FILE__, __LINE__, x, y)
-
+*/
 static ssize_t	get_path_index(char **envp)
 {
 	ssize_t	i;

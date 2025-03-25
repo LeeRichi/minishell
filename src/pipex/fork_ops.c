@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 21:48:36 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:36:11 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	in_child(t_pipex *pipex)
 		execve(command.path, command.argv, command.env);
 		if (errno == ENOENT)
 			error_and_exit(pipex, error_init(CMD_FILE_NOT_FOUND, 0, command.argv[0]));
-		perror(command.path);
+		//perror(command.path);
 		error_and_exit(pipex, error_init(EXECVE_FAIL, 0, command.argv[0]));
 	}
 }
