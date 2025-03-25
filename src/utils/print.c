@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:53:52 by chlee2            #+#    #+#             */
-/*   Updated: 2025/02/26 19:44:57 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:25:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 void print_tokens(char **tokens)
 {
     int i;
+    
+    if (!tokens)
+        return ;
 
     printf("\n");
     i = 0;

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:09 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 16:04:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:14:37 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,6 @@ void	struct_redir(t_shell *shell, t_cmd *cc, int *i)
 	{
 		if (shell->has_quotes)
 			cc->arg = ft_add_to_array(shell, cc->arg, shell->tokens[*i]);
-		else
-		{
-			syntax_err_print_v2(shell);
-		}
 	}
 	else if (cc != NULL)
 		struct_redir_helper(shell, cc, *i);
