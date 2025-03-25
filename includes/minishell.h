@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 13:05:15 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 14:27:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,8 +316,11 @@ void struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
 char *ft_getenv(char *env_name, t_shell *shell);
 
 //export.c
+//export_helper.c
 t_key_value *arr_to_key_value(t_shell *shell);
 void free_key_value_list(t_key_value *head);
+void	from_pair_to_arr(t_shell *shell);
+
 
 extern int g_sig;
 
