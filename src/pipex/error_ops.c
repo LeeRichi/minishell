@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 15:49:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:20:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,182 +20,87 @@ static void	resolve_exit_code(t_perrtypes errtype)
 		exit(126);
 	exit(EXIT_FAILURE);
 }
-/*
 
-static void	write_smth_with_colon_fd(char *smth, int fd)
+t_error	error_init(t_perrtypes errtype, char *file_name, char *command_name)
 {
-	ft_putstr_fd(smth, fd);
-	ft_putstr_fd(": ", fd);
-}
-*/
-/*
-static void	print_error_message(t_pipex pipex, t_perrtypes errtype)
-{
-	ft_putstr_fd("pipex: ", STDERR_FILENO);
-	if (errtype == RFILE_FAIL)
-		write_smth_with_colon_fd(pipex.infile, STDERR_FILENO);
-	else if (errtype == WFILE_FAIL)
-		write_smth_with_colon_fd(pipex.outfile, STDERR_FILENO);
-	else if (pipex.command)
-	{
-		if (errtype == EXECVE_FAIL && pipex.command->path)
-			write_smth_with_colon_fd(pipex.command->path, STDERR_FILENO);
-		else if (pipex.command->argv && pipex.command->argv[0])
-			write_smth_with_colon_fd(pipex.command->argv[0], STDERR_FILENO);
-		else if (pipex.command->input_arg)
-			write_smth_with_colon_fd(pipex.command->input_arg, STDERR_FILENO);
-	}
-	if (errtype == CMD_NOT_FOUND)
-		ft_putendl_fd("Command not found", STDERR_FILENO);
-	else if (errtype == PROG_FILE_IS_DIR)
-		ft_putendl_fd(strerror(EISDIR), STDERR_FILENO);
-	else
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-}
-*/
+	t_error	error;
 
-/*
-	error types:
-
-	MALLOC_FAIL,
-	CMD_NOT_FOUND,
-	CMD_FILE_NOT_FOUND,
-	PROG_FILE_IS_DIR,
-	FILE_NOT_FOUND,
-	DUP_FAIL,
-	HEREDOC_FAIL,
-	RFILE_FAIL,
-	WFILE_FAIL,
-	APPEND_FAIL,
-	OPEN_FAIL,
-	PERMISSION_FAIL,
-	EXECVE_FAIL,
-	PIPE_FAIL,
-	FORK_FAIL
-		
-*/
-
-/*
-static void	print_error_message(t_error error)
-{
-	if (error.errtype == CMD_NOT_FOUND)
-		ft_putstr_fd("pipex: ", STDERR_FILENO);
-	if (errtype == RFILE_FAIL)
-		write_smth_with_colon_fd(pipex.infile, STDERR_FILENO);
-	else if (errtype == WFILE_FAIL)
-		write_smth_with_colon_fd(pipex.outfile, STDERR_FILENO);
-	else if (pipex.command)
-	{
-		if (errtype == EXECVE_FAIL && pipex.command->path)
-			write_smth_with_colon_fd(pipex.command->path, STDERR_FILENO);
-		else if (pipex.command->argv && pipex.command->argv[0])
-			write_smth_with_colon_fd(pipex.command->argv[0], STDERR_FILENO);
-		else if (pipex.command->input_arg)
-			write_smth_with_colon_fd(pipex.command->input_arg, STDERR_FILENO);
-	}
-	if (errtype == CMD_NOT_FOUND)
-		ft_putendl_fd("Command not found", STDERR_FILENO);
-	else if (errtype == PROG_FILE_IS_DIR)
-		ft_putendl_fd(strerror(EISDIR), STDERR_FILENO);
-	else
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-}
-*/
-
-t_error error_init(t_perrtypes errtype, char *file_name, char *command_name)
-{
-	t_error error;
-
-//	ft_bzero(&error, sizeof(t_error));
 	error.errtype = errtype;
-	error.file_name = file_name;
-	error.command_name = command_name;
+	error.f_name = file_name;
+	error.cmd_name = command_name;
 	return (error);
 }
 
-/*static void	print_error_message(char *str1, char *str2, char *str3, char *str4)
+char	*form_err_m(char *str1, char *str2, char *str3)
 {
-	char *arr[4];
+	char	*arr[4];
+	char	sep[3];
 
+	sep[0] = ':';
+	sep[1] = ' ';
+	sep[2] = 0;
 	arr[0] = str1;
 	arr[1] = str2;
 	arr[2] = str3;
-	arr[3] = str4;
-	
+	return (ft_split_join(arr, sep));
 }
-*/
-char	*get_error_message(char *str1, char *str2, char *str3)
+//	else if(err.errtype == MALLOC_FAIL)
+//		perror("Malloc fail");
+
+int	is_known_errtype(t_error err)
 {
-	char *arr[4];
-	char *sep = ": ";
+	t_perrtypes	type;
 
-	arr[0] = str1;
-	arr[1] = str2;
-	arr[2] = str3;
-//	arr[3] = str4;
-	
-	return ft_split_join(arr, sep);
-	
+	type = MALLOC_FAIL;
+	while (type <= AMBIGOUS_REDIR)
+	{
+		if (err.errtype == type)
+			return (1);
+		type++;
+	}
+	return (0);
 }
 
-//wip 
+char	*get_error_message(t_error err)
+{
+	if (err.errtype == CMD_NOT_FOUND)
+		return (form_err_m(err.cmd_name, "command not found", 0));
+	else if (err.errtype == PERMISSION_FAIL)
+		return (form_err_m(SHELL_NAME, err.f_name, strerror(EACCES)));
+	else if (err.errtype == FILE_NOT_FOUND)
+		return (form_err_m(SHELL_NAME, err.f_name, strerror(ENOENT)));
+	else if (err.errtype == PROG_FILE_IS_DIR)
+		return (form_err_m(SHELL_NAME, err.f_name, strerror(EISDIR)));
+	else if (err.errtype == DUP_FAIL)
+		return (form_err_m(SHELL_NAME, "dup fail", strerror(errno)));
+	else if (err.errtype == PIPE_FAIL)
+		return (form_err_m(SHELL_NAME, "pipe fail", strerror(errno)));
+	else if (err.errtype == EXECVE_FAIL)
+		return (form_err_m(SHELL_NAME, err.cmd_name, strerror(errno)));
+	else if (err.errtype == CMD_FILE_NOT_FOUND)
+		return (form_err_m(SHELL_NAME, err.cmd_name, strerror(ENOENT)));
+	else if (err.errtype == FILE_REDIR_FAIL)
+		return (form_err_m(SHELL_NAME, err.f_name, strerror(errno)));
+	else if (err.errtype == FORK_FAIL)
+		return (form_err_m(SHELL_NAME, "fork fail", strerror(errno)));
+	else if (err.errtype == HEREDOC_FAIL)
+		return (form_err_m(SHELL_NAME, "heredoc fail", strerror(errno)));
+	else if (err.errtype == AMBIGOUS_REDIR)
+		return (form_err_m(SHELL_NAME, "ambigous redirect", 0));
+	return (0);
+}
+
 void	print_error_message(t_error error)
 {
-	char *error_message;
+	char	*error_message;
 
 	error_message = 0;
-	// TODO: a.out permission denied
-	if (error.errtype == CMD_NOT_FOUND)
+	if (is_known_errtype(error))
 	{
-		error_message = get_error_message(error.command_name, "command not found", 0);
-	}
-	else if (error.errtype == PERMISSION_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EACCES));
-	}
-	else if (error.errtype == FILE_NOT_FOUND)
-	{
-		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(ENOENT));
-	}
-	else if(error.errtype == MALLOC_FAIL)
-	{
-		perror("Malloc fail");
-	}
-	else if (error.errtype == PROG_FILE_IS_DIR)
-	{
-		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(EISDIR));
-	}
-	else if (error.errtype == DUP_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, "dup fail", strerror(errno));
-	}
-	else if (error.errtype == PIPE_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, "pipe fail", strerror(errno));
-	}
-	else if (error.errtype == EXECVE_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, error.command_name, strerror(errno));
-	}
-	else if (error.errtype == CMD_FILE_NOT_FOUND)
-	{
-		error_message = get_error_message(SHELL_NAME, error.command_name, strerror(ENOENT));
-	}
-	else if (error.errtype == FILE_REDIR_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, error.file_name, strerror(errno));
-	}
-	else if (error.errtype == FORK_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, "fork fail", strerror(errno));
-	}
-	else if (error.errtype == HEREDOC_FAIL)
-	{
-		error_message = get_error_message(SHELL_NAME, "heredoc fail", strerror(errno));
-	}
-	else if (error.errtype == AMBIGOUS_REDIR)
-	{
-		error_message = get_error_message(SHELL_NAME, "ambigous redirect", 0);
+		if (error.errtype == MALLOC_FAIL)
+			perror("Malloc fail");
+		else
+			error_message = get_error_message(error);
 	}
 	else
 	{
@@ -210,8 +115,8 @@ void	print_error_message(t_error error)
 
 void	error_and_exit(t_pipex *pipex, t_error error)
 {
-	t_shell	*shell;
-	t_perrtypes errtype;
+	t_shell		*shell;
+	t_perrtypes	errtype;
 
 	errtype = error.errtype;
 	print_error_message(error);

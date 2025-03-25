@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 15:52:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:08:30 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,8 @@ typedef enum e_perrtypes {
 
 typedef struct s_error
 {
-	char *file_name;
-	char *command_name;
+	char *f_name;
+	char *cmd_name;
 //	char *strerror_message;
 //	char *final_message;
 	t_perrtypes errtype;
