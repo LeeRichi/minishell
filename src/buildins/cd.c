@@ -6,18 +6,38 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 21:18:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 13:22:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-//TODO: unset set PWD
-int handle_cd(char **args, t_shell *shell)
-{
-	char *home;
+
+// static void	 cd_cases(t_shell *shell)
+// {
+// 	char	*home;
+
+// 	home = ft_getenv("HOME", shell);
+// 	if (home)
+// 	{
+// 		chdir(home);
+// 		free(home);
+// 	}
+// 	else
+// 	{
+// 		printf("HOME not set.\n");
+// 		shell->exit_code = 1;
+// 	}
 	
-	if (!args || ft_strcmp(args[0], "--") == 0) //cd //cd --
+// }
+
+//TODO: unset set PWD
+int	handle_cd(char **args, t_shell *shell)
+{
+	char	*home;
+
+	if (!args || ft_strcmp(args[0], "--") == 0)
 	{
+		// cd_cases(shell);
 		home = ft_getenv("HOME", shell);
 		if (home)
 		{
@@ -35,7 +55,6 @@ int handle_cd(char **args, t_shell *shell)
 	{
 		if (args [1])
 		{
-			// perror(" too many arguments");
 			ft_printf_fd(STDERR, " too many arguments\n");
 			shell->exit_code = 1;
 			return (1);
@@ -46,7 +65,6 @@ int handle_cd(char **args, t_shell *shell)
 			{				
 				return (0);
 			}
-			// perror("cd");
 			else
 			{
 				ft_printf_fd(STDERR, " cd\n");
