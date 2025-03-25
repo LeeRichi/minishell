@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:13 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 14:41:31 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:14:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static size_t	count_tab_chars(char **tab)
 	return (char_count);
 }
 
-// TODO: add to .h
 int	ft_count_split(char **texts)
 {
 	int	i;
