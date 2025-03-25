@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/24 21:47:47 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:49:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,10 @@ void	print_error_message(t_error error)
 	else if (error.errtype == HEREDOC_FAIL)
 	{
 		error_message = get_error_message(SHELL_NAME, "heredoc fail", strerror(errno));
+	}
+	else if (error.errtype == AMBIGOUS_REDIR)
+	{
+		error_message = get_error_message(SHELL_NAME, "ambigous redirect", 0);
 	}
 	else
 	{

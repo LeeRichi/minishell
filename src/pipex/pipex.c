@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 15:33:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:45:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,6 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	int command_count;
 
 	command_count = t_cmd_list_count(cmds);
-	if (command_count < 1)
-	{
-// TODO: rethink this logic, find out about return logic and general exit code logic
-		ft_putendl_fd("Provide 4 arguments", 2);
-//		return (EXIT_FAILURE);
-		return (0);
-	}
-// GOOD  place for init?
 	shell->pipex = 0;
 	pipex = get_pipex(command_count, cmds, env, shell);
 	if (!pipex.command)
@@ -79,40 +71,29 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	{
 		if (shell->err_code)
 		{
-			/*
-				
-			*/
 			shell->err_code = 0;
 			shell->pipex = 0;
 			return shell->exit_code;
 		}
 		else
 		{
-	//		ft_putnbr_fd(shell->err_code, 2);
 			error_and_exit(&pipex, error_init(HEREDOC_FAIL, 0, 0));
 		}
 	}
-	/*
-		clean up command list
-	*/
 	before_child_process_signal();
 	while (pipex.current_command < pipex.command_count)
 	{
-		//TODO: change logic of error and exit in before fork, as you should not exit from minishell, or should you?
 		before_fork(&pipex);
 		pid = fork();
 		if (pid != -1)
 			pipex.last_pid = pid;
-		//TODO: change logic of error and exit in after fork, as you should not exit from minishell, or should you?
 		after_fork(pid, &pipex);
 		pipex.current_command++;
 	}
 	ft_close(&pipex.pipe[0]);
 	ft_close(&pipex.pipe[1]);
-// TODO: wait fails considiration?
 	wait_all_return = wait_all(pipex);
 	set_minishell_signal();
-//TODO:  adjust free_pipex
 	free_pipex(pipex);
 	shell->pipex = 0;
 	return (wait_all_return);

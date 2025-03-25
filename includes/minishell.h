@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 16:10:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:52:09 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef enum e_perrtypes {
 	PIPE_FAIL,
 	FORK_FAIL,
 	FILE_REDIR_FAIL,
+	AMBIGOUS_REDIR,
 }	t_perrtypes;
 
 typedef struct s_error

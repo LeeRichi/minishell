@@ -6,24 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/23 17:25:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:39:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-	params: shell
-	if shell has no args - do nothing
-	if shell has 1 builtin arg - preserve fds, redir, execute builtin, return fds
-	otherwise execute in pipex
-	execute builtin vs execute external
-	make is builtin function
-	if builtin, exec as builtin, always clean up resources
-	call it in child or in parent
-*/
-
-// TODO: add clenup for preserved fds to shell struct
 static int preserve_fds(t_shell *shell)
 {
 	if (shell->stdin_fd == -1)
@@ -39,7 +27,6 @@ static int preserve_fds(t_shell *shell)
 	return (0);
 }
 
-// TODO: sufficient returns?
 static int restore_fds(t_shell *shell)
 {
 	if (dup2(shell->stdin_fd, STDIN_FILENO) == -1)
@@ -56,7 +43,6 @@ void preserve_fds_and_error_exit(t_shell *shell)
 	redirection_result = preserve_fds(shell);
 	if (redirection_result == -1)
 	{
-		//TODO: error cleanup and exit?
 		perror("Saving stdandard out and in fail");
 		ft_free_all(shell);
 		exit(1);
@@ -100,9 +86,6 @@ void execute(t_shell *shell)
 		{
 			if (shell->err_code)
 			{
-			/*
-				TODO: add to separate function
-			*/
 				shell->err_code = 0;
 				restore_fds_and_error_exit(shell);
 				return ;
@@ -117,8 +100,6 @@ void execute(t_shell *shell)
 		redirection_result = process_file_redirections(shell->cmds);
 		if (redirection_result)
 		{
-			//TODO: error cleanup, no exit
-//			
 			if (shell->cmds && shell->cmds->heredoc_fd != -1)
 			{
 				close(shell->cmds->heredoc_fd);

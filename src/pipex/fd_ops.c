@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/18 17:09:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:52:38 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,11 @@ int process_file_redirections(t_cmd *cmd)
 		outfile_count = (size_t)count_split(cmd->outfiles);
 	else
 		outfile_count = 0;
+	if (cmd->ambiguous_flag_node)
+	{
+		print_error_message(error_init(AMBIGOUS_REDIR, 0, 0));
+		return (1);
+	}
 	while (count < infile_count + outfile_count)
 	{
 		if (cmd->redirect_type[count] == INPUT_REDIRECT)
