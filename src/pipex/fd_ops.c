@@ -6,13 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:24:34 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 15:52:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:13:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "pipex.h"
-//#include "minishell.h"
 #include "../../includes/minishell.h"
+
 int	process_normal_pipe(t_pipex *pipex)
 {
 	ft_close(&pipex->pipe[0]);
@@ -35,43 +34,12 @@ void	before_fork(t_pipex *pipex)
 	}
 }
 
-/*
-RULES:
-TODO: figure out perimissions for output redirections
-	output redirections:
-		each:
-			dup2 to pipe, if pipe?
-			> open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			>> open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			check not dir
-			check access rights
-		if more redirections
-			close
-			and open
-		if multiple, last one wins, if no problems in other redirections
-		if exist, nothing to pipe
-	input redirections:
-		command uses last redir
-		if second last is dir, its ok
-		no need to special rulre for folder
-		if heredoc - do heredoc, but use or no use depends on position
-		fd = open(pipex->infile, O_RDONLY);
-		if permssion faile SOMEWHERE, error
-*/
-/*
-
-base the logic on the ordered types
-
-add_input redir
-direction: infile | oufile
-
-*/
-char *get_redir_str(int index, t_cmd cmd)
+char	*get_redir_str(int index, t_cmd cmd)
 {
-	int			count;
 	t_redirect_type	*type;
-	char		**infiles;
-	char		**outfiles;
+	char			**infiles;
+	char			**outfiles;
+	int				count;
 
 	count = 0;
 	type = cmd.redirect_type;
@@ -90,7 +58,7 @@ char *get_redir_str(int index, t_cmd cmd)
 	return (*outfiles);
 }
 
-int handle_infile(char *name)
+int	handle_infile(char *name)
 {
 	int	fd;
 	int	dup_res;
@@ -103,7 +71,7 @@ int handle_infile(char *name)
 	return (dup_res);
 }
 
-int handle_outfile(char *name)
+int	handle_outfile(char *name)
 {
 	int	fd;
 	int	dup_res;
@@ -116,7 +84,7 @@ int handle_outfile(char *name)
 	return (dup_res);
 }
 
-int handle_append(char *name)
+int	handle_append(char *name)
 {
 	int	fd;
 	int	dup_res;
@@ -129,7 +97,7 @@ int handle_append(char *name)
 	return (dup_res);
 }
 
-int handle_heredoc_child(int *heredoc_fd)
+int	handle_heredoc_child(int *heredoc_fd)
 {
 	int	dup_res;
 
@@ -138,22 +106,66 @@ int handle_heredoc_child(int *heredoc_fd)
 	*heredoc_fd = -1;
 	return (dup_res);
 }
-int is_last_heredoc_redir(size_t index, t_redirect_type *arr, size_t arr_size)
+
+int	is_last_heredoc_redir(size_t index, t_redirect_type *arr, size_t arr_size)
 {
 	while (++index < arr_size)
 		if (arr[index] == HERE_DOC)
-			return(0); 
+			return (0);
 	return (1);
 }
-//TODO: handle error and exit here, to give correct file name in error
-//give correctt pointers to cmd forease
-int process_file_redirections(t_cmd *cmd)
-{
-	size_t infile_count;
-	size_t outfile_count;
-	size_t count;
 
-	count = 0;
+size_t	handle_infile_and_print_error(size_t count, t_cmd *cmd)
+{
+	if (handle_infile(get_redir_str(count, *cmd)) == -1)
+	{
+		print_error_message(error_init(FILE_REDIR_FAIL,
+				get_redir_str(count, *cmd), 0));
+		return (1);
+	}
+	return (0);
+}
+
+size_t	handle_outfile_and_print_error(size_t count, t_cmd *cmd)
+{
+	if (handle_outfile(get_redir_str(count, *cmd)) == -1)
+	{
+		print_error_message(error_init(FILE_REDIR_FAIL,
+				get_redir_str(count, *cmd), 0));
+		return (1);
+	}
+	return (0);
+}
+
+size_t	handle_append_and_print_error(size_t count, t_cmd *cmd)
+{
+	if (handle_append(get_redir_str(count, *cmd)) == -1)
+	{
+		print_error_message(error_init(FILE_REDIR_FAIL,
+				get_redir_str(count, *cmd), 0));
+		return (1);
+	}
+	return (0);
+}
+
+size_t	handle_heredoc_and_print_error(size_t count,
+	t_cmd *cmd, size_t file_count)
+{
+	if (is_last_heredoc_redir(count, cmd->redirect_type, file_count)
+		&& handle_heredoc_child(&cmd->heredoc_fd) == -1)
+	{
+		print_error_message(error_init(FILE_REDIR_FAIL,
+				get_redir_str(count, *cmd), 0));
+		return (1);
+	}
+	return (0);
+}
+
+size_t	count_files(t_cmd *cmd)
+{
+	size_t	infile_count;
+	size_t	outfile_count;
+
 	if (cmd->infiles)
 		infile_count = (size_t)count_split(cmd->infiles);
 	else
@@ -162,60 +174,56 @@ int process_file_redirections(t_cmd *cmd)
 		outfile_count = (size_t)count_split(cmd->outfiles);
 	else
 		outfile_count = 0;
+	return (infile_count + outfile_count);
+}
+
+int	handle_redirection_check_error(size_t count, t_cmd *cmd, size_t file_count)
+{
+	if (cmd->redirect_type[count] == INPUT_REDIRECT)
+	{
+		if (handle_infile_and_print_error(count, cmd))
+			return (1);
+	}
+	else if (cmd->redirect_type[count] == OUTPUT_REDIRECT)
+	{
+		if (handle_outfile_and_print_error(count, cmd))
+			return (1);
+	}
+	else if (cmd->redirect_type[count] == HERE_DOC)
+	{
+		if (handle_heredoc_and_print_error(count, cmd, file_count))
+			return (1);
+	}
+	else if (cmd->redirect_type[count] == APPEND_REDIRECT)
+	{
+		if (handle_append_and_print_error(count, cmd))
+			return (1);
+	}
+	return (0);
+}
+
+int	process_file_redirections(t_cmd *cmd)
+{
+	size_t	file_count;
+	size_t	count;
+
+	count = 0;
 	if (cmd->ambiguous_flag_node)
 	{
 		print_error_message(error_init(AMBIGOUS_REDIR, 0, 0));
 		return (1);
 	}
-	while (count < infile_count + outfile_count)
+	file_count = count_files(cmd);
+	while (count < file_count)
 	{
-		if (cmd->redirect_type[count] == INPUT_REDIRECT)
-		{
-//			ft_putstr_fd("IR", 2);
-			if (handle_infile(get_redir_str(count, *cmd)) == -1)
-			{
-				//TODO: print error
-				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
-				return (1);
-			}
-		}
-		else if (cmd->redirect_type[count] == OUTPUT_REDIRECT)
-		{
-//			ft_putstr_fd("OR", 2);
-			if (handle_outfile(get_redir_str(count, *cmd)) == -1)
-			{
-				//TODO: print error
-				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
-				return (1);
-			}
-		}
-		else if (cmd->redirect_type[count] == HERE_DOC)
-		{
-//			ft_putstr_fd("HD", 2);
-			if (is_last_heredoc_redir(count, cmd->redirect_type, infile_count + outfile_count) &&
-				handle_heredoc_child(&cmd->heredoc_fd) == -1)
-			{
-				//TODO: print error
-				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
-				return (1);
-			}
-		}
-		else if (cmd->redirect_type[count] == APPEND_REDIRECT)
-		{
-//			ft_putstr_fd("AR", 2);
-			if (handle_append(get_redir_str(count, *cmd)) == -1)
-			{
-				//TODO: print error
-				print_error_message(error_init(FILE_REDIR_FAIL, get_redir_str(count, *cmd), 0));
-				return (1);
-			}
-		}
+		if (handle_redirection_check_error(count, cmd, file_count))
+			return (1);
 		count++;
 	}
 	return (0);
 }
 
-void 	redirect_fds(t_pipex *pipex)
+void	redirect_fds(t_pipex *pipex)
 {
 	if (pipex->current_command == 0)
 	{
@@ -229,9 +237,9 @@ void 	redirect_fds(t_pipex *pipex)
 		if (pipex->current_command)
 		{
 			if (dup2_and_close(&pipex->reserve_fd, STDIN_FILENO) == -1)
-				error_and_exit(pipex, error_init(DUP_FAIL, 0 , 0));
+				error_and_exit(pipex, error_init(DUP_FAIL, 0, 0));
 		}
 	}
 	else if (process_normal_pipe(pipex) == -1)
-		error_and_exit(pipex, error_init(DUP_FAIL, 0 , 0));
+		error_and_exit(pipex, error_init(DUP_FAIL, 0, 0));
 }
