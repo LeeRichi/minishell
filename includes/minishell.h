@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 21:18:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 13:05:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,10 +302,10 @@ void handle_heredoc(t_shell *shell, char *delimiter);
 //structlize
 //structlize.c
 void ft_structlize(t_shell *shell);
-//structlize_p2.c
-char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element);
 void	ft_nullize_struct(t_cmd *new_cmd);
 void	ft_add_redirection(t_shell *shell, char ***array, char *file);
+//structlize_p2.c
+char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element);
 int cs(char **tokens, char *nid);
 int cr(char **tokens);
 //structlize_p3.c
