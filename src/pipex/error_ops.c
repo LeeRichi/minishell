@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 19:20:45 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:19:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ char	*form_err_m(char *str1, char *str2, char *str3)
 	arr[0] = str1;
 	arr[1] = str2;
 	arr[2] = str3;
+	arr[3] = 0;
 	return (ft_split_join(arr, sep));
 }
-//	else if(err.errtype == MALLOC_FAIL)
-//		perror("Malloc fail");
 
 int	is_known_errtype(t_error err)
 {
