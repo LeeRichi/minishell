@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 19:08:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:22:10 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof, t_shell *shell);
 t_cmd	*free_pipex_cmd(t_cmd *command);
+size_t	count_files(t_cmd *cmd);
 //void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 t_error error_init(t_perrtypes errtype, char *file_name, char *command_name);
 void	print_error_message(t_error error);
