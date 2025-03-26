@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 13:43:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/26 16:21:44 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_strncpy(char *str, size_t n)
+char	*ft_strncpy(t_shell *shell, char *str, size_t n)
 {
 	size_t	len;
 	char	*res;
@@ -26,10 +26,7 @@ char	*ft_strncpy(char *str, size_t n)
 	else
 		res = malloc((n + 1) * sizeof(char));
 	if (!res)
-	{
-		print_error_message(error_init(MALLOC_FAIL, 0, 0));
-		return (NULL);
-	}
+		malloc_fail_clean_exit(shell);
 	len = 0;
 	while (str[len] && len < n)
 	{
@@ -47,10 +44,7 @@ void	ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 
 	new_envp = malloc((total) * sizeof(char *));
 	if (!new_envp)
-	{
-		print_error_message(error_init(MALLOC_FAIL, 0, 0));
-		return ;
-	}
+		malloc_fail_clean_exit(shell);
 	i = 0;
 	while (i < found_index)
 	{
@@ -75,7 +69,9 @@ static void	loop_to_catch_you_and_free(t_shell *shell, size_t og, char ***vn)
 {
 	size_t	i;
 	size_t	j;
+	size_t	temp;
 
+	temp = og;
 	i = 0;
 	while (i < og)
 	{
@@ -93,7 +89,7 @@ static void	loop_to_catch_you_and_free(t_shell *shell, size_t og, char ***vn)
 		i++;
 	}
 	i = 0;
-	while (i < og)
+	while (i < temp)
 		free((*vn)[i++]);
 	free((*vn));
 }
@@ -118,7 +114,7 @@ int	handle_unset(t_shell *shell)
 		j = 0;
 		while (shell->envp[i][j] != '=')
 			j++;
-		v_names[i] = ft_strncpy(shell->envp[i], j);
+		v_names[i] = ft_strncpy(shell, shell->envp[i], j);
 		i++;
 	}
 	loop_to_catch_you_and_free(shell, og_total_len, &v_names);
