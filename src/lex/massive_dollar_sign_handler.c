@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 12:31:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:45:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,27 @@ void	handle_dollar_question(t_shell *shell, char **current_token, int *i)
 	(*i)++;
 }
 
+//last_token_index == z
 void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 {
 	char	*env_value;
 	int		j;
+	int		z;
 
 	env_value = handle_dollar_sign(shell, input, i);
 	if (!env_value)
+	{
+		z = 0;
+		if (!shell->tokens)
+			return ;
+		while (shell->tokens[z])
+			z++;
+		if (!z)
+			return ;
+		if (ft_start_with_specials(shell->tokens[z - 1]))
+			*ct = str_append(shell, *ct, '\0');
 		return ;
+	}
 	else
 	{
 		j = 0;
@@ -73,20 +86,33 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 	}
 }
 
+void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
+{
+	while (input[*i] != ' ' && input[*i])
+	{
+		*ct = str_append(shell, *ct, input[*i]);
+		(*i)++;
+	}
+	(*i)--;
+	shell->hd_flag--;
+}
+
 void	massive_dollar_sign_handler(t_shell *shell, char **ct, int *i, char *s)
 {
-	if (strchr("$", s[*i + 1]) && s[*i + 1] != '\0')
+	if (ft_strchr("$", s[*i + 1]) && s[*i + 1] != '\0')
 		handle_consecutive_dollar(shell, ct, i, s);
-	else if (strchr("?", s[*i + 1]))
+	else if (ft_strchr("?", s[*i + 1]))
 		handle_dollar_question(shell, ct, i);
-	else if ((strchr("\'", s[*i + 1]) && shell->in_single_quote)
-		|| (strchr("\"", s[*i + 1]) && shell->in_double_quote))
+	else if ((ft_strchr("\'", s[*i + 1]) && shell->in_single_quote)
+		|| (ft_strchr("\"", s[*i + 1]) && shell->in_double_quote))
 	{
 		*ct = str_append(shell, *ct, '$');
 		return ;
 	}
-	else if (strchr(" ", s[*i + 1]))
+	else if (ft_strchr(" ", s[*i + 1]))
 		*ct = str_append(shell, *ct, '$');
+	else if (shell->hd_flag)
+		do_not_expand(shell, ct, i, s);
 	else
 		handler_helper(shell, ct, i, s);
 }

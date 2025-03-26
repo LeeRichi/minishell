@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_join.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:13 by mbutuzov          #+#    #+#             */
 /*   Updated: 2025/03/25 22:14:53 by mbutuzov         ###   ########.fr       */
@@ -25,17 +25,18 @@ static size_t	count_tab_chars(char **tab)
 	return (char_count);
 }
 
-int	ft_count_split(char **texts)
-{
-	int	i;
+// TODO: add to .h
+// int	ft_count_split(char **texts)
+// {
+// 	int	i;
 
-	i = 0;
-	while (texts[i])
-	{
-		i++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	while (texts[i])
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 int	write_word(char *text, char *word, size_t char_length)
 {
@@ -59,7 +60,7 @@ char	*ft_split_join(char **tab, char *sep)
 	size_t	word_length;
 	size_t	tab_length;
 
-	tab_length = ft_count_split(tab);
+	tab_length = count_split(tab);
 	word_length = 0;
 	if (sep)
 		word_length += ft_strlen(sep);

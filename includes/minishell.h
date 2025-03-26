@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 21:22:10 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:11:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct s_shell
 	t_pipex		*pipex;
   int     ambiguous_flag;   //DEPRECATED
   pid_t shell_id;
+  int hd_flag;
 
   int has_quotes;
 } t_shell;
@@ -210,6 +211,7 @@ char		**get_path_split(char **envp, size_t ind);
 //char		**get_command_argv(char *arg);
 char		**get_command_argv(t_cmd cmd);
 char	*ft_split_join(char **tab, char *sep);
+int		syntax_err_print(t_shell *shell);
 /* PIPEX END */
 
 
@@ -241,6 +243,8 @@ int handle_exit(t_shell *shell, char **args);
 int handle_env(char **envp);
 int handle_unset(t_shell *shell);
 int handle_export(t_shell *shell, char **args);
+//cwd_fail.c
+int	cwd_fail(t_shell *shell, char **custom);
 
 //utils/lvl_handler.c
 void shell_level_ctrl(t_shell *shell);
@@ -291,6 +295,7 @@ void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
 void malloc_fail_clean_exit(t_shell *shell);
+void free_key_value_list(t_key_value *head);
 // test_print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
@@ -299,15 +304,27 @@ void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
 char *extract_delimiter(char *input, int *i);
 void handle_heredoc(t_shell *shell, char *delimiter);
 
+//structlize
 //structlize.c
 void ft_structlize(t_shell *shell);
+void	ft_nullize_struct(t_cmd *new_cmd);
+void	ft_add_redirection(t_shell *shell, char ***array, char *file);
+//structlize_p2.c
+char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element);
+int cs(char **tokens, char *nid);
+int cr(char **tokens);
+//structlize_p3.c
+void	allocate_nodes(t_cmd **current_cmd, t_cmd **new_cmd, t_shell *shell);
+void struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
 
 // ft_getenv.c
 char *ft_getenv(char *env_name, t_shell *shell);
 
 //export.c
+//export_helper.c
 t_key_value *arr_to_key_value(t_shell *shell);
-void free_key_value_list(t_key_value *head);
+void	from_pair_to_arr(t_shell *shell);
+
 
 extern int g_sig;
 

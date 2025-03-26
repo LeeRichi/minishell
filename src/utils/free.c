@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:20:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 16:11:04 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/26 15:11:04 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void clear_cmds(t_shell *shell)
     }
 
     // Set the cmds pointer in shell to NULL
-        shell->cmds = NULL;
+    shell->cmds = NULL;
 }
 
 void free_matrix(char **matrix)
@@ -182,4 +182,19 @@ void malloc_fail_clean_exit(t_shell *shell)
 	ft_printf_fd(STDERR, "malloc fail\n");
 	ft_free_all(shell);
 	exit(EXIT_FAILURE);
+}
+
+
+void	free_key_value_list(t_key_value *head)
+{
+	t_key_value	*temp;
+
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+	}
 }

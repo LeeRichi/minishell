@@ -34,6 +34,7 @@ SRCS = ft_isalpha.c \
 		ft_printlib.c \
 		ft_printf_fd.c \
 		ft_strcpy.c \
+		ft_memset.c \
 
 # BONUS = ft_lstmap_bonus.c ft_lstnew_bonus.c 			\
 # 		ft_lstlast_bonus.c ft_lstsize_bonus.c			\

@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   cwd_fail.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 19:45:07 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 15:21:51 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/26 15:04:35 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/26 15:04:48 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	handle_env(char **envp)
+int	cwd_fail(t_shell *shell, char **custom)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-	return (SUCCESS);
+	ft_printf_fd(STDERR, "getcwd failed\n");
+	shell->exit_code = 1;
+	free_matrix(custom);
+	return (1);
 }

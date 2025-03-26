@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:44:57 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 13:45:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:25:56 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	handle_token(t_shell *shell, char **ct, int *tc)
 	}
 }
 
-static void	ltt_injuect(t_shell *shell, char c)
+static void	ltt_inject(t_shell *shell, char c)
 {
 	if (c == '|')
 		shell->last_token_type = 1;
@@ -57,5 +57,5 @@ void	handle_wrong_pipes(t_shell *shell, char **ct, int *token_count, char c)
 	new_tokens[*token_count] = NULL;
 	shell->tokens = new_tokens;
 	*ct = NULL;
-	ltt_injuect(shell, c);
+	ltt_inject(shell, c);
 }

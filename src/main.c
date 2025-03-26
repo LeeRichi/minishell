@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 15:29:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:22:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int ft_cpy_tab(char **dest, char **src, int length)
 	while(length--)
 	{
 		dest[length] = ft_strdup(src[length]);
-		if (dest[length] == 0)
+		if (dest[length] == NULL)
 		{
 			while (length < orig_length)
 			{
@@ -47,7 +47,7 @@ void shell_init_helper(char **envp, t_shell *shell)
 		shell->exit_code = 1;
 		return ;
 	}
-	shell->envp[split_count] = 0;
+	shell->envp[split_count] = NULL;
 	if (!ft_cpy_tab(shell->envp, envp, split_count))
 	{
 		shell->exit_code = 1;
@@ -78,6 +78,7 @@ void shell_init(char **envp, t_shell *shell)
 	shell->stdout_fd = -1;
 	shell->pipex = 0;
 	shell->has_quotes = 0;
+	shell->hd_flag = 0;
 	shell_level_ctrl(shell);
 }
 
@@ -181,7 +182,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		clear_cmds(&shell);
 	}
-
 	ft_free_all(&shell);
 
 	// do we need it?

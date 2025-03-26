@@ -12,3 +12,7 @@ test_files
 
 minishell_tester/
 42_minishell_tester/
+
+.gitignore
+
+parse_dev
