@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 16:24:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:11:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	resolve_heredoc_cmds_or_error_and_exit(t_pipex *pipex,
 	{
 		if (shell->err_code)
 		{
-			shell->err_code = 0;
 			shell->pipex = 0;
 			return (shell->exit_code);
 		}
@@ -82,6 +81,11 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	}
 	shell->pipex = &pipex;
 	resolve_heredoc_cmds_or_error_and_exit(&pipex, command_count, shell);
+	if (shell->err_code)
+	{
+		shell->err_code = 0;
+		return (shell->exit_code);
+	}
 	wait_all_return = pipex_loop(&pipex);
 	free_pipex(pipex);
 	shell->pipex = 0;
