@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef SHELL_NAME
-# define SHELL_NAME "bash"
+# define SHELL_NAME "wow"
 # endif
 # include "../lib/libft/libft.h"
 
@@ -45,7 +45,7 @@
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
 #define GREEN "\033[32m"
-
+// TODO: change it back
 typedef struct sigaction t_sigaction;
 /*
 typedef struct s_sig
@@ -163,12 +163,13 @@ typedef enum e_perrtypes {
 	PIPE_FAIL,
 	FORK_FAIL,
 	FILE_REDIR_FAIL,
+	AMBIGOUS_REDIR,
 }	t_perrtypes;
 
 typedef struct s_error
 {
-	char *file_name;
-	char *command_name;
+	char *f_name;
+	char *cmd_name;
 //	char *strerror_message;
 //	char *final_message;
 	t_perrtypes errtype;
@@ -182,6 +183,7 @@ int check_heredoc(t_cmd cmd);
 int get_cmd_heredoc(t_cmd cmd);
 int get_here_doc_fd(char *eof, t_shell *shell);
 t_cmd	*free_pipex_cmd(t_cmd *command);
+size_t	count_files(t_cmd *cmd);
 //void		error_and_exit(t_pipex *pipex, t_perrtypes errtype);
 t_error error_init(t_perrtypes errtype, char *file_name, char *command_name);
 void	print_error_message(t_error error);
