@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 16:14:49 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:29:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,16 @@ void shell_init_helper(char **envp, t_shell *shell)
 
 void shell_init(char **envp, t_shell *shell)
 {
+    shell->exit_code = 0;
+	// TODO: use malloc_fail_clean_exit
 	shell_init_helper(envp, shell);
+	if (shell->exit_code)
+		return;
 	shell->envp_value_pair = NULL;
 	shell->input = NULL;
 	shell->tokens = NULL;
     shell->token_count = 0;
     shell->current_index = 0;
-    shell->exit_code = 0;
     shell->in_single_quote = 0;
     shell->in_double_quote = 0;
     shell->err_code = 0;
@@ -79,74 +82,66 @@ void shell_init(char **envp, t_shell *shell)
 }
 
 // real one
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
-// 	// char **env;
-// 	// shell.shell_id = ft_getpid();
-// 	(void)av;
-// 	if (ac != 1)
-// 	{
-// 		printf("We only handle 1 argument.\n");
-// 		exit(EXIT_FAILURE);
-// 	}
+/*
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+	// char **env;
+	// shell.shell_id = ft_getpid();
+	(void)av;
+	if (ac != 1)
+	{
+		printf("We only handle 1 argument.\n");
+		exit(EXIT_FAILURE);
+	}
 
-// 	//push it before playing signal
-// 	//get_set_shell(&shell);
-// /*
-// 	signal(SIGINT, &handle_sigint);
-// 	signal(SIGQUIT, &handle_sigquit);
-// */
-// 	set_minishell_signal();
-// 	// sigaction()
-// 	// env = ft_getenv(envp);
-// 	shell_init(envp, &shell);
-// 	g_sig = 0;
+	g_sig = 0;
+	set_minishell_signal();
+	// sigaction()
+	// env = ft_getenv(envp);
+	shell_init(envp, &shell);
+	if (shell.exit_code)
+		return (shell.exit_code);
+	while (1)
+	{
+		shell.input = readline("$ ");
 
-// 	//cmd out when running tester
-// 	// pf_banner();
-// 	while (1)
-// 	{
-// 		shell.input = readline("$ ");
-
-// 		// printf("fuck: %d\n", shell.exit_code);
-// 		// if (strcmp(shell.input, "") == 0) //true
-// 		// 	printf("test fuck\n");
-// 		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
-//         {
-//             break;
-//         }
-// 		if (*shell.input)
-// 			add_history(shell.input);
-// 		if (*shell.input)
-// 			parse(&shell);
-// 		else
-// 			free(shell.input);
-// 		// TODO: check here / check inside
-// 		//ft_free_all(&shell);
+		// printf("fuck: %d\n", shell.exit_code);
+		// if (strcmp(shell.input, "") == 0) //true
+		// 	printf("test fuck\n");
+		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
+        {
+            break;
+        }
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
+		// TODO: check here / check inside
+		//ft_free_all(&shell);
 
 
-// 		execute(&shell);
+		execute(&shell);
 
-// 		//fuck
-// 		//printf("fuck: %d\n", shell.exit_code);
-// 		//free(shell.input);
-// 		//shell.input = 0;
-// 		//cleanup shell cmds
-// 		if (shell.tokens)
-// 		{
-// 			free_tokens(shell.tokens);
-// 			shell.tokens = 0;
-// 		}
-// 		clear_cmds(&shell);
-// 		// shell.cmds = 0;
-// 	}
-// 	ft_free_all(&shell);
-// 	return (shell.exit_code);
-// }
+		//fuck
+		//printf("fuck: %d\n", shell.exit_code);
+		//free(shell.input);
+		//shell.input = 0;
+		//cleanup shell cmds
+		if (shell.tokens)
+		{
+			free_tokens(shell.tokens);
+			shell.tokens = 0;
+		}
+		clear_cmds(&shell);
+		// shell.cmds = 0;
+	}
+	ft_free_all(&shell);
+	return (shell.exit_code);
+}
+*/
 
 //42 big tester main
-
 int	main(int ac, char **av, char **envp)
 {
 	t_shell shell;
