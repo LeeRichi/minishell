@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 14:27:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/26 15:11:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,8 @@ int handle_exit(t_shell *shell, char **args);
 int handle_env(char **envp);
 int handle_unset(t_shell *shell);
 int handle_export(t_shell *shell, char **args);
+//cwd_fail.c
+int	cwd_fail(t_shell *shell, char **custom);
 
 //utils/lvl_handler.c
 void shell_level_ctrl(t_shell *shell);
@@ -291,6 +293,7 @@ void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
 void malloc_fail_clean_exit(t_shell *shell);
+void free_key_value_list(t_key_value *head);
 // test_print.c
 void print_tokens(char **tokens);
 void print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
@@ -318,7 +321,6 @@ char *ft_getenv(char *env_name, t_shell *shell);
 //export.c
 //export_helper.c
 t_key_value *arr_to_key_value(t_shell *shell);
-void free_key_value_list(t_key_value *head);
 void	from_pair_to_arr(t_shell *shell);
 
 

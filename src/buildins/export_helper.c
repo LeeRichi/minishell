@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:24:18 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 14:27:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/26 15:12:50 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,6 @@ t_key_value	*arr_to_key_value(t_shell *shell)
 	return (head);
 }
 
-void	free_key_value_list(t_key_value *head)
-{
-	t_key_value	*temp;
-
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-	}
-}
-
 static int	count_pairs(t_shell *shell)
 {
 	t_key_value	*temp;
@@ -80,29 +66,43 @@ static int	count_pairs(t_shell *shell)
 	return (count);
 }
 
-void	from_pair_to_arr(t_shell *shell)
+void	temp_looper(t_shell *shell, int count)
 {
 	t_key_value	*temp;
-	int			count;
 	int			i;
 	char		*temp_str;
 
-	count = count_pairs(shell);
-	clear_tokens(shell);
-	shell->envp = malloc((count + 1) * sizeof(char *));
-	if (!shell->envp)
-		malloc_fail_clean_exit(shell);
 	temp = shell->envp_value_pair;
 	i = 0;
 	while (temp)
 	{
 		shell->envp[i] = ft_strjoin(temp->key, "=");
+		if (!shell->envp[i])
+			malloc_fail_clean_exit(shell);
 		temp_str = shell->envp[i];
-		shell->envp[i] = ft_strjoin(shell->envp[i], temp->value);
+		shell->envp[i] = ft_strjoin(temp_str, temp->value);
+		if (!shell->envp[i])
+		{
+			free(temp_str);
+			malloc_fail_clean_exit(shell);
+		}
 		free(temp_str);
 		temp = temp->next;
 		i++;
 	}
 	shell->envp[count] = NULL;
+}
+
+void	from_pair_to_arr(t_shell *shell)
+{
+	int			count;
+
+	count = count_pairs(shell);
+	clear_tokens(shell);
+	free_matrix(shell->envp);
+	shell->envp = malloc((count + 1) * sizeof(char *));
+	if (!shell->envp)
+		malloc_fail_clean_exit(shell);
+	temp_looper(shell, count);
 	free_key_value_list(shell->envp_value_pair);
 }

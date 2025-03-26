@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/25 14:25:25 by chlee2           ###   ########.fr        #
+#    Updated: 2025/03/26 15:05:03 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS = src/main.c \
 		src/structlize/structlize_p2.c \
 		src/structlize/structlize_p3.c \
 		src/buildins/export_helper.c \
+		src/buildins/cwd_fail.c \
 
 OBJS = $(SRCS:.c=.o)
 
