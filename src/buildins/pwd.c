@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 15:12:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:26:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int	handle_pwd(t_shell *shell)
 {
-	char	path[PATH_MAX];
+	char *value;
 
-	if (getcwd(path, PATH_MAX))
+	value = ft_getenv("PWD", shell);
+	if (shell->envp && value)
 	{
-		ft_putendl_fd(path, 1);
+		ft_putendl_fd(value, 1);
 		return (SUCCESS);
 	}
 	else

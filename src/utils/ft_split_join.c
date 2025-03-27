@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:13 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/25 22:14:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:32:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,6 @@ static size_t	count_tab_chars(char **tab)
 		char_count += ft_strlen(tab[i++]);
 	return (char_count);
 }
-
-// TODO: add to .h
-// int	ft_count_split(char **texts)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (texts[i])
-// 	{
-// 		i++;
-// 	}
-// 	return (i);
-// }
 
 int	write_word(char *text, char *word, size_t char_length)
 {

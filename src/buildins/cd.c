@@ -6,30 +6,11 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 15:04:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:25:54 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	flag_case(t_shell *shell)
-{
-	char	*home;
-
-	home = ft_getenv("HOME", shell);
-	if (home)
-	{
-		chdir(home);
-		free(home);
-		return (0);
-	}
-	else
-	{
-		printf("HOME not set.\n");
-		shell->exit_code = 1;
-		return (1);
-	}
-}
 
 static int	env_oldpwd_handler(t_shell *shell, char **custom, char *old)
 {
@@ -107,20 +88,44 @@ static int	cd_to(t_shell *shell, char **args, char *old)
 	return (0);
 }
 
+static int	flag_case(t_shell *shell, char *old, int i)
+{
+	char	*home;
+
+	home = ft_getenv("HOME", shell);
+	if (home)
+	{
+		if (i)
+			printf("%s\n", home);
+		chdir(home);
+		free(home);
+		if (env_pwd_handler(shell, old))
+			return (1);
+		return (0);
+	}
+	else
+	{
+		printf("HOME not set.\n");
+		shell->exit_code = 1;
+		return (1);
+	}
+}
+
 int	handle_cd(char **args, t_shell *shell)
 {
 	char	*old;
-	char	path[PATH_MAX];
 
-	old = getcwd(path, PATH_MAX);
+	old = ft_getenv("PWD", shell);
 	if (!old)
 	{
-		ft_printf_fd(STDERR, "getcwd failed\n");
+		ft_printf_fd(STDERR, "ft_getenv failed\n");
 		shell->exit_code = 1;
 		return (1);
 	}
 	if (!args || ft_strcmp(args[0], "--") == 0)
-		flag_case(shell);
+		flag_case(shell, old, 0);
+	else if (ft_strcmp(args[0], "-") == 0)
+		flag_case(shell, old, 1);
 	else if (ft_strcmp(args[0], ".") == 0)
 		return (0);
 	else if (args[0])
