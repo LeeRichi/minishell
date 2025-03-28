@@ -42,10 +42,9 @@ char	*form_err_m(char *str1, char *str2, char *str3)
 	arr[0] = str1;
 	arr[1] = str2;
 	arr[2] = str3;
+	arr[3] = 0;
 	return (ft_split_join(arr, sep));
 }
-//	else if(err.errtype == MALLOC_FAIL)
-//		perror("Malloc fail");
 
 int	is_known_errtype(t_error err)
 {

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:16:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 19:11:05 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/26 23:05:03 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
