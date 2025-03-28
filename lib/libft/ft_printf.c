@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 21:03:04 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/13 20:32:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:05:31 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	printstr_old(char *s)
 	}
 	return (count);
 }
-
 
 int	print_format(char specifier, va_list args)
 {

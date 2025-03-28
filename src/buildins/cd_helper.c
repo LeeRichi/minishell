@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printcs.c                                       :+:      :+:    :+:   */
+/*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 11:15:38 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:08:54 by chlee2           ###   ########.fr       */
+/*   Created: 2025/03/28 19:02:27 by chlee2            #+#    #+#             */
+/*   Updated: 2025/03/28 19:04:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	printchar(char c)
+int	set_pwd(char **custom, t_shell *shell, char *cwd, char *path)
 {
-	if (write(1, &c, 1) != 1)
-		return (-1);
-	return (1);
-}
+	char	*temp;
 
-int	printstr(int fd, char *s)
-{
-	int	count;
-
-	count = 0;
-	if (!s)
-		return (printstr(fd, "(null)"));
-	count = write(fd, s, ft_strlen(s));
-	if (count == -1)
+	cwd = getcwd(path, PATH_MAX);
+	if (!cwd)
+		return (cwd_fail(shell, custom));
+	temp = ft_strjoin(custom[0], cwd);
+	if (!temp)
 	{
-		perror("write failed");
-		return (-1);
+		free_matrix(custom);
+		malloc_fail_clean_exit(shell);
 	}
-	return (count);
+	free(custom[0]);
+	custom[0] = temp;
+	custom[2] = NULL;
+	return (0);
 }

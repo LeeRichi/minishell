@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:45:13 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/22 12:40:37 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:06:08 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	ft_putchar_fd(char c, int fd);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
-char 	*ft_strstr(const char *haystack, const char *needle);
-char 	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strstr(const char *haystack, const char *needle);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 size_t	ft_strlcat(char *dst,
 			const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst,
@@ -95,7 +95,6 @@ int		is_empty_or_whitespace(char *str);
 //new for minishell
 void	*ft_realloc(void *ptr, size_t size);
 
-int	ft_printf_fd(int fd, const char *format, ...);
-
+int		ft_printf_fd(int fd, const char *format, ...);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 14:36:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:36:50 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ static void	struct_else(t_shell *shell, t_cmd *cc, int *i)
 {
 	if (cc != NULL && cc->cmd_name == NULL)
 	{
-		// while (shell->tokens[*i][0] == '\0' && shell->tokens[*i + 1])
-		// 	i++;
-		// if (ft_strcmp(shell->tokens[*i], ""))
-		// 	printf("fuck you\n");
 		cc->cmd_name = ft_strdup(shell->tokens[*i]);
 		if (!cc->cmd_name)
 			malloc_fail_clean_exit(shell);
@@ -64,7 +60,6 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 	}
 }
 
-//TODO: check mallocs
 void	ft_structlize(t_shell *shell)
 {
 	t_cmd	*current_cmd;

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 15:11:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:02:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,8 @@ int handle_unset(t_shell *shell);
 int handle_export(t_shell *shell, char **args);
 //cwd_fail.c
 int	cwd_fail(t_shell *shell, char **custom);
+//cd_helper.c
+int set_pwd(char **custom, t_shell *shell, char *cwd, char *path);
 
 //utils/lvl_handler.c
 void shell_level_ctrl(t_shell *shell);

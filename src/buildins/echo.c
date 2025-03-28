@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 16:51:04 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:51:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,5 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 		loop_print_each(cmd_args);
 	if (newline)
 		printf("\n");
-
 	return (0);
 }
