@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:04:41 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:27:14 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,20 @@ static int	env_pwd_handler(t_shell *shell, char *old)
 	env_oldpwd_handler(shell, custom, old);
 	custom[0] = ft_strjoin("PWD=", "");
 	if (!custom[0])
+	{
+		free_matrix(custom);
 		malloc_fail_clean_exit(shell);
+	}
 	if (set_pwd(custom, shell, cwd, path) != 0)
 	{
 		free_matrix(custom);
 		return (-1);
 	}
-	handle_export(shell, custom);
+	if (handle_export(shell, custom))
+	{
+		free_matrix(custom);
+		malloc_fail_clean_exit(shell);
+	}
 	free_matrix(custom);
 	return (0);
 }
@@ -105,6 +112,7 @@ static int	flag_case(t_shell *shell, char *old, int i)
 	}
 	else
 	{
+		free(old);
 		printf("HOME not set.\n");
 		shell->exit_code = 1;
 		return (1);
