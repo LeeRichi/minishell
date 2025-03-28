@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:12 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/27 14:26:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 15:01:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ int	handle_pwd(t_shell *shell)
 	if (shell->envp && value)
 	{
 		ft_putendl_fd(value, 1);
+		free(value);
 		return (SUCCESS);
 	}
 	else
 	{
+		free(value);
 		shell->exit_code = ERROR;
 		return (ERROR);
 	}
