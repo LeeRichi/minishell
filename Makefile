@@ -72,6 +72,7 @@ SRCS = src/main.c \
 		src/structlize/structlize_p3.c \
 		src/buildins/export_helper.c \
 		src/buildins/cwd_fail.c \
+		src/buildins/cd_helper.c \
 
 OBJS = $(SRCS:.c=.o)
 

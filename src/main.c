@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:11:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:35:38 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,4 @@ int	main(int ac, char **av, char **envp)
 	//exit
 	return (shell.exit_code);
 }
-*/
+

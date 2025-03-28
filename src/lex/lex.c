@@ -6,13 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/27 14:34:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:51:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//TODO: check strjoins
 static void	append_additional_input(t_shell *shell, char **input, char *ai)
 {
 	char	*spaced_input;
@@ -29,8 +28,6 @@ static void	append_additional_input(t_shell *shell, char **input, char *ai)
 	*input = new_input;
 }
 
-//needs to add more
-//TODO: free all before exit
 void	handle_unexpected_eof(t_shell *shell, char *input, char *ai)
 {
 	if (shell->last_token_type == 2)
@@ -39,7 +36,6 @@ void	handle_unexpected_eof(t_shell *shell, char *input, char *ai)
 		ft_printf_fd(STDERR, "minishell: syntax error\n");
 	free(input);
 	free(ai);
-	//new /mar27
 	free_matrix(shell->envp);
 	exit(EXIT_FAILURE);
 }

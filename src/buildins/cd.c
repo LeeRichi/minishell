@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 17:41:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:04:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static int	env_pwd_handler(t_shell *shell, char *old)
 {
 	char	**custom;
 	char	*cwd;
-	char	*temp;
 	char	path[PATH_MAX];
 
+	cwd = NULL;
 	custom = ft_calloc(sizeof(char *), 3);
 	if (!custom)
 	{
@@ -51,15 +51,11 @@ static int	env_pwd_handler(t_shell *shell, char *old)
 	custom[0] = ft_strjoin("PWD=", "");
 	if (!custom[0])
 		malloc_fail_clean_exit(shell);
-	cwd = getcwd(path, PATH_MAX);
-	if (!cwd)
-		return (cwd_fail(shell, custom));
-	temp = ft_strjoin(custom[0], cwd);
-	if (!temp)
-		malloc_fail_clean_exit(shell);
-	free(custom[0]);
-	custom[0] = temp;
-	custom[2] = NULL;
+	if (set_pwd(custom, shell, cwd, path) != 0)
+	{
+		free_matrix(custom);
+		return (-1);
+	}
 	handle_export(shell, custom);
 	free_matrix(custom);
 	return (0);

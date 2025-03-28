@@ -264,6 +264,8 @@ int handle_unset(t_shell *shell);
 int handle_export(t_shell *shell, char **args);
 //cwd_fail.c
 int	cwd_fail(t_shell *shell, char **custom);
+//cd_helper.c
+int set_pwd(char **custom, t_shell *shell, char *cwd, char *path);
 
 //utils/lvl_handler.c
 void shell_level_ctrl(t_shell *shell);

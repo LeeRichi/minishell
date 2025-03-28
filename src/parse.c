@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:10:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 16:49:07 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:05:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,8 @@
 void	parse(t_shell *shell)
 {
 	tokenize_input(shell->input, shell);
-
-	// if (shell->tokens)
-    //     print_tokens(shell->tokens);
-
 	if (!shell->err_code && shell->tokens)
 		ft_structlize(shell);
-
-	// if (!shell->err_code)
-	// {
-	// 	print_cmd_struct(shell->cmds);
-	// 	//pipex_launch(shell->cmds, shell->envp);
-	// }
-	
 	shell->err_code = 0;
 	shell->ambiguous_flag = 0;
 }
