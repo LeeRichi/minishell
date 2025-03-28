@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/21 20:04:49 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:31:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@ void shell_level_ctrl(t_shell *shell)
 	//TODO: check
 	shlvl_str = ft_getenv("SHLVL", shell);
 	if (shlvl_str)
-	{
 		shlvl = ft_atoi(shlvl_str) + 1;
-	}
 	else
 		shlvl = 1;
-	
 	temp_str = shlvl_str;
 	//TODO: check
 	shlvl_str = ft_itoa(shlvl);
-	
 	if (shlvl_str)
 	{
 		//setenv("SHLVL", shlvl_str, 1);

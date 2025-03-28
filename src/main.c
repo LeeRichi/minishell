@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 22:53:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:55:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ void	shell_init_helper(char **envp, t_shell *shell)
 	shell->envp = malloc(sizeof(char *) * (split_count + 1));
 	if (!shell->envp)
 	{
-		shell->exit_code = 1;
-		return ;
+		malloc_fail_clean_exit(shell);
+		// shell->exit_code = 1;
+		// return ;
 	}
 	shell->envp[split_count] = NULL;
 	if (!ft_cpy_tab(shell->envp, envp, split_count))

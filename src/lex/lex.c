@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 13:19:51 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:34:51 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	handle_unexpected_eof(t_shell *shell, char *input, char *ai)
 		ft_printf_fd(STDERR, "minishell: syntax error\n");
 	free(input);
 	free(ai);
+	//new /mar27
+	free_matrix(shell->envp);
 	exit(EXIT_FAILURE);
 }
 

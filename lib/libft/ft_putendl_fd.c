@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:18:43 by chlee2            #+#    #+#             */
-/*   Updated: 2024/08/30 10:44:31 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:51:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	ft_putendl_fd(char *s, int fd)
 {
 	if (!s || fd < 0)
 		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+	write(fd, s, ft_strlen(s));
 	write(fd, "\n", 1);
 }
