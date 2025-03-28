@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:40:33 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:48:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	replace_env_var(t_shell *shell, char **envp, char *key, char *ne)
 		{
 			free(envp[i]);
 			envp[i] = ne;
-			free(ne);
+			// free(ne);
 			free(formatted_key);
 			return ;
 		}
