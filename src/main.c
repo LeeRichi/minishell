@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/27 13:55:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:11:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ void	shell_init_helper(char **envp, t_shell *shell)
 	split_count = count_split(envp);
 	shell->envp = malloc(sizeof(char *) * (split_count + 1));
 	if (!shell->envp)
-	{
 		malloc_fail_clean_exit(shell);
-		// shell->exit_code = 1;
-		// return ;
-	}
 	shell->envp[split_count] = NULL;
 	if (!ft_cpy_tab(shell->envp, envp, split_count))
 	{
@@ -85,7 +81,6 @@ int	shell_init(char **envp, t_shell *shell)
 	return (1);
 }
 
-// real one
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -113,8 +108,8 @@ int	main(int ac, char **av, char **envp)
 	ft_free_all(&shell);
 	return (shell.exit_code);
 }
-
 //42 big tester main
+
 /*
 int	main(int ac, char **av, char **envp)
 {

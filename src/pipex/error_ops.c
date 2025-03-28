@@ -6,13 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 16:49:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:36:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	resolve_exit_code(t_perrtypes errtype)
+void	resolve_exit_code(t_perrtypes errtype)
 {
 	if (errtype == CMD_NOT_FOUND || errtype == CMD_FILE_NOT_FOUND)
 		exit(127);
@@ -87,44 +87,4 @@ char	*get_error_message(t_error err)
 	else if (err.errtype == AMBIGOUS_REDIR)
 		return (form_err_m(SHELL_NAME, "ambigous redirect", 0));
 	return (0);
-}
-
-void	print_error_message(t_error error)
-{
-	char	*error_message;
-
-	error_message = 0;
-	if (is_known_errtype(error))
-	{
-		if (error.errtype == MALLOC_FAIL)
-			perror("Malloc fail");
-		else
-			error_message = get_error_message(error);
-	}
-	else
-	{
-		perror("Unspecified error");
-	}
-	if (error_message)
-	{
-		ft_putendl_fd(error_message, 2);
-		free(error_message);
-	}
-}
-
-void	error_and_exit(t_pipex *pipex, t_error error)
-{
-	t_shell		*shell;
-	t_perrtypes	errtype;
-
-	errtype = error.errtype;
-	print_error_message(error);
-	shell = 0;
-	if (pipex)
-	{
-		shell = (t_shell *)pipex->shell;
-		ft_free_all(shell);
-		shell->pipex = 0;
-	}
-	resolve_exit_code(errtype);
 }
