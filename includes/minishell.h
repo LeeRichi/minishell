@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:02:57 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:06:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,25 @@ typedef struct s_error
 
 
 
+void	ft_free_parsed_cmd(t_cmd *current);
+int	set_signal(int signum, void (*handler_func)(int));
+int	restore_signal(int signum);
+void	cleanup_parent_on_redirection_fail(t_shell *shell);
+void	restore_fds_and_error_exit(t_shell *shell);
+void	preserve_fds_and_error_exit(t_shell *shell);
+int	handle_infile(char *name);
+int	handle_outfile(char *name);
+int	handle_append(char *name);
+int	is_last_heredoc_redir(size_t index, t_redirect_type *arr, size_t arr_size);
+int	handle_heredoc_child(int *heredoc_fd);
+size_t	handle_infile_and_print_error(size_t count, t_cmd *cmd);
+size_t	handle_outfile_and_print_error(size_t count, t_cmd *cmd);
+int	process_normal_pipe(t_pipex *pipex);
+void	resolve_exit_code(t_perrtypes errtype);
+char	*get_error_message(t_error err);
+int	is_known_errtype(t_error err);
+void	close_pipe_safe(int fds[2]);
+t_cmd	*cmd_list_to_arr(t_cmd *cmds, size_t command_count, t_shell *shell);
 char *get_redir_str(int index, t_cmd cmd);
 int	pipex_launch(t_cmd *argv, char **env, t_shell *shell);
 int check_heredoc(t_cmd cmd);
