@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:06:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:32:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,10 @@ typedef struct s_error
 } t_error;
 
 
-
+int exist_as_var(char *str, char *envp_member);
+int get_envp_var_index(char *str, t_shell *shell);
+int adjust_envp(char *str, t_shell *shell, int envp_index);
+char *ft_getenv_value_ptr(char *str, t_shell *shell);
 void	ft_free_parsed_cmd(t_cmd *current);
 int	set_signal(int signum, void (*handler_func)(int));
 int	restore_signal(int signum);
