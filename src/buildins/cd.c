@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 18:09:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/29 23:34:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,54 @@ static int	env_pwd_handler(t_shell *shell, char *old)
 	return (0);
 }
 */
-int update_envp_pwd_old_pwd(char *old, t_shell *shell)
+
+char *get_complicated_pwd(char *old, char *cd_arg)
+{
+	char *tabs[5];
+
+	tabs[0] = "PWD=";
+	tabs[1] = old;
+	tabs[2] = "/";
+	tabs[3] = cd_arg;
+	tabs[4] = 0;
+
+	return (ft_split_join(tabs, 0));
+}
+
+int update_envp_pwd_old_pwd(char *old, t_shell *shell, char **cd_args)
 {
 	int var_index;
 	char *var_key_val;
 	char path[PATH_MAX];
 	
 	var_index = get_envp_var_index("PWD", shell);
+///	ft_getenv_value_ptr(env_name, t_shell *shell)
 	// THINK
-	var_key_val = ft_strjoin("PWD=",  getcwd(path, PATH_MAX));
+	var_key_val = 0;
+	if (getcwd(path, PATH_MAX))
+	{
+		var_key_val = ft_strjoin("PWD=",  path);
+		if (!var_key_val)
+			return (0);
+	}
+	else if (old && cd_args)
+	{
+		ft_printf_fd(STDERR, "PWD not found\n");
+		if (cd_args && *cd_args)
+		var_key_val = get_complicated_pwd(old, cd_arg); // ft_strjoin("PWD=",  path);
+		if (!var_key_val)
+			return (0);
+	}
 	if (!var_key_val)
-		return (0);
+		return (1);
 	if (!adjust_envp(var_key_val, shell, var_index))
 	{
 		free(var_key_val);
 		return (0);
 	}
 	free(var_key_val);
+	if (!old)
+		return 1;
 	var_index = get_envp_var_index("OLDPWD", shell);
 	var_key_val = ft_strjoin("OLDPWD=",  old);
 	if (!var_key_val)
@@ -89,8 +120,6 @@ int update_envp_pwd_old_pwd(char *old, t_shell *shell)
 	}
 	free(var_key_val);
 	return (1);
-	
-//		return (1);
 }
 /*
 static int	cd_to(t_shell *shell, char **args, char *old)
@@ -183,6 +212,11 @@ static int	cd_home(t_shell *shell, int i, int *cd_fail)
 }
 
 /*
+	if PWD exits -> make it OLDPWD==PWD
+	if !PWD getcwd before cd?
+*/
+
+/*
 	get pwd to make it old pwd
 	
 	get home path for -, -- and no args
@@ -208,27 +242,35 @@ int	handle_cd(char **args, t_shell *shell)
 	char	*old;
 	char	pwd_path[PATH_MAX];
 	int	cd_fail;
+	int	no_pwd;
 
 	cd_fail = 0;
+	no_pwd = 0;
 	
-	if (args [1])
+	printf("1\n");
+	if (args && args [1])
 	{
 		ft_printf_fd(STDERR, " too many arguments\n");
 		shell->exit_code = 1;
 		return (1);
 	}
 	old = 0;
+	printf("2\n");
 	if (getcwd(pwd_path, PATH_MAX))
 		old = pwd_path;
 	else
-		old = ft_getenv_value_ptr("PWD", shell);/*
+	{
+//		ft_printf_fd(STDERR, "PWD not found\n");
+		old = ft_getenv_value_ptr("PWD", shell);
+	}
 	if (!old)
 	{
-		ft_printf_fd(STDERR, "PWD not found\n");
-		shell->exit_code = 1;
-		return (1);
+		no_pwd = 1;
+//		ft_printf_fd(STDERR, "PWD not found\n");
+//		shell->exit_code = 1;
+//		return (1);
 	}
-	*/
+	printf("3\n");
 	if (!args || ft_strcmp(args[0], "--") == 0)
 		cd_home(shell, 0, &cd_fail);
 	else if (ft_strcmp(args[0], "-") == 0)
@@ -238,26 +280,13 @@ int	handle_cd(char **args, t_shell *shell)
 		if (cd_to(shell, args))
 			return (1);
 	}
-	if (!cd_fail)
+	printf("4\n");
+	if (!cd_fail)//i && !no_pwd)
 	{
-		if (!update_envp_pwd_old_pwd(old, shell))
+		if (!update_envp_pwd_old_pwd(old, shell, args))
 			return (1);
 	}
-		
-	
-
-	/*
-	if (!args || ft_strcmp(args[0], "--") == 0)
-		flag_case(shell, old, 0);
-	else if (ft_strcmp(args[0], "-") == 0)
-		flag_case(shell, old, 1);
-	else if (ft_strcmp(args[0], ".") == 0)
-	{
-		free(old);
-		return (0);
-	}
-	*/
-	
+	printf("5\n");
 	return (0);
 }
 

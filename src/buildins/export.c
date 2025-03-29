@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 18:05:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/29 20:48:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,12 @@ int exist_as_var(char *str, char *envp_member)
 
 int get_envp_var_index(char *str, t_shell *shell)
 {
-	char **envp = shell->envp;
+	char **envp;
 	int	index;
 
+	envp = shell->envp;
+	if (!envp)
+		return (-1);
 	index = 0;
 	while(envp[index])
 	{
@@ -177,6 +180,7 @@ int	handle_export(t_shell *shell, char **args)
 	t_key_value	*head;
 	char		*equal_pos;
 	int	var_index;
+
 	head = NULL;
 	i = 0;
 	if (!args)

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 18:04:50 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/29 20:47:14 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char *get_var_ptr_from_envp(char *str, t_shell *shell)
 	int	index;
 
 	index = 0;
+	if (!envp)
+		return (0);
 	while(envp[index])
 	{
 		if (exist_as_var(str, envp[index]))
@@ -36,7 +38,6 @@ char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 	int	equal_found;
 
 	equal_found = 0;
-
 	var_ptr = get_var_ptr_from_envp(env_name, shell);
 	if (!var_ptr)
 		return (0);
