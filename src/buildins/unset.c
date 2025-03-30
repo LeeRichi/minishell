@@ -6,12 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 16:21:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 20:00:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+/*
 char	*ft_strncpy(t_shell *shell, char *str, size_t n)
 {
 	size_t	len;
@@ -65,7 +65,7 @@ void	ft_cpy2envp(size_t found_index, size_t total, t_shell *shell)
 
 //og == og_total_len
 //v_names == vn
-static void	loop_to_catch_you_and_free(t_shell *shell, size_t og, char ***vn)
+void	loop_to_catch_you_and_free(t_shell *shell, size_t og, char ***vn)
 {
 	size_t	i;
 	size_t	j;
@@ -93,7 +93,41 @@ static void	loop_to_catch_you_and_free(t_shell *shell, size_t og, char ***vn)
 		free((*vn)[i++]);
 	free((*vn));
 }
+*/
+int is_key(char *str)
+{
+	return (!ft_strchr(str, '='));
+}
 
+int	handle_unset(t_shell *shell)
+{
+	size_t	og_total_len;
+	char	**args;
+	int	index;
+
+	args = shell->cmds->arg;
+	if (!shell->cmds->arg)
+		return (0);
+	while (*args)
+	{
+		if (is_key(*args))
+		{
+			og_total_len = count_split(shell->envp);
+			if (!og_total_len)
+				return (0);
+			index = get_envp_var_index(*args, shell);
+			if (index != -1)
+			{
+				free(shell->envp[index]);
+				ft_memmove(shell->envp + index, shell->envp + index + 1, sizeof(char *) * (og_total_len  - index - 1));
+				shell->envp[og_total_len - 1] = 0;
+			}
+		}
+		args++;
+	}
+	return (0);
+}
+/*
 int	handle_unset(t_shell *shell)
 {
 	char	**v_names;
@@ -120,3 +154,4 @@ int	handle_unset(t_shell *shell)
 	loop_to_catch_you_and_free(shell, og_total_len, &v_names);
 	return (0);
 }
+*/

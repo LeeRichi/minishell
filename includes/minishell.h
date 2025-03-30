@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 18:32:11 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 17:01:46 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef SHELL_NAME
-# define SHELL_NAME "wow"
+# define SHELL_NAME "malloc-hell"
 # endif
 # include "../lib/libft/libft.h"
 
