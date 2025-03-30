@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:48:34 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:38:54 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	replace_env_var(t_shell *shell, char **envp, char *key, char *ne)
 
 	formatted_key = ft_strjoin(key, "=");
 	if (!formatted_key)
+	{
+		free(ne);
 		malloc_fail_clean_exit(shell);
+	}
 	i = 0;
 	while (envp[i])
 	{
@@ -61,12 +64,12 @@ void	shell_level_ctrl(t_shell *shell)
 	char	*itoaed_str;
 
 	new_shlvl_entry = NULL;
-	shlvl_str = ft_getenv("SHLVL", shell);
+	shlvl_str = ft_getenv_value_ptr("SHLVL", shell);
 	if (shlvl_str)
 		shlvl = ft_atoi(shlvl_str) + 1;
 	else
 		shlvl = 1;
-	free(shlvl_str);
+	// free(shlvl_str);
 	itoaed_str = ft_itoa(shlvl);
 	if (!itoaed_str)
 		malloc_fail_clean_exit(shell);

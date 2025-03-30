@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 18:51:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:31:01 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,17 @@ static void	append_additional_input(t_shell *shell, char **input, char *ai)
 
 	spaced_input = ft_strjoin(*input, " ");
 	if (!spaced_input)
+	{
+		free(input);
 		malloc_fail_clean_exit(shell);
+	}
 	new_input = ft_strjoin(spaced_input, ai);
 	if (!spaced_input)
+	{
+		free(input);
+		free(spaced_input);
 		malloc_fail_clean_exit(shell);
+	}
 	free(*input);
 	free(spaced_input);
 	*input = new_input;

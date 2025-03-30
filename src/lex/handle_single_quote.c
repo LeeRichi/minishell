@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:48:00 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 12:24:03 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:53:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_single_quote(t_shell *shell, char **ct, int *i, char *input)
 	(*i)++;
 	while (input[*i] != '\'' && input[*i] != '\0')
 	{
-		*ct = str_append(shell, *ct, input[*i]);
+		*ct = str_append_v2(shell, *ct, input[*i], input);
 		(*i)++;
 	}
 	if (input[*i] == '\'')

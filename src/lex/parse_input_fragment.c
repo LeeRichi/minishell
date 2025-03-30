@@ -6,14 +6,14 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:43:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/24 12:40:28 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:33:22 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // TODO: clear up and exit on malloc
-void	finalize_token(t_shell *shell, char **current_token, int *token_count)
+void	finalize_token(t_shell *shell, char **current_token, int *token_count, char *s)
 {
 	size_t	new_size;
 	int		i;
@@ -24,7 +24,13 @@ void	finalize_token(t_shell *shell, char **current_token, int *token_count)
 		new_size = sizeof(char *) * (*token_count + 2);
 		new_tokens = malloc(new_size);
 		if (!new_tokens)
+		{
+			if (s)
+				free(s);
+			if (*current_token)
+				free (*current_token);
 			malloc_fail_clean_exit(shell);
+		}
 		i = 0;
 		while (i < *token_count)
 		{
@@ -56,7 +62,7 @@ void	parse_input_fragment(char *input, t_shell *shell)
 		parse_input_character(shell, &current_token, &i, input);
 		i++;
 	}
-	finalize_token(shell, &current_token, &shell->token_count);
+	finalize_token(shell, &current_token, &shell->token_count, input);
 	while (ft_strchr(WHITESPACE, input[i]))
 		i--;
 	if (input[i] == '|')

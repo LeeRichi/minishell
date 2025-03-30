@@ -6,12 +6,13 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:02:27 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 19:04:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:38:23 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+//for now not being used, if use it in future, do modify this cmd line
 int	set_pwd(char **custom, t_shell *shell, char *cwd, char *path)
 {
 	char	*temp;

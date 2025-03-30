@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 20:47:14 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:05:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char *get_var_ptr_from_envp(char *str, t_shell *shell)
 	return (0);
 }
 
-
 char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 {
 	char *var_ptr;
@@ -54,7 +53,6 @@ char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 	}
 	return (0);
 }
-
 
 char	*ft_getenv(char *env_name, t_shell *shell)
 {
