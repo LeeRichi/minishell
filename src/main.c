@@ -86,34 +86,35 @@ int	shell_init(char **envp, t_shell *shell)
 }
 
 // real one
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
+/*
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
 
-// 	(void)av;
-// 	if (ac != 1)
-// 	{
-// 		printf("We only handle 1 argument.\n");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	shell_init(envp, &shell);
-// 	while (1)
-// 	{
-// 		shell.input = readline(SHELL_NAME": ");
-// 		if (!shell.input)
-// 			break ;
-// 		if (*shell.input)
-// 			parse(&shell);
-// 		else
-// 			free(shell.input);
-// 		execute(&shell);
-// 		clear_tokens(&shell);
-// 		clear_cmds(&shell);
-// 	}
-// 	ft_free_all(&shell);
-// 	return (shell.exit_code);
-// }
-
+	(void)av;
+	if (ac != 1)
+	{
+		printf("We only handle 1 argument.\n");
+		exit(EXIT_FAILURE);
+	}
+	shell_init(envp, &shell);
+	while (1)
+	{
+		shell.input = readline(SHELL_NAME": ");
+		if (!shell.input)
+			break ;
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
+		execute(&shell);
+		clear_tokens(&shell);
+		clear_cmds(&shell);
+	}
+	ft_free_all(&shell);
+	return (shell.exit_code);
+}
+*/
 //42 big tester main
 
 int	main(int ac, char **av, char **envp)
