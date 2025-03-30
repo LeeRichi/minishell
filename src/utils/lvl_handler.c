@@ -6,40 +6,20 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 19:38:54 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 21:48:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //new_entry == ne
-static void	replace_env_var(t_shell *shell, char **envp, char *key, char *ne)
+static int	replace_env_var(t_shell *shell, char **envp, char *key, char *ne)
 {
-	int		i;
-	char	*formatted_key;
+	(void)envp;
+	int index;
 
-	formatted_key = ft_strjoin(key, "=");
-	if (!formatted_key)
-	{
-		free(ne);
-		malloc_fail_clean_exit(shell);
-	}
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strcmp(envp[i], formatted_key) == 0
-			&& envp[i][0] == formatted_key[0])
-		{
-			free(envp[i]);
-			envp[i] = ne;
-			// free(ne);
-			free(formatted_key);
-			return ;
-		}
-		i++;
-	}
-	free(ne);
-	free(formatted_key);
+	index = get_envp_var_index(key, shell);
+	return (adjust_envp(ne, shell, index));
 }
 
 //sh == shell
@@ -69,11 +49,14 @@ void	shell_level_ctrl(t_shell *shell)
 		shlvl = ft_atoi(shlvl_str) + 1;
 	else
 		shlvl = 1;
-	// free(shlvl_str);
 	itoaed_str = ft_itoa(shlvl);
 	if (!itoaed_str)
 		malloc_fail_clean_exit(shell);
 	else
 		shell_level_ctrl_h(shell, &new_shlvl_entry, itoaed_str);
-	replace_env_var(shell, shell->envp, "SHLVL", new_shlvl_entry);
+	if (!replace_env_var(shell, shell->envp, "SHLVL", new_shlvl_entry))
+	{
+		free(new_shlvl_entry);
+		malloc_fail_clean_exit(shell);
+	}
 }

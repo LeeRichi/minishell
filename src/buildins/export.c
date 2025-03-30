@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 21:04:28 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 22:12:36 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	arg_name_checker(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '@' || str[i] == '#' || str[i] == '&' || str[i] == '-')
+		if (str[i] == '@' || str[i] == '#' || str[i] == '&' || str[i] == '-' || str[i] == '+' || str[i] =='}' || str[i] == '{'
+			|| str[i] == '.' || str[i] == '*' || str[i] == '!' || str[i] == '^')
 			return (0);
 		i++;
 	}
@@ -106,6 +107,7 @@ int	adjust_envp(char *str, t_shell *shell, int envp_index)
 	return (1);
 }
 
+// TODO: think about +=
 int	handle_export(t_shell *shell, char **args)
 {
 	int			i;
