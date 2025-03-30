@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 20:29:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:04:28 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	exist_as_var(char *str, char *envp_member)
 		length_of_key =  eq_position - str;
 	else
 		length_of_key = ft_strlen(str);
+	if (!length_of_key)
+		return (0);
 	if (ft_strncmp(str, envp_member, length_of_key) != 0)
 		return 0;
 	if (*(str + length_of_key) == '=' || *(str + length_of_key) == 0 )

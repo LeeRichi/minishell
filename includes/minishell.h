@@ -91,6 +91,12 @@ typedef struct s_key_value
     struct s_key_value *next;
 } t_key_value;
 
+typedef struct s_free_struc
+{
+    char *itoaed_str;
+    char *input;
+} t_free_struc;
+
 typedef struct s_cmd
 {
 	char		*cmd_name; //programm name
@@ -277,7 +283,7 @@ void shell_level_ctrl(t_shell *shell);
 void tokenize_input(char *input, t_shell *shell);
 
 //lex/parse_input_fragment.c
-void finalize_token(t_shell *shell, char **current_token, int *token_count);
+void finalize_token(t_shell *shell, char **current_token, int *token_count, char *s);
 
 //lex/checkers.c
 int empty_between_checker(t_shell *shell);
@@ -285,7 +291,7 @@ int empty_pipe_checker(char *input, t_shell *shell);
 //lex/parse_input_character.c
 void parse_input_character(t_shell *shell, char **current_token, int *i, char *input);
 //lex/parse_input_character_page_2.c
-void	handle_empty_token_strdup(t_shell *shell, char **current_token,  int *i);
+void	handle_empty_token_strdup(t_shell *shell, char **current_token,  int *i, char *input);
 //lex/parse_input_fragment.c
 void parse_input_fragment(char *input, t_shell *shell);
 //lex/massive_dollar_sign_handler.c
@@ -304,6 +310,8 @@ char *handle_dollar_sign(t_shell *shell, char *s, int *index);
 
 //lex/lex_helper.c
 char *str_append(t_shell *shell, char *str, char c);
+char	*str_append_v2(t_shell *shell, char *str, char c, char *free_me);
+char	*str_append_v3(t_shell *shell, char *str, char c, t_free_struc *temp);
 char *get_env_value(char *env_name, t_shell *shell);
 int ft_start_with(char *str, char c);
 char *ft_start_with_specials(char *str);

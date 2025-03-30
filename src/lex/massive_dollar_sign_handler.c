@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 16:45:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/30 20:31:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,55 @@ void	handle_consecutive_dollar(t_shell *shell, char **ct, int *i, char *s)
 
 	id_as_str = ft_itoa(shell->shell_id);
 	if (!id_as_str)
+	{
+		if (*ct)
+			free(*ct);
+		if (s)
+			free(s);
 		malloc_fail_clean_exit(shell);
+	}
 	str_len = ft_strlen(id_as_str);
 	j = 0;
 	while (j < str_len)
 	{
-		*ct = str_append(shell, *ct, id_as_str[j]);
+		*ct = str_append_v2(shell, *ct, id_as_str[j], id_as_str);
 		j++;
 	}
 	free(id_as_str);
 	(*i) += 2;
 	while (s[*i] == '$')
 	{
-		*ct = str_append(shell, *ct, '$');
+		*ct = str_append_v2(shell, *ct, '$', s);
 		(*i)++;
 	}
 }
 
-void	handle_dollar_question(t_shell *shell, char **current_token, int *i)
+void	handle_dollar_question(t_shell *shell, char **ct, int *i, char *s)
 {
-	char	*itoaed_str;
+	// char	*itoaed_str;
 	int		j;
+	t_free_struc temp;
 
+	ft_bzero(&temp, sizeof(t_free_struc));
+	temp.input = s;
 	j = 0;
-	itoaed_str = ft_itoa(shell->exit_code);
-	if (!itoaed_str)
-		malloc_fail_clean_exit(shell);
-	j = 0;
-	while (itoaed_str[j])
+	temp.itoaed_str = ft_itoa(shell->exit_code);
+	if (!temp.itoaed_str)
 	{
-		*current_token = str_append(shell, *current_token, itoaed_str[j]);
+		if (*ct)
+			free(*ct);
+		if (s)
+			free(s);
+		malloc_fail_clean_exit(shell);
+	}
+	// temp.itoaed_str = itoaed_str;
+	j = 0;
+	while (temp.itoaed_str[j])
+	{
+		*ct = str_append_v3(shell, *ct, temp.itoaed_str[j], &temp);
 		j++;
 	}
-	free(itoaed_str);
+	free(temp.itoaed_str);
 	(*i)++;
 }
 
@@ -74,15 +90,15 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 		if (!z)
 			return ;
 		if (ft_start_with_specials(shell->tokens[z - 1]))
-			*ct = str_append(shell, *ct, '\0');
+			*ct = str_append_v2(shell, *ct, '\0', input);
 		return ;
 	}
 	else
 	{
 		j = 0;
 		while (env_value[j])
-			*ct = str_append(shell, *ct, env_value[j++]);
-		free(env_value);
+			*ct = str_append_v2(shell, *ct, env_value[j++], input);
+		// free(env_value);
 	}
 }
 
@@ -90,7 +106,7 @@ void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
 {
 	while (input[*i] != ' ' && input[*i])
 	{
-		*ct = str_append(shell, *ct, input[*i]);
+		*ct = str_append_v2(shell, *ct, input[*i], input);
 		(*i)++;
 	}
 	(*i)--;
@@ -102,15 +118,15 @@ void	massive_dollar_sign_handler(t_shell *shell, char **ct, int *i, char *s)
 	if (ft_strchr("$", s[*i + 1]) && s[*i + 1] != '\0')
 		handle_consecutive_dollar(shell, ct, i, s);
 	else if (ft_strchr("?", s[*i + 1]))
-		handle_dollar_question(shell, ct, i);
+		handle_dollar_question(shell, ct, i, s);
 	else if ((ft_strchr("\'", s[*i + 1]) && shell->in_single_quote)
 		|| (ft_strchr("\"", s[*i + 1]) && shell->in_double_quote))
 	{
-		*ct = str_append(shell, *ct, '$');
+		*ct = str_append_v2(shell, *ct, '$', s);
 		return ;
 	}
 	else if (ft_strchr(" ", s[*i + 1]))
-		*ct = str_append(shell, *ct, '$');
+		*ct = str_append_v2(shell, *ct, '$', s);
 	else if (shell->hd_flag)
 		do_not_expand(shell, ct, i, s);
 	else
