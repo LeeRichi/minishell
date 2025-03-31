@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:09:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:59:33 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,11 @@ typedef struct s_error
 } t_error;
 
 
+int	update_envp_pwd_old_pwd(char *old, t_shell *shell, char **cd_args);
+int	arg_name_checker(char *str);
+int	not_valid_id_print(t_shell *shell);
+void	update_envp_with_extra_var(char **temp, t_shell *shell,
+	int envp_length, char *new_envp_member);
 int exist_as_var(char *str, char *envp_member);
 int get_envp_var_index(char *str, t_shell *shell);
 int adjust_envp(char *str, t_shell *shell, int envp_index);
