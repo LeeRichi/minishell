@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 22:10:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 22:14:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,8 +223,6 @@ int				dup2_and_close(int *fd_from, int fd_to);
 void			free_split(char **args);
 int				check_exists_and_not_dir(char *path);
 int				count_split(char **texts);
-int				process_rfile_name_arg(t_pipex *pipex);
-int				process_wfile_name_arg(t_pipex *pipex);
 void			redirect_fds(t_pipex *pipex);
 void			before_fork(t_pipex *pipex);
 void			get_command(t_pipex *pipex);
@@ -293,10 +291,6 @@ void			handle_double_quote(t_shell *shell, char **current_token,
 //lex/handle_single_quote.c
 void			handle_single_quote(t_shell *shell, char **current_token,
 					int *i, char *input);
-
-//lex/wrong_pipe.c
-void			handle_wrong_pipes(t_shell *shell, char **current_token,
-					int *token_count, char c);
 //lex/handle_dollar_sign.c
 bool			check_balanced_quotes(const char *input);
 void			handle_unbalanced_quotes(t_shell *shell, char **input);
@@ -328,13 +322,6 @@ void			malloc_fail_clean_exit(t_shell *shell);
 void			malloc_fail_clean_exit_v2(t_shell *shell, char *free_me);
 void			malloc_fail_clean_exit_v3(t_shell *shell,
 					char *free_me, char *fm2);
-// test_print.c
-void			print_tokens(char **tokens);
-void			print_cmd_struct(t_cmd *cmd); // PRINT ALL CMD
-
-//lex/heredoc.c
-char			*extract_delimiter(char *input, int *i);
-void			handle_heredoc(t_shell *shell, char *delimiter);
 
 //structlize
 //structlize.c
@@ -350,14 +337,6 @@ int				cr(char **tokens);
 void			allocate_nodes(t_cmd **current_cmd,
 					t_cmd **new_cmd, t_shell *shell);
 void			struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
-
-// ft_getenv.c
-char			*ft_getenv(char *env_name, t_shell *shell);
-
-//export.c
-//export_helper.c
-t_key_value		*arr_to_key_value(t_shell *shell);
-void			from_pair_to_arr(t_shell *shell);
 
 extern int		g_sig;
 

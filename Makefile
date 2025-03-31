@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/31 21:25:31 by chlee2           ###   ########.fr        #
+#    Updated: 2025/03/31 22:13:33 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRCS = src/main.c \
 		src/buildins/unset.c \
 		src/buildins/export.c \
 		src/lex/lex.c \
-		src/lex/wrong_pipe.c \
 		src/utils/free.c \
 		src/utils/free_extra.c \
 		src/lex/lex_helper.c \
