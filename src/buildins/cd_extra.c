@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:57:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/31 20:57:57 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:20:36 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	cd_to_var(t_shell *shell, char *var_key)
 	if (var_value)
 	{
 		if (cd_to(var_value))
-			return (0);
-		return (1);
+			return (1);
+		return (0);
 	}
 	else
 	{
@@ -70,7 +70,7 @@ static int	try_chdir(char **args, t_shell *shell)
 		if (!cd_fail)
 		{
 			if (getcwd(new_pwd_path, PATH_MAX))
-				ft_printf_fd(2, "%s\n", new_pwd_path);
+				ft_printf_fd(1, "%s\n", new_pwd_path);
 		}
 	}
 	else if (args[0])

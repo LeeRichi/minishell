@@ -6,21 +6,22 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:15:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:24:09 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_var_ptr_from_envp(char *str, t_shell *shell)
+char	*get_var_ptr_from_envp(char *str, t_shell *shell)
 {
-	char **envp = shell->envp;
-	int	index;
+	char	**envp;
+	int		index;
 
+	envp = shell->envp;
 	index = 0;
 	if (!envp)
 		return (0);
-	while(envp[index])
+	while (envp[index])
 	{
 		if (exist_as_var(str, envp[index]))
 		{
@@ -33,8 +34,8 @@ char *get_var_ptr_from_envp(char *str, t_shell *shell)
 
 char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 {
-	char *var_ptr;
-	int	equal_found;
+	char	*var_ptr;
+	int		equal_found;
 
 	equal_found = 0;
 	var_ptr = get_var_ptr_from_envp(env_name, shell);
