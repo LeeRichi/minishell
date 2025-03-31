@@ -74,6 +74,7 @@ SRCS = src/main.c \
 		src/buildins/export_helper.c \
 		src/buildins/cwd_fail.c \
 		src/buildins/cd_helper.c \
+		src/lex/lex_helper_2.c \
 
 OBJS = $(SRCS:.c=.o)
 

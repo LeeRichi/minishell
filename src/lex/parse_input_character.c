@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 20:55:29 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:04:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	handle_wave_helper(t_shell *shell, char **ct, int *i, char *input)
 		j = 0;
 		while (home_dir[j++])
 			*ct = str_append_v2(shell, *ct, home_dir[j - 1], input);
-		// free(home_dir);
 	}
 	if (input[*i] == '/')
 	{

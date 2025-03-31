@@ -53,31 +53,3 @@ char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 	}
 	return (0);
 }
-/*
-char	*ft_getenv(char *env_name, t_shell *shell)
-{
-	t_key_value	*pair;
-	t_key_value	*head;
-	char		*result;
-
-	result = NULL;
-	head = NULL;
-	pair = arr_to_key_value(shell);
-	head = pair;
-	while (head)
-	{
-		if (ft_strcmp(head->key, env_name) == 0)
-		{
-			result = ft_strdup(head->value);
-			if (!result)
-			//TODO
-			
-				malloc_fail_clean_exit(shell);
-			break ;
-		}
-		head = head->next;
-	}
-	free_key_value_list(pair);
-	return (result);
-}
-*/

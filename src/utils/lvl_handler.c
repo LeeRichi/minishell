@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 17:09:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:12:40 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	replace_env_var(t_shell *shell, char *key, char *new_entry)
 {
 	int	index;
 
+	(void)envp;
 	index = get_envp_var_index(key, shell);
 	return (adjust_envp(new_entry, shell, index));
 }
