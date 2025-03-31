@@ -6,43 +6,37 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:43:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 19:33:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:07:27 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // TODO: clear up and exit on malloc
-void	finalize_token(t_shell *shell, char **current_token, int *token_count, char *s)
+void	finalize_token(t_shell *shell, char **ct, int *token_count, char *s)
 {
 	size_t	new_size;
 	int		i;
 	char	**new_tokens;
 
-	if (*current_token)
+	if (*ct)
 	{
 		new_size = sizeof(char *) * (*token_count + 2);
 		new_tokens = malloc(new_size);
 		if (!new_tokens)
-		{
-			if (s)
-				free(s);
-			if (*current_token)
-				free (*current_token);
-			malloc_fail_clean_exit(shell);
-		}
+			malloc_fail_clean_exit_v3(shell, s, *ct);
 		i = 0;
 		while (i < *token_count)
 		{
 			new_tokens[i] = shell->tokens[i];
 			i++;
 		}
-		new_tokens[*token_count] = *current_token;
+		new_tokens[*token_count] = *ct;
 		new_tokens[*token_count + 1] = NULL;
 		free(shell->tokens);
 		shell->tokens = new_tokens;
 		(*token_count)++;
-		*current_token = NULL;
+		*ct = NULL;
 	}
 }
 
