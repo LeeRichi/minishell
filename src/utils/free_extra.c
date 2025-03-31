@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_extra.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:04:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 19:05:25 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:11:12 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,30 @@ void	malloc_fail_clean_exit(t_shell *shell)
 	exit(EXIT_FAILURE);
 }
 
-void	free_key_value_list(t_key_value *head)
+void	malloc_fail_clean_exit_v2(t_shell *shell, char *free_me)
 {
-	t_key_value	*temp;
-
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-	}
+	if (free_me)
+		free(free_me);
+	malloc_fail_clean_exit(shell);
 }
 
+void	malloc_fail_clean_exit_v3(t_shell *shell, char *free_me, char *fm2)
+{
+	if (fm2)
+		free(fm2);
+	malloc_fail_clean_exit_v2(shell, free_me);
+}
+
+// void	free_key_value_list(t_key_value *head)
+// {
+// 	t_key_value	*temp;
+
+// 	while (head)
+// 	{
+// 		temp = head;
+// 		head = head->next;
+// 		free(temp->key);
+// 		free(temp->value);
+// 		free(temp);
+// 	}
+// }

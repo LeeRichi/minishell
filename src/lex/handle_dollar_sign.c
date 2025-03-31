@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 21:05:18 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:01:16 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ static char	*extract_env_name(t_shell *shell, char *s, int *index, char **temp)
 	}
 	result = malloc(len + 1);
 	if (!result)
-	{
-		if (s)
-			free (s);
-		malloc_fail_clean_exit(shell);
-	}
+		malloc_fail_clean_exit_v2(shell, s);
 	(*index) -= len;
 	ft_memcpy(result, s + *index, len);
 	*index += len;

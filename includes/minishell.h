@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 17:01:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:09:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,6 +316,7 @@ char *get_env_value(char *env_name, t_shell *shell);
 int ft_start_with(char *str, char c);
 char *ft_start_with_specials(char *str);
 int ft_end_with(char *str, char c);
+void	free_free_struc(t_free_struc *obj);
 
 void handle_consecutive_redir(t_shell *shell, char **current_token, int *i, char *input);
 
@@ -327,6 +328,8 @@ void ft_free_all(t_shell *shell);
 void clear_cmds(t_shell *shell);
 void free_matrix(char **matrix);
 void malloc_fail_clean_exit(t_shell *shell);
+void	malloc_fail_clean_exit_v2(t_shell *shell, char *free_me);
+void	malloc_fail_clean_exit_v3(t_shell *shell, char *free_me, char *fm2);
 void free_key_value_list(t_key_value *head);
 // test_print.c
 void print_tokens(char **tokens);

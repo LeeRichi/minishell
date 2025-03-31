@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/28 19:09:38 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/03/31 18:07:55 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRCS = src/main.c \
 		src/buildins/export_helper.c \
 		src/buildins/cwd_fail.c \
 		src/buildins/cd_helper.c \
+		src/lex/lex_helper_2.c \
 
 OBJS = $(SRCS:.c=.o)
 

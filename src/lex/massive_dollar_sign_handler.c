@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 20:31:05 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:04:23 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	handle_consecutive_dollar(t_shell *shell, char **ct, int *i, char *s)
 	{
 		if (*ct)
 			free(*ct);
-		if (s)
-			free(s);
-		malloc_fail_clean_exit(shell);
+		malloc_fail_clean_exit_v2(shell, s);
 	}
 	str_len = ft_strlen(id_as_str);
 	j = 0;
@@ -45,9 +43,8 @@ void	handle_consecutive_dollar(t_shell *shell, char **ct, int *i, char *s)
 
 void	handle_dollar_question(t_shell *shell, char **ct, int *i, char *s)
 {
-	// char	*itoaed_str;
-	int		j;
-	t_free_struc temp;
+	int				j;
+	t_free_struc	temp;
 
 	ft_bzero(&temp, sizeof(t_free_struc));
 	temp.input = s;
@@ -61,7 +58,6 @@ void	handle_dollar_question(t_shell *shell, char **ct, int *i, char *s)
 			free(s);
 		malloc_fail_clean_exit(shell);
 	}
-	// temp.itoaed_str = itoaed_str;
 	j = 0;
 	while (temp.itoaed_str[j])
 	{
@@ -98,7 +94,6 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 		j = 0;
 		while (env_value[j])
 			*ct = str_append_v2(shell, *ct, env_value[j++], input);
-		// free(env_value);
 	}
 }
 
