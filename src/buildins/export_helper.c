@@ -6,103 +6,64 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:24:18 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/26 15:12:50 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:54:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//nn == new_node
-// d = delimeter
-//atkv_helper == arr_to_key_value_helper
-static void	atkv_helper(t_shell *shell, char *d, t_key_value *nn, int i)
+int	adjust_envp(char *str, t_shell *shell, int envp_index)
 {
-	*d = '\0';
-	nn->key = ft_strdup(shell->envp[i]);
-	if (!nn->key)
-		malloc_fail_clean_exit(shell);
-	nn->value = ft_strdup(d + 1);
-	if (!nn->value)
-		malloc_fail_clean_exit(shell);
-	*d = '=';
-}
+	char	*new_envp_member;
+	char	**temp;
+	int		envp_length;
 
-t_key_value	*arr_to_key_value(t_shell *shell)
-{
-	t_key_value	*head;
-	t_key_value	*new_node;
-	char		*delimiter;
-	int			i;
-
-	i = 0;
-	head = NULL;
-	while (shell->envp[i])
+	envp_length = count_split(shell->envp);
+	new_envp_member = ft_strdup(str);
+	if (!new_envp_member)
+		return (0);
+	if (envp_index == -1)
 	{
-		new_node = malloc(sizeof(t_key_value));
-		if (!new_node)
-			malloc_fail_clean_exit(shell);
-		delimiter = ft_strchr(shell->envp[i], '=');
-		if (delimiter)
-			atkv_helper(shell, delimiter, new_node, i);
-		new_node->next = head;
-		head = new_node;
-		i++;
-	}
-	return (head);
-}
-
-static int	count_pairs(t_shell *shell)
-{
-	t_key_value	*temp;
-	int			count;
-
-	count = 0;
-	temp = shell->envp_value_pair;
-	while (temp)
-	{
-		count++;
-		temp = temp->next;
-	}
-	return (count);
-}
-
-void	temp_looper(t_shell *shell, int count)
-{
-	t_key_value	*temp;
-	int			i;
-	char		*temp_str;
-
-	temp = shell->envp_value_pair;
-	i = 0;
-	while (temp)
-	{
-		shell->envp[i] = ft_strjoin(temp->key, "=");
-		if (!shell->envp[i])
-			malloc_fail_clean_exit(shell);
-		temp_str = shell->envp[i];
-		shell->envp[i] = ft_strjoin(temp_str, temp->value);
-		if (!shell->envp[i])
+		temp = ft_calloc(envp_length + 2, sizeof(char *));
+		if (!temp)
 		{
-			free(temp_str);
-			malloc_fail_clean_exit(shell);
+			free(new_envp_member);
+			return (0);
 		}
-		free(temp_str);
-		temp = temp->next;
-		i++;
+		update_envp_with_extra_var(temp, shell,
+			envp_length, new_envp_member);
 	}
-	shell->envp[count] = NULL;
+	else
+	{
+		free(shell->envp[envp_index]);
+		shell->envp[envp_index] = new_envp_member;
+	}
+	return (1);
 }
 
-void	from_pair_to_arr(t_shell *shell)
+int	handle_export(t_shell *shell, char **args)
 {
-	int			count;
+	int			i;
+	t_key_value	*head;
+	char		*equal_pos;
+	int			var_index;
 
-	count = count_pairs(shell);
-	clear_tokens(shell);
-	free_matrix(shell->envp);
-	shell->envp = malloc((count + 1) * sizeof(char *));
-	if (!shell->envp)
-		malloc_fail_clean_exit(shell);
-	temp_looper(shell, count);
-	free_key_value_list(shell->envp_value_pair);
+	head = NULL;
+	i = 0;
+	if (!args)
+		return (0);
+	while (args[i])
+	{
+		if (!arg_name_checker(args[i]))
+			return (not_valid_id_print(shell));
+		equal_pos = ft_strchr(args[i], '=');
+		if (equal_pos)
+		{
+			var_index = get_envp_var_index(args[i], shell);
+			if (!adjust_envp(args[i], shell, var_index))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }

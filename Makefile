@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/03/28 19:09:38 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/03/31 20:58:45 by mbutuzov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS = src/main.c \
 		src/sig_extra.c \
 		src/buildins/echo.c \
 		src/buildins/cd.c \
+		src/buildins/cd_extra.c \
 		src/buildins/pwd.c \
 		src/buildins/exit.c \
 		src/buildins/env.c \
