@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/29 20:33:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 22:11:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	handle_sigint(int code)
 
 int	set_signal(int signum, void (*handler_func)(int))
 {
-	t_sigaction	action;
-	int			emptyset_return;
+	struct sigaction	action;
+	int					emptyset_return;
 
 	emptyset_return = sigemptyset(&action.sa_mask);
 	if (emptyset_return)
@@ -36,10 +36,10 @@ int	set_signal(int signum, void (*handler_func)(int))
 
 int	restore_signal(int signum)
 {
-	t_sigaction	action;
-	int			emptyset_return;
+	struct sigaction	action;
+	int					emptyset_return;
 
-	ft_bzero(&action, sizeof(t_sigaction));
+	ft_bzero(&action, sizeof(struct sigaction));
 	action.sa_handler = SIG_DFL;
 	emptyset_return = sigemptyset(&action.sa_mask);
 	if (emptyset_return)
