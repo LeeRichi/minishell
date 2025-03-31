@@ -6,11 +6,10 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:13 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/27 14:32:14 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 22:36:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "libft.h"
 #include "../../includes/minishell.h"
 
 static size_t	count_tab_chars(char **tab)

@@ -6,27 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:20:21 by chlee2            #+#    #+#             */
-/*   Updated: 2024/09/07 18:02:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/03/31 22:30:44 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-// int	ft_strcmp(const char *s1, const char *s2)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s1[i] && s2[i])
-// 	{
-// 		if (s1[i] != s2[i])
-// 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-// 		i++;
-// 	}
-// 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-// }
-
-// int	ft_atoi(const char *str)
 int	ft_atoi(char *str)
 {
 	int			flag;

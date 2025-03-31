@@ -6,12 +6,10 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:23:18 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/02/05 21:29:55 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/03/31 22:35:10 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "pipex.h"
-//#include "minishell.h"
 #include "../../includes/minishell.h"
 
 void	free_split(char **args)
