@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:24:18 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 21:08:02 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 16:17:48 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ int	adjust_envp(char *str, t_shell *shell, int envp_index)
 int	handle_export(t_shell *shell, char **args)
 {
 	int			i;
-	t_key_value	*head;
 	char		*equal_pos;
 	int			var_index;
 
-	head = NULL;
 	i = 0;
 	if (!args)
 		return (0);

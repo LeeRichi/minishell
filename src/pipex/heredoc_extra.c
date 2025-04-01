@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_extra.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:27:43 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 18:28:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:16:40 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ int	get_here_doc_fd(char *eof, t_shell *shell)
 {
 	int		fds[2];
 	int		fork_res;
-	int		proper_exit;
 
-	proper_exit = 0;
 	if (pipe(fds) == -1)
 		return (-1);
 	before_heredoc_process_signal();
