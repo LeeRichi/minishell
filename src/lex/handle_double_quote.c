@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:50:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 18:13:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 19:06:29 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ void	hd_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 	{
 		env_value = handle_dollar_sign(shell, s, i, *ct);
 		if (!env_value)
-			*ct = str_append(shell, *ct, s[*i]);
+		{
+			if (s[*i] == '$')
+				*ct = str_append(shell, *ct, s[*i]);
+			else
+				*ct = str_append(shell, *ct, 0);
+		}
 		else
 		{
 			j = 0;
