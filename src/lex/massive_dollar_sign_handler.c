@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:04:23 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:37:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 	int		j;
 	int		z;
 
-	env_value = handle_dollar_sign(shell, input, i);
+	env_value = handle_dollar_sign(shell, input, i, *ct);
 	if (!env_value)
 	{
 		z = 0;

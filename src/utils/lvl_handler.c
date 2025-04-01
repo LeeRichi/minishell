@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:45:26 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 21:09:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 16:44:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	shell_level_ctrl(t_shell *shell)
 		free(new_shlvl_entry);
 		malloc_fail_clean_exit(shell);
 	}
+	free(new_shlvl_entry);
 }

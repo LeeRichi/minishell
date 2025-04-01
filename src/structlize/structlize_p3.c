@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:09 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 14:53:50 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:00:07 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	allocate_nodes(t_cmd **current_cmd, t_cmd **nc, t_shell *shell)
 	*current_cmd = *nc;
 }
 
-//TODO: check that the infiles outfiles are not 0 after add redirection //3.27
 void	handle_redirection(t_shell *shell, t_cmd *cc, char *op, char *file)
 {
 	int	i;

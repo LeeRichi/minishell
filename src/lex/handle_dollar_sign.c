@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:01:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:42:10 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static char	*extract_env_name(t_shell *shell, char *s, int *index, char **temp)
 	int		len;
 	char	*result;
 
+	(void)shell;
 	len = 0;
 	(*index)++;
 	if (is_c_num(s[*index]))
@@ -38,7 +39,7 @@ static char	*extract_env_name(t_shell *shell, char *s, int *index, char **temp)
 	}
 	result = malloc(len + 1);
 	if (!result)
-		malloc_fail_clean_exit_v2(shell, s);
+		return (0);
 	(*index) -= len;
 	ft_memcpy(result, s + *index, len);
 	*index += len;
@@ -99,8 +100,7 @@ void	handle_unbalanced_quotes(t_shell *shell, char **input)
 	}
 }
 
-//TODO: returns 0 on malloc fail or on env not containing the variable
-char	*handle_dollar_sign(t_shell *shell, char *s, int *index)
+char	*handle_dollar_sign(t_shell *shell, char *s, int *index, char *ct)
 {
 	char	*env_name;
 	char	*result;
@@ -108,6 +108,12 @@ char	*handle_dollar_sign(t_shell *shell, char *s, int *index)
 
 	temp = NULL;
 	env_name = extract_env_name(shell, s, index, &temp);
+	if (!env_name)
+	{
+		if (ct)
+			free(ct);
+		malloc_fail_clean_exit_v2(shell, s);
+	}
 	result = get_env_value(env_name, shell);
 	free(env_name);
 	if (!result)

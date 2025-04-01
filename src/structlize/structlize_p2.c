@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:03 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 13:07:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 17:59:28 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,8 @@ int	cr(char **t)
 	return (count);
 }
 
-//na = new_array
-static void	malloc_new_array(t_shell *shell, char **na, char **array, int *i)
-{
-	na[*i] = ft_strdup(array[*i]);
-	if (!na[*i])
-		malloc_fail_clean_exit(shell);
-	(*i)++;
-}
-
 char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element)
 {
-	int		i;
 	int		len;
 	char	**new_array;
 
@@ -69,17 +59,17 @@ char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element)
 		while (array[len])
 			len++;
 	}
-	new_array = malloc(sizeof(char *) * (len + 2));
+	new_array = ft_calloc(sizeof(char *), (len + 2));
 	if (!new_array)
 		malloc_fail_clean_exit(shell);
-	i = 0;
-	while (i < len)
-		malloc_new_array(shell, new_array, array, &i);
-	new_array[i] = ft_strdup(new_element);
-	if (!new_array[i])
+	ft_memcpy(new_array, array, len * (sizeof (char *)));
+	new_array[len] = ft_strdup(new_element);
+	if (!new_array[len])
+	{
+		free(new_array);
 		malloc_fail_clean_exit(shell);
-	new_array[i + 1] = NULL;
+	}
 	if (array)
-		free_matrix(array);
+		free(array);
 	return (new_array);
 }

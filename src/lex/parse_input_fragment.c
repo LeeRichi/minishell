@@ -6,13 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:43:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:07:27 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:02:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// TODO: clear up and exit on malloc
 void	finalize_token(t_shell *shell, char **ct, int *token_count, char *s)
 {
 	size_t	new_size;

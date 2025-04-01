@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:04:39 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:42:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	handle_consecutive_redir(t_shell *shell, char **ct, int *i, char *input)
 	finalize_token(shell, ct, &shell->token_count, input);
 }
 
-//TODO: check all mallocs and free and exit if the do
 void	parse_input_character(t_shell *shell, char **ct, int *i, char *input)
 {
 	if ((input[*i] == '"' && input[*i + 1] == '"')

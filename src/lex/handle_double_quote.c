@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:50:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 18:01:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:13:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ void	hd_question_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 {
 	char	*itoaed_str;
 	int		j;
+	char	*to_free[3];
 
 	itoaed_str = ft_itoa(shell->exit_code);
+	to_free[0] = itoaed_str;
+	to_free[1] = s;
+	to_free[2] = 0;
 	if (!itoaed_str)
 	{
 		if (s)
@@ -27,7 +31,7 @@ void	hd_question_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 	j = 0;
 	while (itoaed_str[j])
 	{
-		*ct = str_append_v2(shell, *ct, itoaed_str[j], itoaed_str);
+		*ct = str_append_v4(shell, *ct, itoaed_str[j], to_free);
 		j++;
 	}
 	free(itoaed_str);
@@ -43,7 +47,7 @@ void	hd_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 		hd_question_in_double_quote(shell, ct, i, s);
 	else
 	{
-		env_value = handle_dollar_sign(shell, s, i);
+		env_value = handle_dollar_sign(shell, s, i, *ct);
 		if (!env_value)
 			*ct = str_append(shell, *ct, s[*i]);
 		else

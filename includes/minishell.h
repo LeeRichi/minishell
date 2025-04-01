@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 16:18:39 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:14:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,8 @@ void			handle_single_quote(t_shell *shell, char **current_token,
 //lex/handle_dollar_sign.c
 bool			check_balanced_quotes(const char *input);
 void			handle_unbalanced_quotes(t_shell *shell, char **input);
-char			*handle_dollar_sign(t_shell *shell, char *s, int *index);
+char			*handle_dollar_sign(t_shell *shell, char *s,
+					int *index, char *ct);
 
 //lex/lex_helper.c
 char			*str_append(t_shell *shell, char *str, char c);
@@ -302,6 +303,8 @@ char			*str_append_v2(t_shell *shell, char *str,
 					char c, char *free_me);
 char			*str_append_v3(t_shell *shell, char *str,
 					char c, t_free_struc *temp);
+char			*str_append_v4(t_shell *shell, char *str,
+					char c, char **free_me);
 char			*get_env_value(char *env_name, t_shell *shell);
 int				ft_start_with(char *str, char c);
 char			*ft_start_with_specials(char *str);
