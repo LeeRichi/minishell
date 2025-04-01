@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 18:14:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/01 23:01:20 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,6 +340,7 @@ int				cr(char **tokens);
 void			allocate_nodes(t_cmd **current_cmd,
 					t_cmd **new_cmd, t_shell *shell);
 void			struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
+void			do_not_expand(t_shell *shell, char **ct, int *i, char *input);
 
 extern int		g_sig;
 
