@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/04/01 16:18:47 by chlee2           ###   ########.fr        #
+#    Updated: 2025/04/02 17:50:56 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ CC = cc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
-# not sure if -lncureses in needed?
 # LDFLAGS = -L$(LIBFTDIR) -lft -lreadline -lncurses
 LDFLAGS = -L$(LIBFTDIR) -lft -lreadline
 SRCS = src/main.c \
@@ -73,12 +72,13 @@ SRCS = src/main.c \
 		src/buildins/export_helper.c \
 		src/buildins/cwd_fail.c \
 		src/lex/lex_helper_2.c \
+		src/buildins/exit_helper.c \
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+all: LIBFT $(NAME)
 
-$(NAME): $(OBJS) LIBFT
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFTDIR) $(LDFLAGS)
 
 LIBFT:
@@ -92,6 +92,6 @@ fclean: clean
 	rm -f $(NAME)
 	@make fclean -C $(LIBFTDIR)
 
-re: fclean $(NAME)
+re: fclean all
 
 .PHONY: all clean fclean re LIBFT

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:20:05 by chlee2            #+#    #+#             */
-/*   Updated: 2024/08/30 10:44:48 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:02:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,46 @@ char	*ft_itoa(int n)
 	}
 	if (n < 0)
 		result[0] = '-';
+	return (result);
+}
+
+void	itoa_helper(long long *n, int *len, long long *num, char **result)
+{
+	if ((*n) < 0)
+		(*n) = 1;
+	else
+		(*n) = 0;
+	while ((*len)-- > (*n))
+	{
+		(*result)[(*len)] = ((*num) % 10) + '0';
+		(*num) = (*num) / 10;
+	}
+}
+
+char	*ft_itoa_v2(long long n)
+{
+	char		*result;
+	int			len;
+	long long	num;
+
+	if (n == LLONG_MIN)
+		return ("-9223372036854775808");
+	len = count_digit(n);
+	num = n;
+	result = ft_malloc(len + 1);
+	if (!result)
+		return (NULL);
+	result[len] = '\0';
+	if (n < 0)
+	{
+		num *= -1;
+		result[0] = '-';
+	}
+	else if (n == 0)
+	{
+		result[0] = '0';
+		return (result);
+	}
+	itoa_helper(&n, &len, &num, &result);
 	return (result);
 }

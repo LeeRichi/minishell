@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 18:14:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:08:49 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdio.h>
 # include <signal.h>
 # include <stdlib.h>
+//check
+# include <limits.h>
 
 //defines
 # define STDIN  0   // Standard input
@@ -340,6 +342,11 @@ int				cr(char **tokens);
 void			allocate_nodes(t_cmd **current_cmd,
 					t_cmd **new_cmd, t_shell *shell);
 void			struct_redir(t_shell *shell, t_cmd *current_cmd, int *i);
+void			do_not_expand(t_shell *shell, char **ct, int *i, char *input);
+
+//exit_helper.c
+void			itoa_operation(t_shell *shell, long long new_way, char **args);
+void			print_message_and_exit(t_shell *shell, char **args);
 
 extern int		g_sig;
 
