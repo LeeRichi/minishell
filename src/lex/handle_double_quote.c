@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:50:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/02 00:24:37 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:31:34 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,36 +38,38 @@ void	hd_question_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 	(*i)++;
 }
 
+static void	hd_in_double_quote_helper(t_shell *shell,
+	char **ct, int *i, char *s)
+{
+	int		j;
+	char	*env_value;
+
+	env_value = handle_dollar_sign(shell, s, i, *ct);
+	if (!env_value)
+	{	
+		if (s[*i] == '$')
+			*ct = str_append_v2(shell, *ct, s[*i], s);
+		else
+			*ct = str_append_v2(shell, *ct, 0, s);
+	}
+	else
+	{
+		j = 0;
+		while (env_value[j])
+			*ct = str_append_v2(shell, *ct, env_value[j++], s);
+	}
+}
+
 void	hd_in_double_quote(t_shell *shell, char **ct, int *i, char *s)
 {
-	char	*env_value;
-	int		j;
-
 	if (s[*i + 1] == '?')
 		hd_question_in_double_quote(shell, ct, i, s);
 	else
 	{
 		if (shell->hd_flag)
-		{
-			do_not_expand(shell, ct, i ,s);
-		}
+			do_not_expand(shell, ct, i, s);
 		else
-		{
-			env_value = handle_dollar_sign(shell, s, i, *ct);
-			if (!env_value)
-			{	
-				if (s[*i] == '$')
-					*ct = str_append_v2(shell, *ct, s[*i], s);
-				else
-					*ct = str_append_v2(shell, *ct, 0, s);
-			}
-			else
-			{
-				j = 0;
-				while (env_value[j])
-					*ct = str_append_v2(shell, *ct, env_value[j++], s);
-			}
-		}
+			hd_in_double_quote_helper(shell, ct, i, s);
 	}
 }
 

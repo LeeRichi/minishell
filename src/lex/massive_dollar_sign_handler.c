@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 23:12:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:27:02 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 	if (!env_value)
 	{
 		if (input[*i] == '$' && input[*i] == '\0')
-		*ct = str_append_v2(shell, *ct, input[*i], input);
-			else
-		*ct = str_append_v2(shell, *ct, 0, input);
+			*ct = str_append_v2(shell, *ct, input[*i], input);
+		else
+			*ct = str_append_v2(shell, *ct, 0, input);
 	}
 	else
 	{
@@ -62,7 +62,8 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 
 void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
 {
-	while (input[*i] != ' ' && input[*i] && input[*i] != '"' && input[*i] != '\'')
+	while (input[*i] != ' ' && input[*i]
+		&& input[*i] != '"' && input[*i] != '\'')
 	{
 		*ct = str_append_v2(shell, *ct, input[*i], input);
 		(*i)++;

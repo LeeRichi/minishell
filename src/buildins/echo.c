@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/28 18:51:16 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:19:45 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	handle_flag(char **cmd_args, int *newline)
 		while (cmd_args[i][j])
 		{
 			if (cmd_args[i][j] != 'n')
+			{
 				handle_flag_helper(cmd_args, i);
+				return ;
+			}
 			else
 				(*newline) = 0;
 			j++;

@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/04/01 16:18:47 by chlee2           ###   ########.fr        #
+#    Updated: 2025/04/02 16:24:57 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,12 +73,14 @@ SRCS = src/main.c \
 		src/buildins/export_helper.c \
 		src/buildins/cwd_fail.c \
 		src/lex/lex_helper_2.c \
+		src/buildins/exit_helper.c \
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) LIBFT
+# $(NAME): $(OBJS) LIBFT
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFTDIR) $(LDFLAGS)
 
 LIBFT:
