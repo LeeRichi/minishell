@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 22:34:42 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:50:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 
 	shell_init(envp, &shell);
-
 	while (1)
 	{
 		if (isatty(fileno(stdin)))
