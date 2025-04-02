@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:27:43 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/01 16:16:40 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:33:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	in_heredoc_child(char *eof, t_shell *shell, int fds[2])
 	close_pipe_safe(fds);
 	if (g_sig == 1)
 	{
+		ft_printf_fd(2, "errno before free_all in sig in heredoc child: %d\n", errno);
 		ft_free_all(shell);
 		exit(130);
 	}
@@ -69,6 +70,7 @@ void	in_heredoc_child(char *eof, t_shell *shell, int fds[2])
 			free(line);
 		}
 	}
+	ft_printf_fd(2, "errno before free_all in heredoc child: %d\n", errno);
 	ft_free_all(shell);
 	exit(0);
 }
@@ -81,6 +83,7 @@ int	wait_heredoc(int fork_res, t_shell *shell, int fds[2])
 	wait_return = wait(&wait_status);
 	if (wait_return == fork_res)
 	{
+		ft_putstr_fd("caught heredoc\n", 2);
 		set_minishell_signal();
 		if (WIFEXITED(wait_status))
 			shell->exit_code = WEXITSTATUS(wait_status);

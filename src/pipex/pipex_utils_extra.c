@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:23:27 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 18:23:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:13:00 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_cmd	*free_pipex_cmd(t_cmd *command)
 
 void	free_pipex(t_pipex pipex)
 {
+//	static int counter;
+//	counter++;
 	if (pipex.command)
 	{
 		free_pipex_cmd(pipex.command);
@@ -64,7 +66,17 @@ void	free_pipex(t_pipex pipex)
 	}
 	if (pipex.path_split)
 		free_split(pipex.path_split);
+//	printf("errno: %d\ncounter: %d\n", errno, counter);
+	printf("errno before close attempt: %d\n", errno);
+	printf("pipe 0 before ft_close: %d\n", pipex.pipe[0]);
+	if (pipex.pipe[0] == pipex.reserve_fd)
+		pipex.reserve_fd = -1;
 	ft_close(&pipex.pipe[0]);
+	printf("errno: %d\n", errno);
+	printf("pipe 1 before ft_close: %d\n", pipex.pipe[1]);
 	ft_close(&pipex.pipe[1]);
+	printf("errno: %d\n", errno);
+	printf("reserve_fd before ft_close: %d\n", pipex.reserve_fd);
 	ft_close(&pipex.reserve_fd);
+	printf("errno: %d\n", errno);
 }
