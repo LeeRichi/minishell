@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/03 17:58:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:46:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	pipex_loop(t_pipex *pipex)
 {
 	int		wait_all_return;
 	pid_t	pid;
-//	perror("in a loop");
 
 	before_child_process_signal();
 	while (pipex->current_command < pipex->command_count)
@@ -55,7 +54,6 @@ int	resolve_heredoc_cmds_or_error_and_exit(t_pipex *pipex,
 	{
 		if (shell->err_code)
 		{
-//			printf("asdasdasdasdasdasdasdsdassadasd\n");
 			if (shell->pipex)
 				free_pipex(*(shell->pipex));
 			shell->pipex = 0;
@@ -87,7 +85,6 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	resolve_heredoc_cmds_or_error_and_exit(&pipex, command_count, shell);
 	if (shell->err_code)
 	{
-//		perror("exit in pipex launch");
 		shell->err_code = 0;
 		return (shell->exit_code);
 	}

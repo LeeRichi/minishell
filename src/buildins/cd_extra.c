@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:57:25 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/31 21:20:36 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/03 18:44:28 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	cd_to_var(t_shell *shell, char *var_key)
 	else
 	{
 		ft_printf_fd(2, "%s not set.\n", var_key);
-		return (0);
+		return (1);
 	}
 }
 

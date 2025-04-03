@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/29 20:30:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:48:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_error_message(t_error err)
 	else if (err.errtype == FILE_NOT_FOUND)
 		return (form_err_m(SHELL_NAME, err.f_name, strerror(ENOENT)));
 	else if (err.errtype == PROG_FILE_IS_DIR)
-		return (form_err_m(SHELL_NAME, err.f_name, strerror(EISDIR)));
+		return (form_err_m(SHELL_NAME, err.cmd_name, strerror(EISDIR)));
 	else if (err.errtype == DUP_FAIL)
 		return (form_err_m(SHELL_NAME, "dup fail", strerror(errno)));
 	else if (err.errtype == PIPE_FAIL)

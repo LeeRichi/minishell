@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/03 17:31:55 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:50:23 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #  define SHELL_NAME "minishell"
 # endif
 # include "../lib/libft/libft.h"
-// TODO: remove src/debug.c src/debug.h from project and Makefile
-# include "../src/debug.h"
 
 # include <sys/wait.h>
 # include <readline/readline.h>
