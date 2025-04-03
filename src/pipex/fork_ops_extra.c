@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:38:00 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/02 20:18:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:59:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int	wait_all(t_pipex pipex)
 		else if (get_exit_code(wstatus) == 130 && !sig_int_child++)
 			ft_putstr_fd("\n", 2);
 	}
-	ft_putstr_fd("caught all children\n", 2);
+//	ft_putstr_fd("caught all children\n", 2);
 	return (exit_status);
 }

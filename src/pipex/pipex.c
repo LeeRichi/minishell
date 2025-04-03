@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:22:51 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/02 20:24:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:58:02 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	pipex_launch(t_cmd *cmds, char **env, t_shell *shell)
 	resolve_heredoc_cmds_or_error_and_exit(&pipex, command_count, shell);
 	if (shell->err_code)
 	{
-		perror("exit in pipex launch");
+//		perror("exit in pipex launch");
 		shell->err_code = 0;
 		return (shell->exit_code);
 	}

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/02 20:40:16 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:56:28 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_sigint(int code)
 {
-	printf("interupting parentAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
+//	printf("interupting parentAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
 	(void)code;
 	ft_putstr_fd("\n", STDERR);
 	rl_on_new_line();
@@ -50,7 +50,7 @@ int	restore_signal(int signum)
 
 void	set_minishell_signal(void)
 {
-	perror("parent signal set");
+//	perror("parent signal set");
 	if (set_signal(SIGQUIT, SIG_IGN))
 		ft_putstr_fd("set signal error\n", 2);
 	if (set_signal(SIGINT, handle_sigint))

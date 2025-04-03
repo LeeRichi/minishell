@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 17:40:32 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:55:10 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_nullize_struct(t_cmd *new_cmd)
 {
 	ft_bzero(new_cmd, sizeof(t_cmd));
+	new_cmd->heredoc_fd = -1;
 }
 
 void	ft_add_redirection(t_shell *shell, char ***array, char *file)

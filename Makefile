@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/04/02 17:50:56 by chlee2           ###   ########.fr        #
+#    Updated: 2025/04/03 17:30:58 by mbutuzov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CFLAGS = -Wall -Wextra -Werror
 # LDFLAGS = -L$(LIBFTDIR) -lft -lreadline -lncurses
 LDFLAGS = -L$(LIBFTDIR) -lft -lreadline
 SRCS = src/main.c \
+		src/debug.c \
 		src/parse.c \
 		src/sig.c \
 		src/sig_extra.c \
