@@ -6,12 +6,11 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 16:33:39 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:26:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-//TODO: check sigaction and sigemptyset fail
 
 void	handle_sigint(int code)
 {
@@ -52,12 +51,12 @@ int	set_minishell_signal(void)
 {
 	if (set_signal(SIGQUIT, SIG_IGN))
 	{
-		ft_putstr_fd(SHELL_NAME":minishell set signal error\n", 2);
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
 		return (-1);
 	}
 	if (set_signal(SIGINT, handle_sigint))
 	{
-		ft_putstr_fd(SHELL_NAME": minishell set signal error\n", 2);
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
 		return (-1);
 	}
 	return (0);

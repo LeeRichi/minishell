@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:27:43 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/04 16:29:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:59:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,7 @@ void	in_heredoc_child(char *eof, t_shell *shell, int fds[2])
 
 	line = 0;
 	proper_exit = 0;
-	if (set_heredoc_signal())
-	{
-		close_pipe_safe(fds);
-		ft_free_all(shell);
-		exit(1);
-	}
+	set_heredoc_signal_exit(shell, fds);
 	heredoc_readline_loop(eof, fds, &proper_exit);
 	close_pipe_safe(fds);
 	if (g_sig == 1)
@@ -86,11 +81,8 @@ int	wait_heredoc(int fork_res, t_shell *shell, int fds[2])
 	wait_return = wait(&wait_status);
 	if (wait_return == fork_res)
 	{
-		if (set_minishell_signal())
-		{
-			close(fds[0]);
+		if (set_minishell_signal_after_heredoc_clean(fds[0]))
 			return (-1);
-		}
 		if (WIFEXITED(wait_status))
 			shell->exit_code = WEXITSTATUS(wait_status);
 		else if (WIFSIGNALED(wait_status))
