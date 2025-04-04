@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 18:42:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 21:00:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ bool	check_balanced_quotes(const char *input)
 			single_quotes++;
 		else if (input[i] == '"' && single_quotes % 2 == 0)
 			double_quotes++;
+		if(!input[i])
+			break ;
 		i++;
 	}
 	return (single_quotes % 2 == 0 && double_quotes % 2 == 0);

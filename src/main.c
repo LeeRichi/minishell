@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 17:58:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:27:10 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,35 @@ int	shell_init(char **envp, t_shell *shell)
 	return (1);
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_shell	shell;
 
-	(void)av;
-	if (ac != 1)
-	{
-		ft_putstr_fd("Usage ./minishell\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	shell_init(envp, &shell);
-	while (1)
-	{
-		shell.input = readline(SHELL_NAME": ");
-		if (!shell.input)
-			break ;
-		if (*shell.input)
-			parse(&shell);
-		else
-			free(shell.input);
-		execute(&shell);
-		clear_tokens(&shell);
-		clear_cmds(&shell);
-	}
-	ft_free_all(&shell);
-	return (shell.exit_code);
-}
+// 	(void)av;
+// 	if (ac != 1)
+// 	{
+// 		ft_putstr_fd("Usage ./minishell\n", 2);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	shell_init(envp, &shell);
+// 	while (1)
+// 	{
+// 		shell.input = readline(SHELL_NAME": ");
+// 		if (!shell.input)
+// 			break ;
+// 		if (*shell.input)
+// 			parse(&shell);
+// 		else
+// 			free(shell.input);
+// 		execute(&shell);
+// 		clear_tokens(&shell);
+// 		clear_cmds(&shell);
+// 	}
+// 	ft_free_all(&shell);
+// 	return (shell.exit_code);
+// }
 
-/*
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell shell;
@@ -146,4 +146,4 @@ int	main(int ac, char **av, char **envp)
 	//exit
 	return (shell.exit_code);
 }
-*/
+

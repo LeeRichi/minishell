@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 16:08:44 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 20:33:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	process_additional_input(t_shell *shell, char **input)
 		if (!additional_input || ft_start_with(additional_input, '|'))
 			handle_unexpected_eof(shell, *input, additional_input);
 		append_additional_input(shell, input, additional_input);
+		// printf("additional_input: %s \n", additional_input);
 		parse_input_fragment(additional_input, shell);
 		free(additional_input);
 	}

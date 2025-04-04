@@ -349,6 +349,10 @@ void			do_not_expand(t_shell *shell, char **ct, int *i, char *input);
 void			itoa_operation(t_shell *shell, long long new_way, char **args);
 void			print_message_and_exit(t_shell *shell, char **args);
 
+void	process_additional_input(t_shell *shell, char **input);
+
+void	free_with_code(t_shell *shell, int code);
+
 extern int		g_sig;
 
 #endif
