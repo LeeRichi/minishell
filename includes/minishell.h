@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/03 18:50:23 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:16:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,7 @@
 # define YELLOW "\033[33m"
 # define RESET "\033[0m"
 # define GREEN "\033[32m"
-/*
-typedef struct s_sig
-{
-	int sigint;
-  	int sigquit;
-}	t_sig;
-*/
+
 typedef enum e_token_type {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -169,6 +163,7 @@ typedef enum e_perrtypes {
 	FORK_FAIL,
 	FILE_REDIR_FAIL,
 	AMBIGOUS_REDIR,
+	SIG_FAIL
 }	t_perrtypes;
 
 typedef struct s_error
@@ -249,11 +244,11 @@ t_builtin_type	get_builtin_type(t_cmd cmd);
 
 //global functions
 void			parse(t_shell *shell);
-void			set_minishell_signal(void);
-void			before_child_process_signal(void);
-void			set_child_signal(void);
-void			set_heredoc_signal(void);
-void			before_heredoc_process_signal(void);
+int			set_minishell_signal(void);
+int			before_child_process_signal(void);
+int			set_child_signal(void);
+int			set_heredoc_signal(void);
+int			before_heredoc_process_signal(void);
 
 //builtins
 int				handle_echo(char **tokens, t_shell *shell);

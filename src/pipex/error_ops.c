@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:50 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/03 18:48:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:17:16 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_known_errtype(t_error err)
 	t_perrtypes	type;
 
 	type = MALLOC_FAIL;
-	while (type <= AMBIGOUS_REDIR)
+	while (type <= SIG_FAIL)
 	{
 		if (err.errtype == type)
 			return (1);
