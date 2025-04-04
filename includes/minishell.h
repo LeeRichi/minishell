@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/02 16:08:49 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:09:10 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ void			handle_empty_token_strdup(t_shell *shell, char **current_token,
 					int *i, char *input);
 //lex/parse_input_fragment.c
 void			parse_input_fragment(char *input, t_shell *shell);
+// void	parse_input_fragment(char *input, t_shell *shell, char **current_token);
 //lex/massive_dollar_sign_handler.c
 void			massive_dollar_sign_handler(t_shell *shell,
 					char **current_token, int *i, char *input);
