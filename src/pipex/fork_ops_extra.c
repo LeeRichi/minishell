@@ -6,11 +6,20 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:38:00 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/03 18:47:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:01:20 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	in_child_free_and_exit(t_shell *shell, int file_red_result,
+			t_cmd *command)
+{
+	if (file_red_result)
+		ft_free_and_exit(shell, 1);
+	if (!command->cmd_name)
+		ft_free_and_exit(shell, 0);
+}
 
 int	get_exit_code(int wstatus)
 {

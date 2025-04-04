@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/04 16:20:28 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:01:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ void	in_child(t_pipex *pipex)
 	if (pipex->command_count > 1)
 		redirect_fds(pipex);
 	file_red_result = process_file_redirections(command);
-	if (file_red_result)
-		ft_free_and_exit(shell, 1);
-	if (!command->cmd_name)
-		ft_free_and_exit(shell, 0);
+	in_child_free_and_exit(shell, file_red_result, command);
 	if (get_builtin_type(*command))
 		ft_free_and_exit(shell, handle_builtin(*command));
 	else
