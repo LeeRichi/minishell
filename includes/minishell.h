@@ -279,6 +279,7 @@ void			handle_empty_token_strdup(t_shell *shell, char **current_token,
 					int *i, char *input);
 //lex/parse_input_fragment.c
 void			parse_input_fragment(char *input, t_shell *shell);
+// void	parse_input_fragment(char *input, t_shell *shell, char **current_token);
 //lex/massive_dollar_sign_handler.c
 void			massive_dollar_sign_handler(t_shell *shell,
 					char **current_token, int *i, char *input);

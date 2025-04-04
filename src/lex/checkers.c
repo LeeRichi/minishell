@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:39:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/25 16:15:07 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:33:43 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	empty_between_checker(t_shell *shell)
 	while (shell->tokens[i])
 	{
 		if ((ft_strcmp(shell->tokens[i], "|") == 0
+				&& shell->tokens[i + 1]
 				&& ft_strcmp(shell->tokens[i + 1], "|") == 0))
 		{
 			if (shell->tokens[i + 1] && shell->ambiguous_flag != 1)

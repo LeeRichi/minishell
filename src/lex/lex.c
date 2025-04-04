@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/30 19:31:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:08:44 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	handle_unexpected_eof(t_shell *shell, char *input, char *ai)
 		ft_printf_fd(STDERR, "minishell: syntax error\n");
 	else
 		ft_printf_fd(STDERR, "minishell: syntax error\n");
+	free_matrix(shell->tokens);
 	free(input);
 	free(ai);
 	free_matrix(shell->envp);
@@ -70,7 +71,7 @@ static void	invalid_checker(t_shell *shell, char *input, int err_code)
 }
 
 void	tokenize_input(char *input, t_shell *shell)
-{
+{	
 	shell->in_single_quote = 0;
 	shell->in_double_quote = 0;
 	clear_tokens(shell);
