@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 22:34:22 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 19:04:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,11 @@ typedef struct s_error
 	t_perrtypes	errtype;
 }	t_error;
 
+void			set_heredoc_signal_exit(t_shell *shell, int *fds);
+void			in_child_free_and_exit(t_shell *shell, int file_red_result,
+					t_cmd *command);
+void			ft_free_and_exit(t_shell *shell, int exit_code);
+int				set_minishell_signal_after_heredoc_clean(int fd);
 int				update_envp_pwd_old_pwd(char *old,
 					t_shell *shell, char **cd_args);
 int				arg_name_checker(char *str);
@@ -244,11 +249,11 @@ t_builtin_type	get_builtin_type(t_cmd cmd);
 
 //global functions
 void			parse(t_shell *shell);
-int			set_minishell_signal(void);
-int			before_child_process_signal(void);
-int			set_child_signal(void);
-int			set_heredoc_signal(void);
-int			before_heredoc_process_signal(void);
+int				set_minishell_signal(void);
+int				before_child_process_signal(void);
+int				set_child_signal(void);
+int				set_heredoc_signal(void);
+int				before_heredoc_process_signal(void);
 
 //builtins
 int				handle_echo(char **tokens, t_shell *shell);
