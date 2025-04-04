@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:23:27 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 18:23:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:48:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	free_pipex(t_pipex pipex)
 	}
 	if (pipex.path_split)
 		free_split(pipex.path_split);
+	if (pipex.pipe[0] == pipex.reserve_fd)
+		pipex.reserve_fd = -1;
 	ft_close(&pipex.pipe[0]);
 	ft_close(&pipex.pipe[1]);
 	ft_close(&pipex.reserve_fd);

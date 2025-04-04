@@ -55,11 +55,12 @@ void	shell_init_helper(char **envp, t_shell *shell)
 
 int	shell_init(char **envp, t_shell *shell)
 {
-	shell->exit_code = 0;
+	ft_bzero(&shell, sizeof(t_shell));
+//	shell->exit_code = 0;
 	shell_init_helper(envp, shell);
 	if (shell->exit_code)
 		malloc_fail_clean_exit(0);
-	shell->envp_value_pair = NULL;
+/*	shell->envp_value_pair = NULL;
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->token_count = 0;
@@ -70,45 +71,53 @@ int	shell_init(char **envp, t_shell *shell)
 	shell->last_token_type = 0;
 	shell->cmds = NULL;
 	shell->ambiguous_flag = 0;
+*/
 	shell->stdin_fd = -1;
 	shell->stdout_fd = -1;
+/*
 	shell->pipex = 0;
 	shell->has_quotes = 0;
 	shell->hd_flag = 0;
+*/
 	shell_level_ctrl(shell);
 	g_sig = 0;
-	set_minishell_signal();
+	if (set_minishell_signal())
+	{
+		ft_free_all(shell);
+		exit(1);
+	}
 	return (1);
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
 
-// 	(void)av;
-// 	if (ac != 1)
-// 	{
-// 		ft_putstr_fd("Usage ./minishell\n", 2);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	shell_init(envp, &shell);
-// 	while (1)
-// 	{
-// 		shell.input = readline(SHELL_NAME": ");
-// 		if (!shell.input)
-// 			break ;
-// 		if (*shell.input)
-// 			parse(&shell);
-// 		else
-// 			free(shell.input);
-// 		execute(&shell);
-// 		clear_tokens(&shell);
-// 		clear_cmds(&shell);
-// 	}
-// 	ft_free_all(&shell);
-// 	return (shell.exit_code);
-// }
+	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Usage ./minishell\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	shell_init(envp, &shell);
+	while (1)
+	{
+		shell.input = readline(SHELL_NAME": ");
+		if (!shell.input)
+			break ;
+		if (*shell.input)
+			parse(&shell);
+		else
+			free(shell.input);
+		execute(&shell);
+		clear_tokens(&shell);
+		clear_cmds(&shell);
+	}
+	ft_free_all(&shell);
+	return (shell.exit_code);
+}
 
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_shell shell;
@@ -155,3 +164,4 @@ int	main(int ac, char **av, char **envp)
 	//exit
 	return (shell.exit_code);
 }
+*/

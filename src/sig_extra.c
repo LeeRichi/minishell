@@ -6,34 +6,60 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:59:40 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/03/28 19:00:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:42:41 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	before_heredoc_process_signal(void)
+int	before_heredoc_process_signal(void)
 {
-	set_signal(SIGQUIT, SIG_IGN);
-	set_signal(SIGINT, SIG_IGN);
+	if (set_signal(SIGQUIT, SIG_IGN))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	if (set_signal(SIGINT, SIG_IGN))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	return (0);
 }
 
-void	heredoc_int_beh(int asd)
+void	heredoc_int_beh(int sig)
 {
-	(void)asd;
-	g_sig = 1;
+	g_sig = sig;
 	if (close(0) == -1)
-		perror("Can't close heredoc standard input");
+		perror("Close heredoc standard input error");
 }
 
-void	set_child_signal(void)
+int	set_child_signal(void)
 {
-	restore_signal(SIGQUIT);
-	restore_signal(SIGINT);
+	if (restore_signal(SIGQUIT))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	if (restore_signal(SIGINT))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	return (0);
 }
 
-void	set_heredoc_signal(void)
+int	set_heredoc_signal(void)
 {
-	set_signal(SIGQUIT, SIG_IGN);
-	set_signal(SIGINT, heredoc_int_beh);
+	if (set_signal(SIGQUIT, SIG_IGN))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	if (set_signal(SIGINT, heredoc_int_beh))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	return (0);
 }

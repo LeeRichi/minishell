@@ -6,11 +6,12 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 22:11:11 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:33:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+//TODO: check sigaction and sigemptyset fail
 
 void	handle_sigint(int code)
 {
@@ -47,16 +48,32 @@ int	restore_signal(int signum)
 	return (sigaction(signum, &action, 0));
 }
 
-void	set_minishell_signal(void)
+int	set_minishell_signal(void)
 {
 	if (set_signal(SIGQUIT, SIG_IGN))
-		ft_putstr_fd("set signal error\n", 2);
+	{
+		ft_putstr_fd(SHELL_NAME":minishell set signal error\n", 2);
+		return (-1);
+	}
 	if (set_signal(SIGINT, handle_sigint))
-		ft_putstr_fd("set signal error\n", 2);
+	{
+		ft_putstr_fd(SHELL_NAME": minishell set signal error\n", 2);
+		return (-1);
+	}
+	return (0);
 }
 
-void	before_child_process_signal(void)
+int	before_child_process_signal(void)
 {
-	set_signal(SIGQUIT, SIG_IGN);
-	set_signal(SIGINT, SIG_IGN);
+	if (set_signal(SIGQUIT, SIG_IGN))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	if (set_signal(SIGINT, SIG_IGN))
+	{
+		ft_putstr_fd(SHELL_NAME": set signal error\n", 2);
+		return (-1);
+	}
+	return (0);
 }
