@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 16:08:54 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 17:58:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,12 @@ void	shell_init_helper(char **envp, t_shell *shell)
 
 int	shell_init(char **envp, t_shell *shell)
 {
-	ft_bzero(&shell, sizeof(t_shell));
-//	shell->exit_code = 0;
+	ft_bzero(shell, sizeof(t_shell));
 	shell_init_helper(envp, shell);
 	if (shell->exit_code)
 		malloc_fail_clean_exit(0);
-/*	shell->envp_value_pair = NULL;
-	shell->input = NULL;
-	shell->tokens = NULL;
-	shell->token_count = 0;
-	shell->current_index = 0;
-	shell->in_single_quote = 0;
-	shell->in_double_quote = 0;
-	shell->err_code = 0;
-	shell->last_token_type = 0;
-	shell->cmds = NULL;
-	shell->ambiguous_flag = 0;
-*/
 	shell->stdin_fd = -1;
 	shell->stdout_fd = -1;
-/*
-	shell->pipex = 0;
-	shell->has_quotes = 0;
-	shell->hd_flag = 0;
-*/
 	shell_level_ctrl(shell);
 	g_sig = 0;
 	if (set_minishell_signal())
