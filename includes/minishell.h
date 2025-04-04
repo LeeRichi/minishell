@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 16:16:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/04 22:34:22 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,6 +343,10 @@ void			do_not_expand(t_shell *shell, char **ct, int *i, char *input);
 //exit_helper.c
 void			itoa_operation(t_shell *shell, long long new_way, char **args);
 void			print_message_and_exit(t_shell *shell, char **args);
+
+void	process_additional_input(t_shell *shell, char **input);
+
+void	free_with_code(t_shell *shell, int code);
 
 extern int		g_sig;
 

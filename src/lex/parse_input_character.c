@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 18:42:21 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/04 21:04:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	handle_wave(t_shell *shell, char **current_token, int *i, char *input)
 void	white_space_found_no_quote(t_shell *s, char **ct, int *i, char *input)
 {
 	finalize_token(s, ct, &s->token_count, input);
+	if (*i < 1)
+		return ;
 	if (input[*i - 1] == '|')
 		s->last_token_type = 1;
 	else if (input[*i - 1] == '>' || input[*i - 1] == '<')
