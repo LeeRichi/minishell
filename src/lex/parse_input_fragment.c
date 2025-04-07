@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:43:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 20:52:35 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:48:30 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	parse_input_fragment(char *input, t_shell *shell)
 		if (input[i] == 0)
 			break ;
 		i++;
-	
 	}
 	// printf("input: %sfghjkhgfdsfghjklkjhgfdsadghjkjhgfd\n", input);
 	// printf("input: %s, current_token: %s, is in quotes?: %d\n", input, current_token, shell->in_single_quote);
@@ -74,6 +73,8 @@ void	parse_input_fragment(char *input, t_shell *shell)
 	finalize_token(shell, &current_token, &shell->token_count, input);
 	while (i > -1 && ft_strchr(WHITESPACE, input[i]))
 		i--;
+	if (i < 0)
+		i = 0;
 	if (input[i] == '|')
 		shell->last_token_type = 1;
 	else if (input[i] == '>' || input[i] == '<')
