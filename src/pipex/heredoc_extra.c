@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:27:43 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/04 18:59:44 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:18:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	in_heredoc_child(char *eof, t_shell *shell, int fds[2])
 	set_heredoc_signal_exit(shell, fds);
 	heredoc_readline_loop(eof, fds, &proper_exit);
 	close_pipe_safe(fds);
-	if (g_sig == 1)
+	if (g_sig)
 	{
 		ft_free_all(shell);
 		exit(130);
