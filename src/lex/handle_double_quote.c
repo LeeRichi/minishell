@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:50:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 20:35:50 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:37:32 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ void	handle_double_quote(t_shell *shell, char **ct, int *i, char *input)
 	if (input[*i] == '"')
 		shell->in_double_quote = !(shell->in_double_quote);
 	if (*ct && (ft_strcmp(*ct, ">") == 0 || ft_strcmp(*ct, ">>") == 0
-		|| ft_strcmp(*ct, "<") == 0))
+			|| ft_strcmp(*ct, "<") == 0))
 		shell->has_quotes++;
 }

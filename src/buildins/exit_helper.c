@@ -6,11 +6,24 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:32 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 22:50:55 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:40:58 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	print_message_and_exit_v2(t_shell *shell, char **args, char *f_me)
+{
+	free(f_me);
+	print_message_and_exit(shell, args);
+}
+
+static void	happy_exit_v2(t_shell *shell, char *f_me)
+{
+	printf("exit\n");
+	free(f_me);
+	free_with_code(shell, 0);
+}
 
 void	itoa_operation(t_shell *shell, long long new_way, char **args)
 {
@@ -27,28 +40,14 @@ void	itoa_operation(t_shell *shell, long long new_way, char **args)
 	while (args && args[0][i] == '0')
 		i++;
 	if (ft_strcmp(str_new_way, "0") == 0)
-	{
-		printf("exit\n");
-		free(str_new_way);
-		free_with_code(shell, 0);
-	}
+		happy_exit_v2(shell, str_new_way);
 	j = 0;
 	while (str_new_way[j] == '0')
 		j++;
 	if (ft_strcmp(str_new_way + j, "") == 0)
-	{
-		free(str_new_way);
-		// printf("-1\n");
-		print_message_and_exit(shell, args);
-	}
+		print_message_and_exit_v2(shell, args, str_new_way);
 	if (ft_strcmp(str_new_way + j, args[0] + i) != 0)
-	{
-		free(str_new_way);
-		// printf("-2\n");
-		print_message_and_exit(shell, args);
-	}
+		print_message_and_exit_v2(shell, args, str_new_way);
 	else if (ft_strcmp("-9223372036854775808", str_new_way + j) != 0)
 		free(str_new_way);
-//	else
-//		free(str_new_way)
 }

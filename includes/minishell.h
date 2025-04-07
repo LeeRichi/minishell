@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 19:04:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:47:47 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,9 +349,12 @@ void			do_not_expand(t_shell *shell, char **ct, int *i, char *input);
 void			itoa_operation(t_shell *shell, long long new_way, char **args);
 void			print_message_and_exit(t_shell *shell, char **args);
 
-void	process_additional_input(t_shell *shell, char **input);
+void			process_additional_input(t_shell *shell, char **input);
 
-void	free_with_code(t_shell *shell, int code);
+void			free_with_code(t_shell *shell, int code);
+
+int				ft_isnum(char k);
+void			isnum_checker(t_shell *shell, char **args, int *i);
 
 extern int		g_sig;
 

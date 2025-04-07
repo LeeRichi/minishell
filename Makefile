@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/04/04 18:59:28 by mbutuzov         ###   ########.fr        #
+#    Updated: 2025/04/07 18:46:01 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ CC = cc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
-# LDFLAGS = -L$(LIBFTDIR) -lft -lreadline -lncurses
 LDFLAGS = -L$(LIBFTDIR) -lft -lreadline
 SRCS = src/main.c \
 		src/parse.c \
@@ -74,6 +73,7 @@ SRCS = src/main.c \
 		src/buildins/cwd_fail.c \
 		src/lex/lex_helper_2.c \
 		src/buildins/exit_helper.c \
+		src/buildins/isNum_for_exit.c \
 
 OBJS = $(SRCS:.c=.o)
 

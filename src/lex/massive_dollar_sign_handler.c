@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/04 21:25:01 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:53:06 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
 		(*i)++;
 	}
 	(*i)--;
+	if (*i < 0)
+		*i = 0;
 	shell->hd_flag--;
 }
 
