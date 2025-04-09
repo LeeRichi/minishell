@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:47:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/09 21:44:26 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ typedef struct s_error
 	t_perrtypes	errtype;
 }	t_error;
 
+void			close_other_heredocs(t_pipex *pipex);
 void			set_heredoc_signal_exit(t_shell *shell, int *fds);
 void			in_child_free_and_exit(t_shell *shell, int file_red_result,
 					t_cmd *command);
