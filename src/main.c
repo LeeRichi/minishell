@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 19:00:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:16:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	shell_init(char **envp, t_shell *shell)
 {
 	ft_bzero(shell, sizeof(t_shell));
 	shell_init_helper(envp, shell);
-	if (shell->exit_code)
+if (shell->exit_code)
 		malloc_fail_clean_exit(0);
 	shell->stdin_fd = -1;
 	shell->stdout_fd = -1;

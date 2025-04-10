@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/02 16:19:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:29:05 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ static void	handle_flag(char **cmd_args, int *newline)
 				return ;
 			}
 			else
-				(*newline) = 0;
+			{
+				//-nnnnk as first one can print new_line
+				//check here
+				(*newline) = 0; //valid -n cases
+			}
 			j++;
 		}
 		i++;
