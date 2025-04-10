@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:28:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:30:03 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 	i = 0;
 	while (shell->tokens[i])
 	{
+		//if (shell->expanded_tokens[j] == shell->tokens[i])
+		
 		if (current_cmd == NULL || ft_strcmp(shell->tokens[i], "|") == 0)
 		{
 			allocate_nodes(&current_cmd, &new_cmd, shell);
@@ -56,7 +58,10 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 			|| ft_strcmp(shell->tokens[i], ">>") == 0
 			|| ft_strcmp(shell->tokens[i], ">") == 0
 			|| ft_strcmp(shell->tokens[i], "<") == 0)
+		{
 			struct_redir(shell, current_cmd, &i);
+			//store_signs(shell->signs);
+		}
 		else
 			struct_else(shell, current_cmd, &i);
 		i++;

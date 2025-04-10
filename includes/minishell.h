@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:47:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:35:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,10 @@ typedef struct s_error
 	char		*cmd_name;
 	t_perrtypes	errtype;
 }	t_error;
+//TODO: remove
+void print_cmd_struct(t_cmd *cmd);
+void print_tokens(char **tokens);
+
 
 void			set_heredoc_signal_exit(t_shell *shell, int *fds);
 void			in_child_free_and_exit(t_shell *shell, int file_red_result,

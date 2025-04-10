@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 18:53:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:34:26 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 		while (env_value[j])
 			*ct = str_append_v2(shell, *ct, env_value[j++], input);
 	}
+	//printf("env_value is: %s\n", env_value);
 }
 
 void	do_not_expand(t_shell *shell, char **ct, int *i, char *input)
