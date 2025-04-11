@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:28:12 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/09 21:21:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:41:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	preserve_fds(t_shell *shell)
 
 static int	restore_fds(t_shell *shell)
 {
+	if (shell->stdin_fd == -1 || shell->stdout_fd == -1)
+		return (-1);
 	if (dup2(shell->stdin_fd, STDIN_FILENO) == -1)
 		return (-1);
 	if (dup2(shell->stdout_fd, STDOUT_FILENO) == -1)
