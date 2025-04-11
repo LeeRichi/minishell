@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/09 22:12:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:18:15 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,18 @@ typedef enum e_builtin_type {
 	IS_UNSET
 }	t_builtin_type;
 
+
+typedef enum e_sig_flag {
+	SIG_READ,
+	SIG_CAUGHT,
+	SIG_RESET,
+}	t_check_sig_flag;
+/*
 typedef struct s_redirection {
 	t_redirect_type	type;
 	char			*file;
 }	t_redirection;
-
+*/
 typedef struct s_key_value
 {
 	char				*key;
@@ -173,7 +180,8 @@ typedef struct s_error
 	t_perrtypes	errtype;
 }	t_error;
 
-void			close_other_heredocs(t_pipex *pipex);
+void			close_other_fds(t_pipex *pipex);
+int				check_sig(t_check_sig_flag flag);
 void			set_heredoc_signal_exit(t_shell *shell, int *fds);
 void			in_child_free_and_exit(t_shell *shell, int file_red_result,
 					t_cmd *command);

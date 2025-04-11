@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:28:08 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/09 21:44:28 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:17:24 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	in_child(t_pipex *pipex)
 	int		file_red_result;
 	t_shell	*shell;
 
-	close_other_heredocs(pipex);
+	close_other_fds(pipex);
 	command = pipex->command + pipex->current_command;
 	if (set_child_signal())
 		error_and_exit(pipex, error_init(SIG_FAIL, 0, 0));

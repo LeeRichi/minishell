@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 19:00:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 16:39:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	shell_init(char **envp, t_shell *shell)
 		ft_free_all(shell);
 		exit(1);
 	}
+	preserve_fds_and_error_exit(shell);
 	return (1);
 }
 
@@ -85,9 +86,15 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		shell.input = readline(SHELL_NAME": ");
+//		write(1, "check\n", 6);
 		if (!shell.input)
 			break ;
-		if (*shell.input)
+		if (check_sig(SIG_READ))
+		{
+			shell.exit_code = 130;
+			check_sig(SIG_RESET);
+		}
+		if (shell.input && *shell.input)
 			parse(&shell);
 		else
 			free(shell.input);
