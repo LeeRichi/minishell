@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:50:14 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/10 18:27:26 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:34:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ static void	hd_in_double_quote_helper(t_shell *shell,
 	else
 	{
 		j = 0;
+		shell->ct_expanded = 1;
 		while (env_value[j])
-		{
 			*ct = str_append_v2(shell, *ct, env_value[j++], s);
-			//shell->ct_expanded = 1;
-		}
 	}
 }
 
