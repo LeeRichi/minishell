@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 17:33:34 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 18:28:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,44 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 	int		i;
 	t_cmd	*new_cmd;
 
+	int handled = 0;
+
+	int		j;
 	new_cmd = NULL;
 	i = 0;
 	while (shell->tokens[i])
-	{		
+	{
+		printf("i: %d\n", i);
 		if (current_cmd == NULL || ft_strcmp(shell->tokens[i], "|") == 0)
 		{
 			allocate_nodes(&current_cmd, &new_cmd, shell);
 			if (ft_strcmp(shell->tokens[i], "|") == 0)
+			{
 				i++;
+				if (!shell->tokens[i])
+					break;
+			}
 		}
-		if (!shell->tokens[i])
-			break ;
-		if (ft_strcmp(shell->tokens[i], "<<") == 0
-			|| ft_strcmp(shell->tokens[i], ">>") == 0
-			|| ft_strcmp(shell->tokens[i], ">") == 0
-			|| ft_strcmp(shell->tokens[i], "<") == 0)
+		handled = 0;
+		j = 0;
+		while (shell->expanded_tokens_arr && shell->expanded_tokens_arr[j])
+		{
+			if (shell->tokens[i] && shell->expanded_tokens_arr[j]
+				&& ft_strcmp(shell->tokens[i], shell->expanded_tokens_arr[j]) == 0)
+			{
+				struct_else(shell, current_cmd, &i);
+				handled = 1;
+				i++;
+				break ;  
+			}
+			j++;
+		}
+		if (handled)
+			continue;
+		if (shell->tokens[i] && (ft_strcmp(shell->tokens[i], "<<") == 0
+		|| ft_strcmp(shell->tokens[i], ">>") == 0
+		|| ft_strcmp(shell->tokens[i], ">") == 0
+		|| ft_strcmp(shell->tokens[i], "<") == 0))
 			struct_redir(shell, current_cmd, &i);
 		else
 			struct_else(shell, current_cmd, &i);
