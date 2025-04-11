@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/10 17:35:41 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:46:57 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ typedef struct s_shell
 	int				hd_flag;
 	int				has_quotes;
 	int				ambiguous_flag;
+	int				expanded_ct_flag;
+	char			**expanded_tokens_arr;
 }	t_shell;
 
 /* PIPEX */

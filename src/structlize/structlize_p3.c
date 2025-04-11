@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:09 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 14:38:11 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:41:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	allocate_nodes(t_cmd **current_cmd, t_cmd **nc, t_shell *shell)
 	if (!(*nc))
 		malloc_fail_clean_exit(shell);
 	ft_nullize_struct(*nc);
+
+	//delete the comments if there's no leak in the test
+
+
 	// (*nc)->redirect_type = malloc(sizeof(t_redirect_type) * cr(shell->tokens));
 	// (*nc)->outfiles = malloc(sizeof(char *) * (cs(shell->tokens, ">") + 1));
 	// (*nc)->infiles = malloc(sizeof(char *) * (cs(shell->tokens, "<") + 1));
@@ -35,11 +39,11 @@ void	allocate_nodes(t_cmd **current_cmd, t_cmd **nc, t_shell *shell)
 	
 	if (!(*nc)->redirect_type || !(*nc)->outfiles || !(*nc)->infiles)
 		malloc_fail_clean_exit(shell);
-	ft_memset((*nc)->redirect_type, 0, sizeof(t_redirect_type) * rc);
-	ft_memset((*nc)->outfiles, 0,
-		sizeof(char *) * (cs(shell->tokens, ">") + 1));
-	ft_memset((*nc)->infiles, 0,
-		sizeof(char *) * (cs(shell->tokens, "<") + 1));
+	// ft_memset((*nc)->redirect_type, 0, sizeof(t_redirect_type) * rc);
+	// ft_memset((*nc)->outfiles, 0,
+	// 	sizeof(char *) * (cs(shell->tokens, ">") + 1));
+	// ft_memset((*nc)->infiles, 0,
+	// 	sizeof(char *) * (cs(shell->tokens, "<") + 1));
 	if (*current_cmd)
 		(*current_cmd)->next = *nc;
 	else
