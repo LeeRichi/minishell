@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:09 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 14:41:59 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 16:52:20 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	allocate_nodes(t_cmd **current_cmd, t_cmd **nc, t_shell *shell)
 	ft_nullize_struct(*nc);
 
 	//delete the comments if there's no leak in the test
-
 
 	// (*nc)->redirect_type = malloc(sizeof(t_redirect_type) * cr(shell->tokens));
 	// (*nc)->outfiles = malloc(sizeof(char *) * (cs(shell->tokens, ">") + 1));
@@ -100,13 +99,23 @@ void	struct_redir_helper(t_shell *shell, t_cmd *cc, int i)
 //current_cmd == cc
 void	struct_redir(t_shell *shell, t_cmd *cc, int *i)
 {
-	if (shell->has_quotes)
-		cc->arg = ft_add_to_array(shell, cc->arg, shell->tokens[*i]);
-	else if (shell->tokens[*i + 1] != NULL
+	// if (shell->has_quotes)
+	// {
+	// 	printf("1srt\n");
+	// 	printf("shell->has_quotes: %d\n", shell->has_quotes);
+	// 	shell->has_quotes--;
+	// 	cc->arg = ft_add_to_array(shell, cc->arg, shell->tokens[*i]);
+	// }
+	// else 
+	if (shell->tokens[*i + 1] != NULL
 		&& ft_start_with_specials(shell->tokens[*i + 1]))
+	{
 		syntax_err_print_v2(shell);
+	}
 	else if (shell->tokens[*i + 1] != NULL && shell->tokens[*i + 1][0] == '\0')
+	{
 		cc->ambiguous_flag_node = 1;
+	}
 	else if (shell->tokens[*i + 1] != NULL)
 	{
 		handle_redirection(shell, cc, shell->tokens[*i], shell->tokens[*i + 1]);
@@ -114,11 +123,23 @@ void	struct_redir(t_shell *shell, t_cmd *cc, int *i)
 	}
 	else if (shell->tokens[*i + 1] == NULL)
 	{
-		if (shell->has_quotes)
+		// if (shell->has_quotes)
+		if (cc->cmd_name)
 			cc->arg = ft_add_to_array(shell, cc->arg, shell->tokens[*i]);
+		else
+		{
+			cc->cmd_name = ft_strdup(shell->tokens[*i]);
+			if (!cc->cmd_name)
+			{
+				//fclean properly (new todo)
+				malloc_fail_clean_exit(shell);
+			}
+		}
 	}
 	else if (cc != NULL)
+	{
 		struct_redir_helper(shell, cc, *i);
+	}
 	else
 		ft_printf_fd(STDERR, "Error: Redirection without a command\n");
 }

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 15:01:25 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 16:49:28 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ static void	struct_else(t_shell *shell, t_cmd *cc, int *i)
 		cc->arg = ft_add_to_array(shell, cc->arg, shell->tokens[*i]);
 }
 
+int is_array_member(char *str, char **arr)
+{
+	int	j;
+
+	j = 0;
+	while (arr && arr[j])
+	{
+		if (str && arr[j] && str == arr[j])
+		{
+			return (1);
+		}
+		j++;
+	}
+	return (0);
+}
 static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 {
 	int		i;
@@ -47,8 +62,9 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 	i = 0;
 	while (shell->tokens[i])
 	{
-		if (current_cmd == NULL || ft_strcmp(shell->tokens[i], "|") == 0)
+		if (current_cmd == NULL || (!is_array_member(shell->tokens[i], shell->expanded_tokens_arr) && ft_strcmp(shell->tokens[i], "|") == 0))
 		{
+			//printf("here\n");
 			allocate_nodes(&current_cmd, &new_cmd, shell);
 			if (ft_strcmp(shell->tokens[i], "|") == 0)
 			{
@@ -62,7 +78,8 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 		while (shell->expanded_tokens_arr && shell->expanded_tokens_arr[j])
 		{
 			if (shell->tokens[i] && shell->expanded_tokens_arr[j]
-				&& ft_strcmp(shell->tokens[i], shell->expanded_tokens_arr[j]) == 0)
+				&& shell->tokens[i] == shell->expanded_tokens_arr[j])
+				// && ft_strcmp(shell->tokens[i], shell->expanded_tokens_arr[j]) == 0)
 			{
 				struct_else(shell, current_cmd, &i);
 				handled = 1;
@@ -73,13 +90,16 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 		}
 		if (handled)
 			continue;
+		
 		if (shell->tokens[i] && (ft_strcmp(shell->tokens[i], "<<") == 0
 		|| ft_strcmp(shell->tokens[i], ">>") == 0
 		|| ft_strcmp(shell->tokens[i], ">") == 0
 		|| ft_strcmp(shell->tokens[i], "<") == 0))
 			struct_redir(shell, current_cmd, &i);
 		else
+		{
 			struct_else(shell, current_cmd, &i);
+		}
 		i++;
 	}
 }
