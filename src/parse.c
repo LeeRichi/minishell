@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:10:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 18:18:23 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:36:06 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	parse(t_shell *shell)
 	// print_cmd_struct(shell->cmds);
 
 	//new
-	shell->has_quotes = 0;
+	// shell->has_quotes = 0;
 	shell->hd_flag = 0;
 	//old
     shell->err_code = 0;

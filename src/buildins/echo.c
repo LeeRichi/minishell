@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/10 18:38:05 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:18:22 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,57 @@ static void	handle_flag_helper(char **cmd_args, int i)
 	}
 }
 
+int is_valid_n_flag(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	if (str[0] != '-')
+		return (0);
+	i = 1;
+	if (!str[i])
+		return (0);
+	while(str[i])
+	{
+		if(str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static void	handle_flag(char **cmd_args, int *newline)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = 0;
 	while (cmd_args[i])
 	{
-		j = 1;
-		while (cmd_args[i][j])
+		if (is_valid_n_flag(cmd_args[i]))
+			(*newline) = 0;
+		else
 		{
-			while (cmd_args[i][j] && cmd_args[i][j] == 'n')
-				j++;
-			if (cmd_args[i][j] && cmd_args[i][j] != 'n')
-			{
-				handle_flag_helper(cmd_args, i);
-				return ;
-			}
-			else
-				(*newline) = 0;
-			j++;
+			handle_flag_helper(cmd_args, i);
+			break;
+			
 		}
+			
+		// j = 1;
+		// while (cmd_args[i][j])
+		// {
+		// 	while (cmd_args[i][j] && cmd_args[i][j] == 'n')
+		// 		j++;
+		// 	if (cmd_args[i][j] && cmd_args[i][j] != 'n')
+		// 	{
+		// 		handle_flag_helper(cmd_args, i);
+		// 		return ;
+		// 	}
+		// 	else
+		// 		(*newline) = 0;
+		// 	j++;
+		// }
 		i++;
 	}
 }
@@ -78,9 +107,6 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 	int	i;
 	int	newline;
 
-	// int y;
-	// y = 1;
-	
 	newline = 1;
 	if (!cmd_args || !shell->tokens)
 	{
@@ -88,22 +114,6 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 		return (0);
 	}
 
-	// i = 0;
-	// while (shell->tokens[i])
-	// {
-	// 	if (is_one_of(shell->tokens[i]))
-	// 	{
-	// 		i = 0;
-	// 		if (shell->tokens[i] && shell->tokens[i][0] == '-')
-	// 			handle_flag(shell->tokens, &newline);
-	// 		else
-	// 			loop_print_each(shell->tokens);
-	// 		if (newline)
-	// 			ft_printf("\n");
-	// 		return (0);
-	// 	}
-	// 	i++;
-	// }
 	i = 0;
 	if (cmd_args[i] && cmd_args[i][0] == '-')
 		handle_flag(cmd_args, &newline);
