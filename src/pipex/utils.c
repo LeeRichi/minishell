@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 23:23:18 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/11 15:12:17 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:02:36 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ int	count_split(char **texts)
 {
 	int	i;
 
-	//new
 	if (!texts)
 		return (0);
-
 	i = 0;
 	while (texts[i])
 	{

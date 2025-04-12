@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 17:45:53 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:16:01 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,45 @@ int is_array_member(char *str, char **arr)
 	}
 	return (0);
 }
+
+int loop_tokens_helper(t_shell *shell, int *i, t_cmd *current_cmd)
+{
+	int	handled;
+	int	j;
+
+	j = 0;
+	handled = 0;
+	while (shell->expanded_tokens_arr && shell->expanded_tokens_arr[j])
+		{
+			if (shell->tokens[*i] && shell->expanded_tokens_arr[j]
+				&& shell->tokens[*i] == shell->expanded_tokens_arr[j])
+			{
+				struct_else(shell, current_cmd, i);
+				handled = 1;
+				i++;
+				break ;  
+			}
+			j++;
+		}
+	return (handled);
+}
+
 static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 {
 	int		i;
 	t_cmd	*new_cmd;
-
-	int handled = 0;
-
-	int		j;
+	int handled;
+	// int		j;
+	
+	handled = 0;
 	new_cmd = NULL;
 	i = 0;
 	while (shell->tokens[i])
 	{
-		if (current_cmd == NULL || (!is_array_member(shell->tokens[i], shell->expanded_tokens_arr) && ft_strcmp(shell->tokens[i], "|") == 0))
+		if (current_cmd == NULL || (!is_array_member(shell->tokens[i],
+				shell->expanded_tokens_arr) &&
+				ft_strcmp(shell->tokens[i], "|") == 0))
 		{
-			//printf("here\n");
 			allocate_nodes(&current_cmd, &new_cmd, shell);
 			if (ft_strcmp(shell->tokens[i], "|") == 0)
 			{
@@ -73,21 +97,20 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 					break;
 			}
 		}
-		handled = 0;
-		j = 0;
-		while (shell->expanded_tokens_arr && shell->expanded_tokens_arr[j])
-		{
-			if (shell->tokens[i] && shell->expanded_tokens_arr[j]
-				&& shell->tokens[i] == shell->expanded_tokens_arr[j])
-				// && ft_strcmp(shell->tokens[i], shell->expanded_tokens_arr[j]) == 0)
-			{
-				struct_else(shell, current_cmd, &i);
-				handled = 1;
-				i++;
-				break ;  
-			}
-			j++;
-		}
+		handled = loop_tokens_helper(shell, &i, current_cmd);
+		// j = 0;
+		// while (shell->expanded_tokens_arr && shell->expanded_tokens_arr[j])
+		// {
+		// 	if (shell->tokens[i] && shell->expanded_tokens_arr[j]
+		// 		&& shell->tokens[i] == shell->expanded_tokens_arr[j])
+		// 	{
+		// 		struct_else(shell, current_cmd, &i);
+		// 		handled = 1;
+		// 		i++;
+		// 		break ;  
+		// 	}
+		// 	j++;
+		// }
 		if (handled)
 			continue;
 		if (shell->tokens[i] && (ft_strcmp(shell->tokens[i], "<<") == 0

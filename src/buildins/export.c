@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:10 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 16:06:18 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:04:39 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	exist_as_var(char *str, char *envp_member)
 		return (0);
 	if (ft_strncmp(str, envp_member, length_of_key) != 0)
 		return (0);
-	if (*(envp_member + length_of_key) == '=' || *(envp_member + length_of_key) == 0)
+	if (*(envp_member + length_of_key) == '='
+		|| *(envp_member + length_of_key) == 0)
 		return (1);
 	return (0);
 }
