@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:43:40 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 15:40:12 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:14:21 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	finalize_token(t_shell *shell, char **ct, int *token_count, char *s)
 			new_expanded_token_counts = count_split(shell->expanded_tokens_arr);
 			new_expanded_tokens = ft_calloc((new_expanded_token_counts + 2), sizeof(char *));
 			if (!new_expanded_tokens)
-				malloc_fail_clean_exit_v3(shell, s, *ct);
+				malloc_fail_clean_exit_v2(shell, s);
 			i = 0;
 			while (i < new_expanded_token_counts)
 			{
@@ -59,7 +59,30 @@ void	finalize_token(t_shell *shell, char **ct, int *token_count, char *s)
 			new_expanded_token_counts++;
 			shell->expanded_ct_flag = 0;
 		}
-		
+		// //token
+		// else if (shell->quotes_ct_flag)
+		// {
+		// 	char	**new_quotes_tokens;
+		// 	int		new_expanded_token_counts;
+		// 	int		i;
+			
+		// 	new_expanded_token_counts = count_split(shell->expanded_tokens_arr);
+		// 	new_expanded_tokens = ft_calloc((new_expanded_token_counts + 2), sizeof(char *));
+		// 	if (!new_expanded_tokens)
+		// 		malloc_fail_clean_exit_v2(shell, s);
+		// 	i = 0;
+		// 	while (i < new_expanded_token_counts)
+		// 	{
+		// 		new_expanded_tokens[i] = shell->expanded_tokens_arr[i];
+		// 		i++;
+		// 	}
+		// 	new_expanded_tokens[i] = *ct;
+		// 	new_expanded_tokens[i + 1] = NULL;
+		// 	free(shell->expanded_tokens_arr);
+		// 	shell->expanded_tokens_arr = new_expanded_tokens;
+		// 	new_expanded_token_counts++;
+		// 	shell->expanded_ct_flag = 0;
+		// }		
 		(*token_count)++;
 		*ct = NULL;
 	}

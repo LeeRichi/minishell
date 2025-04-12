@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 16:49:28 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 17:45:53 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 		}
 		if (handled)
 			continue;
-		
 		if (shell->tokens[i] && (ft_strcmp(shell->tokens[i], "<<") == 0
 		|| ft_strcmp(shell->tokens[i], ">>") == 0
 		|| ft_strcmp(shell->tokens[i], ">") == 0

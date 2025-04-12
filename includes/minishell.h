@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 15:19:40 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:06:11 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ typedef struct s_shell
 	int				ambiguous_flag;
 	int				expanded_ct_flag;
 	char			**expanded_tokens_arr;
-	int				*index_arr_for_expaned_tk;
+	int				quotes_ct_flag;
+	char			*quotes_tokens_arr;
 }	t_shell;
 
 /* PIPEX */

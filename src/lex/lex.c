@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:23:08 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 15:13:08 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:06:55 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	tokenize_input(char *input, t_shell *shell)
 	shell->in_double_quote = 0;
 	shell->expanded_ct_flag = 0;
 	shell->expanded_tokens_arr = NULL;
+	shell->quotes_ct_flag = 0;
+	shell->quotes_tokens_arr = NULL;
 	
 	clear_tokens(shell);
 	if (empty_pipe_checker(input, shell))
