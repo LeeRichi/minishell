@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"*.ejs": "html",
+		"*.js": "javascriptreact",
+		"minishell.h": "c",
+		"array": "c"
+	}
+}

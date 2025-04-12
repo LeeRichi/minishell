@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:37:43 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:20:18 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static char	*extract_env_name(t_shell *shell, char *s, int *index, char **temp)
 	*index += len;
 	(*index)--;
 	result[len] = '\0';
+	//printf("extr env name: %s\b", result);
 	return (result);
 }
 
@@ -85,9 +86,9 @@ void	handle_unbalanced_quotes(t_shell *shell, char **input)
 		if (!additional_input)
 		{
 			ft_printf_fd(STDERR, "minishell: EOF while waiting for quotes\n");
-			free(*input);
-			free_matrix(shell->envp);
-			exit(EXIT_FAILURE);
+			ft_printf_fd(STDERR, "minishell: syntax error\n");
+			shell->err_code = 2;
+			break ;
 		}
 		new_input = ft_strjoin(*input, additional_input);
 		if (!new_input)

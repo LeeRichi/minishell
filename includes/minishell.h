@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 15:18:15 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:22:01 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,12 @@ typedef struct s_shell
 	t_pipex			*pipex;
 	pid_t			shell_id;
 	int				hd_flag;
-	int				has_quotes;
+	// int				has_quotes;
 	int				ambiguous_flag;
+	int				expanded_ct_flag;
+	char			**expanded_tokens_arr;
+	int				quotes_ct_flag;
+	char			*quotes_tokens_arr;
 }	t_shell;
 
 /* PIPEX */
@@ -179,6 +183,10 @@ typedef struct s_error
 	char		*cmd_name;
 	t_perrtypes	errtype;
 }	t_error;
+//TODO: remove
+void print_cmd_struct(t_cmd *cmd);
+void print_tokens(char **tokens);
+
 
 void			close_other_fds(t_pipex *pipex);
 int				check_sig(t_check_sig_flag flag);

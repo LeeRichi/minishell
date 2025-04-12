@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:16:25 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 16:39:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:33:09 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	handle_sigint(int code)
 	(void)code;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//temp
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 

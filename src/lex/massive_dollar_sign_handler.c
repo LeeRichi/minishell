@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:45:55 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 18:53:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:32:24 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	handler_helper(t_shell *shell, char **ct, int *i, char *input)
 	}
 	else
 	{
+		shell->expanded_ct_flag = 1;
 		j = 0;
 		while (env_value[j])
 			*ct = str_append_v2(shell, *ct, env_value[j++], input);
