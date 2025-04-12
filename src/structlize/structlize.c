@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:27:51 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 18:28:19 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 15:01:25 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	loop_tokens(t_shell *shell, t_cmd *current_cmd)
 	i = 0;
 	while (shell->tokens[i])
 	{
-		printf("i: %d\n", i);
 		if (current_cmd == NULL || ft_strcmp(shell->tokens[i], "|") == 0)
 		{
 			allocate_nodes(&current_cmd, &new_cmd, shell);
