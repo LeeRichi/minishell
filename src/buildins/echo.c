@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/02 16:19:45 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/09 23:44:06 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static void	handle_flag_helper(char **cmd_args, int i)
 	temp = i;
 	while (cmd_args[temp])
 	{
-		printf("%s", cmd_args[temp]);
+		ft_printf("%s", cmd_args[temp]);
 		if (cmd_args[temp + 1])
-			printf(" ");
+			ft_printf(" ");
 		temp++;
 	}
 }
-
+//
 static void	handle_flag(char **cmd_args, int *newline)
 {
 	int	i;
@@ -43,7 +43,7 @@ static void	handle_flag(char **cmd_args, int *newline)
 				return ;
 			}
 			else
-				(*newline) = 0;
+				*newline = 0;
 			j++;
 		}
 		i++;
@@ -57,9 +57,9 @@ static void	loop_print_each(char **cmd_args)
 	i = 0;
 	while (cmd_args[i])
 	{
-		printf("%s", cmd_args[i]);
+		ft_printf("%s", cmd_args[i]);
 		if (cmd_args[i + 1])
-			printf(" ");
+			ft_printf(" ");
 		i++;
 	}
 }
@@ -73,7 +73,7 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 	newline = 1;
 	if (!cmd_args)
 	{
-		printf("\n");
+		ft_printf("\n");
 		return (0);
 	}
 	i = 0;
@@ -82,6 +82,50 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 	else
 		loop_print_each(cmd_args);
 	if (newline)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }
+/*
+static int  is_option(char *arg)
+{
+    if (*arg == '-' && *(arg + 1))
+        arg++;
+    while(*arg)
+    {
+        if (*arg != 'n')
+            return (0);
+        arg++;
+    }
+    return (1);
+}
+
+int    handle_echo(char **cmd, t_shell *shell)
+{ 
+    int    opt_n;
+    (void)shell;
+    opt_n = 0;
+	if (!cmd)
+	{
+		ft_putstr_fd("\n", 1);
+		return 0;
+	}
+    while (cmd)
+    {
+        if (is_option((*cmd)))
+            opt_n = 1;
+        else
+            break;
+	cmd++;
+    }
+    while (*cmd)
+    {
+        ft_putstr_fd(*cmd, 1);
+        if (*(cmd + 1))
+            ft_putstr_fd(" ", 1);
+	cmd++;
+    }
+	    if (!opt_n)
+        	ft_putstr_fd("\n", 1);
+	return (1);
+}
+*/

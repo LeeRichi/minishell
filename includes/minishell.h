@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:47:47 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/11 15:18:15 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,18 @@ typedef enum e_builtin_type {
 	IS_UNSET
 }	t_builtin_type;
 
+
+typedef enum e_sig_flag {
+	SIG_READ,
+	SIG_CAUGHT,
+	SIG_RESET,
+}	t_check_sig_flag;
+/*
 typedef struct s_redirection {
 	t_redirect_type	type;
 	char			*file;
 }	t_redirection;
-
+*/
 typedef struct s_key_value
 {
 	char				*key;
@@ -173,6 +180,8 @@ typedef struct s_error
 	t_perrtypes	errtype;
 }	t_error;
 
+void			close_other_fds(t_pipex *pipex);
+int				check_sig(t_check_sig_flag flag);
 void			set_heredoc_signal_exit(t_shell *shell, int *fds);
 void			in_child_free_and_exit(t_shell *shell, int file_red_result,
 					t_cmd *command);
@@ -181,7 +190,7 @@ int				set_minishell_signal_after_heredoc_clean(int fd);
 int				update_envp_pwd_old_pwd(char *old,
 					t_shell *shell, char **cd_args);
 int				arg_name_checker(char *str);
-int				not_valid_id_print(t_shell *shell);
+int				not_valid_id_print(t_shell *shell, char *str);
 void			update_envp_with_extra_var(char **temp, t_shell *shell,
 					int envp_length, char *new_envp_member);
 int				exist_as_var(char *str, char *envp_member);
