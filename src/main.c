@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 19:10:17 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:28:00 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,79 +71,30 @@ int	shell_init(char **envp, t_shell *shell)
 	return (1);
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
-
-// 	(void)av;
-// 	if (ac != 1)
-// 	{
-// 		ft_putstr_fd("Usage ./minishell\n", 2);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	shell_init(envp, &shell);
-// 	while (1)
-// 	{
-// 		shell.input = readline(SHELL_NAME": ");
-// 		if (!shell.input)
-// 			break ;
-// 		if (*shell.input)
-// 			parse(&shell);
-// 		else
-// 			free(shell.input);
-// 		execute(&shell);
-// 		clear_tokens(&shell);
-// 		clear_cmds(&shell);
-// 	}
-// 	ft_free_all(&shell);
-// 	return (shell.exit_code);
-// }
-
 int	main(int ac, char **av, char **envp)
 {
-	t_shell shell;
-	char *line = NULL;
-	(void)av;
-	(void)ac;
+	t_shell	shell;
 
+	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Usage ./minishell\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	shell_init(envp, &shell);
 	while (1)
 	{
-		if (isatty(fileno(stdin)))
-			shell.input = readline("");
-		else
-		{
-			line = get_next_line(fileno(stdin));
-			shell.input = ft_strtrim(line, "\n");
-			free(line);
-		}
-
-		if (!shell.input) // If Ctrl+D or EOF, exit gracefully
-            break;
-
-		// if (*shell.input)
-		// 	add_history(shell.input);
+		shell.input = readline(SHELL_NAME": ");
+		if (!shell.input)
+			break ;
 		if (*shell.input)
 			parse(&shell);
 		else
 			free(shell.input);
-
 		execute(&shell);
-
 		clear_tokens(&shell);
-		/*if (shell.tokens)
-		{
-			free_tokens(shell.tokens);
-			shell.tokens = 0;
-		}
-		*/
 		clear_cmds(&shell);
 	}
 	ft_free_all(&shell);
-
-	// do we need it?
-	// clear_history(shell.input);
-
-	//exit
 	return (shell.exit_code);
 }

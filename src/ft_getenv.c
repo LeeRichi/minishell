@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 16:02:06 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:26:59 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*ft_getenv_value_ptr(char *env_name, t_shell *shell)
 	char	*var_ptr;
 
 	var_ptr = get_var_ptr_from_envp(env_name, shell);
-	//printf("var_ptr: %s\n", var_ptr);
 	if (!var_ptr)
 		return (0);
 	while (*var_ptr)

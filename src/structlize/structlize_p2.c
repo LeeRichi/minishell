@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:01:03 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 15:50:30 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:07:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ char	**ft_add_to_array(t_shell *shell, char **array, const char *new_element)
 		free(array);
 	return (new_array);
 }
-

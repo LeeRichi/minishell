@@ -6,7 +6,7 @@
 #    By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 14:27:00 by chlee2            #+#    #+#              #
-#    Updated: 2025/04/12 20:07:25 by chlee2           ###   ########.fr        #
+#    Updated: 2025/04/12 22:25:28 by chlee2           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,9 @@ SRCS = src/main.c \
 		src/lex/lex_helper_2.c \
 		src/buildins/exit_helper.c \
 		src/buildins/isNum_for_exit.c \
+		src/structlize/loop_tokens_helper.c \
+		src/structlize/loop_tokens_helper_p2.c \
+		src/buildins/echo_helper.c \
 
 OBJS = $(SRCS:.c=.o)
 

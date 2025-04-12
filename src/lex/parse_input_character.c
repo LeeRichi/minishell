@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 15:44:31 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 18:07:40 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:18:52 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	handle_consecutive_redir(t_shell *shell, char **ct, int *i, char *input)
 
 void	parse_input_character(t_shell *shell, char **ct, int *i, char *input)
 {
-	shell->quotes_ct_flag = 1; 
 	if ((input[*i] == '"' && input[*i + 1] == '"')
 		|| (input[*i] == '\'' && input[*i + 1] == '\''))
 		handle_empty_token_strdup(shell, ct, i, input);

@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:01 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/11 14:20:18 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:23:19 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static char	*extract_env_name(t_shell *shell, char *s, int *index, char **temp)
 	*index += len;
 	(*index)--;
 	result[len] = '\0';
-	//printf("extr env name: %s\b", result);
 	return (result);
 }
 

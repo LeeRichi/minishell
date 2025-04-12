@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 20:06:10 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:28:41 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int				before_heredoc_process_signal(void);
 
 //builtins
 int				handle_echo(char **tokens, t_shell *shell);
+int				is_one_of(char *s);
 int				handle_cd(char **tokens, t_shell *shell);
 int				handle_pwd(t_shell *shell);
 int				handle_exit(t_shell *shell, char **args);
@@ -343,6 +344,9 @@ void			malloc_fail_clean_exit_v3(t_shell *shell,
 void			ft_structlize(t_shell *shell);
 void			ft_nullize_struct(t_cmd *new_cmd);
 void			ft_add_redirection(t_shell *shell, char ***array, char *file);
+void			struct_else(t_shell *shell, t_cmd *cc, int *i);
+int				is_array_member(char *str, char **arr);
+
 //structlize_p2.c
 char			**ft_add_to_array(t_shell *shell,
 					char **array, const char *new_element);
@@ -364,6 +368,17 @@ void			free_with_code(t_shell *shell, int code);
 
 int				ft_isnum(char k);
 void			isnum_checker(t_shell *shell, char **args, int *i);
+
+//loop_tokens_helper.c
+int				loop_tokens_helper(t_shell *shell, int *i, t_cmd *current_cmd);
+int				ok_now_make_nodes(t_shell *shell, t_cmd *current_cmd, int i);
+int				is_one_of_redir(t_shell *shell, int i);
+int				compare_each_from_two_arr_and_do(t_shell *shell,
+					t_cmd *current_cmd, int *i);
+int				make_new_node(t_shell *shell, t_cmd **current_cmd, int *i);
+//loop_tokens_helper_p2.c
+int				yeah_found_the_tricky_cmd(t_shell *shell, int i, int j);
+void			loop_tokens(t_shell *shell, t_cmd *current_cmd);
 
 extern int		g_sig;
 
