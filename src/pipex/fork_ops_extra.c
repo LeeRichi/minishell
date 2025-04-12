@@ -6,11 +6,30 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:38:00 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/04 19:01:20 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:17:26 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	close_other_fds(t_pipex *pipex)
+{
+	t_cmd	*command;
+	t_shell	*shell;
+	size_t	count;
+
+	count = 0;
+	command = pipex->command;
+	shell = (t_shell *)pipex->shell;
+	ft_close(&shell->stdin_fd);
+	ft_close(&shell->stdout_fd);
+	while (count < pipex->command_count)
+	{
+		if (count != pipex->current_command)
+			ft_close(&command[count].heredoc_fd);
+		count++;
+	}
+}
 
 void	in_child_free_and_exit(t_shell *shell, int file_red_result,
 			t_cmd *command)

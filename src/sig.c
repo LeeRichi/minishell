@@ -14,8 +14,9 @@
 
 void	handle_sigint(int code)
 {
+	check_sig(SIG_CAUGHT);
 	(void)code;
-	ft_putstr_fd("\n", STDERR);
+	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	//temp
 	// rl_replace_line("", 0);

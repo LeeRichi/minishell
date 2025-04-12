@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:59:40 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/04/04 15:42:41 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:08:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ int	set_heredoc_signal(void)
 		return (-1);
 	}
 	return (0);
+}
+
+int	check_sig(t_check_sig_flag flag)
+{
+	static int	sig_caught = 0;
+
+	if (flag == SIG_CAUGHT)
+		sig_caught = 1;
+	else if (flag == SIG_RESET)
+		sig_caught = 0;
+	return (sig_caught);
 }

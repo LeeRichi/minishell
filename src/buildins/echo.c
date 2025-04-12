@@ -60,7 +60,6 @@ static void	handle_flag(char **cmd_args, int *newline)
 		{
 			handle_flag_helper(cmd_args, i);
 			break;
-			
 		}
 			
 		// j = 1;
@@ -123,3 +122,47 @@ int	handle_echo(char **cmd_args, t_shell *shell)
 		ft_printf("\n");
 	return (0);
 }
+/*
+static int  is_option(char *arg)
+{
+    if (*arg == '-' && *(arg + 1))
+        arg++;
+    while(*arg)
+    {
+        if (*arg != 'n')
+            return (0);
+        arg++;
+    }
+    return (1);
+}
+
+int    handle_echo(char **cmd, t_shell *shell)
+{ 
+    int    opt_n;
+    (void)shell;
+    opt_n = 0;
+	if (!cmd)
+	{
+		ft_putstr_fd("\n", 1);
+		return 0;
+	}
+    while (cmd)
+    {
+        if (is_option((*cmd)))
+            opt_n = 1;
+        else
+            break;
+	cmd++;
+    }
+    while (*cmd)
+    {
+        ft_putstr_fd(*cmd, 1);
+        if (*(cmd + 1))
+            ft_putstr_fd(" ", 1);
+	cmd++;
+    }
+	    if (!opt_n)
+        	ft_putstr_fd("\n", 1);
+	return (1);
+}
+*/

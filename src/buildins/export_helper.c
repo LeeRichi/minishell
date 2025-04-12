@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:24:18 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/01 16:17:48 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/09 22:07:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	handle_export(t_shell *shell, char **args)
 	while (args[i])
 	{
 		if (!arg_name_checker(args[i]))
-			return (not_valid_id_print(shell));
+			return (not_valid_id_print(shell, args[i]));
 		equal_pos = ft_strchr(args[i], '=');
 		if (equal_pos)
 		{

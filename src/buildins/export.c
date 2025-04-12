@@ -14,12 +14,14 @@
 
 int	arg_name_checker(char *str)
 {
-	int	i;
+	int		i;
+	char	*eq_pos;
 
+	eq_pos = ft_strchr(str, '=');
 	if ((str[0] >= '0' && str[0] <= '9') || !str[0] || str[0] == '=')
 		return (0);
 	i = 0;
-	while (str[i])
+	while ((eq_pos && (str + i < eq_pos)) || (!eq_pos && str[i]))
 	{
 		if (str[i] == '@' || str[i] == '#' || str[i] == '&'
 			|| str[i] == '-' || str[i] == '+' || str[i] == '}'
@@ -31,9 +33,10 @@ int	arg_name_checker(char *str)
 	return (1);
 }
 
-int	not_valid_id_print(t_shell *shell)
+int	not_valid_id_print(t_shell *shell, char *str)
 {
-	ft_printf_fd(STDERR, " not a valid identifier\n");
+	ft_printf_fd(STDERR,
+		SHELL_NAME": export: '%s' not a valid identifier\n", str);
 	shell->exit_code = 1;
 	return (1);
 }
