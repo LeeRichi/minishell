@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:15 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:47:27 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:02:14 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	handle_exit_helper_helper(char **args, t_shell *shell,
 {
 	if (!args || !args[0])
 	{
-		printf("exit \n");
+		if (!shell->pipex)
+			printf("exit \n");
 		free_with_code(shell, 0);
 		return ;
 	}

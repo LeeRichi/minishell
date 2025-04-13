@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   main_extra.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 13:10:48 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/13 15:24:35 by chlee2           ###   ########.fr       */
+/*   Created: 2025/04/13 17:14:41 by chlee2            #+#    #+#             */
+/*   Updated: 2025/04/13 17:17:42 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	parse(t_shell *shell)
+void	ac_checker(int ac)
 {
-	tokenize_input(shell->input, shell);
-	if (!shell->err_code && shell->tokens)
-		ft_structlize(shell);
-	shell->hd_flag = 0;
-	shell->err_code = 0;
-	shell->ambiguous_flag = 0;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Usage ./minishell\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }

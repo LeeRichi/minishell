@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:56:06 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 22:28:00 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:17:24 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,29 @@ int	shell_init(char **envp, t_shell *shell)
 	return (1);
 }
 
+static void	ft_free_all_print_main(t_shell *shell)
+{
+	ft_free_all(shell);
+	ft_printf("exit\n");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 
 	(void)av;
-	if (ac != 1)
-	{
-		ft_putstr_fd("Usage ./minishell\n", 2);
-		exit(EXIT_FAILURE);
-	}
+	ac_checker(ac);
 	shell_init(envp, &shell);
 	while (1)
 	{
 		shell.input = readline(SHELL_NAME": ");
 		if (!shell.input)
 			break ;
+		if (check_sig(SIG_READ))
+		{
+			shell.exit_code = 130;
+			check_sig(SIG_RESET);
+		}
 		if (*shell.input)
 			parse(&shell);
 		else
@@ -95,6 +102,6 @@ int	main(int ac, char **av, char **envp)
 		clear_tokens(&shell);
 		clear_cmds(&shell);
 	}
-	ft_free_all(&shell);
+	ft_free_all_print_main(&shell);
 	return (shell.exit_code);
 }

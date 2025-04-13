@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:32 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/07 16:40:58 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:02:22 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	print_message_and_exit_v2(t_shell *shell, char **args, char *f_me)
 
 static void	happy_exit_v2(t_shell *shell, char *f_me)
 {
-	printf("exit\n");
+	if (!shell->pipex)
+		printf("exit\n");
 	free(f_me);
 	free_with_code(shell, 0);
 }

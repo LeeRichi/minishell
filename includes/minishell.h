@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:53:11 by chlee2            #+#    #+#             */
-/*   Updated: 2025/04/12 22:28:41 by chlee2           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:15:56 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@
 #  define PATH_MAX 4096
 # endif
 
-//printing purpose
-# define RED "\033[31m"
-# define YELLOW "\033[33m"
-# define RESET "\033[0m"
-# define GREEN "\033[32m"
-
 typedef enum e_token_type {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -78,12 +72,7 @@ typedef enum e_sig_flag {
 	SIG_CAUGHT,
 	SIG_RESET,
 }	t_check_sig_flag;
-/*
-typedef struct s_redirection {
-	t_redirect_type	type;
-	char			*file;
-}	t_redirection;
-*/
+
 typedef struct s_key_value
 {
 	char				*key;
@@ -379,6 +368,7 @@ int				make_new_node(t_shell *shell, t_cmd **current_cmd, int *i);
 //loop_tokens_helper_p2.c
 int				yeah_found_the_tricky_cmd(t_shell *shell, int i, int j);
 void			loop_tokens(t_shell *shell, t_cmd *current_cmd);
+void			ac_checker(int ac);
 
 extern int		g_sig;
 

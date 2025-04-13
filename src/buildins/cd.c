@@ -6,7 +6,7 @@
 /*   By: chlee2 <chlee2@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:38:17 by chlee2            #+#    #+#             */
-/*   Updated: 2025/03/31 20:57:55 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:34:15 by chlee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	update_var_key_val_envp_and_free(t_shell *shell,
 {
 	int	var_index;
 
+	if (!var_key_val)
+		return (0);
 	var_index = get_envp_var_index("PWD", shell);
 	if (!adjust_envp(var_key_val, shell, var_index))
 	{
@@ -59,7 +61,7 @@ int	replace_pwd(char *old, t_shell *shell, char **cd_args)
 	}
 	else
 		no_var_key_val = 1;
-	if (!var_key_val && !no_var_key_val)
+	if (!var_key_val && no_var_key_val)
 		return (1);
 	if (update_var_key_val_envp_and_free(shell, var_key_val))
 		return (1);
@@ -88,5 +90,6 @@ int	update_envp_pwd_old_pwd(char *old, t_shell *shell, char **cd_args)
 {
 	if (replace_old_pwd(old, shell) && replace_pwd(old, shell, cd_args))
 		return (1);
+	malloc_fail_clean_exit(shell);
 	return (0);
 }
